@@ -1,5 +1,8 @@
 version: '3.4'
 
+networks:
+  test:
+
 services:
   frontend:
     image: frontend
@@ -10,3 +13,18 @@ services:
       NODE_ENV: production
     ports:
       - 3000:3000
+    networks:
+      - test
+
+  backend:
+    image: backend
+    build:
+      context: backend
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:8080
+    networks:
+      - test
+
