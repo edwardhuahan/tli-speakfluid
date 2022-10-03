@@ -11,8 +11,13 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./frontend:/tmp/frontend
     ports:
       - 3000:3000
+    depends_on: 
+      - backend
     networks:
       - test
 
