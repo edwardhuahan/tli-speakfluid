@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
+@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
 @EnableMongoRepositories
 @RestController
 public class MdbSpringBootApplication implements CommandLineRunner {
