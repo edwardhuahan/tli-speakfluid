@@ -7,9 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableMongoRepositories
+@RestController
 public class MdbSpringBootApplication implements CommandLineRunner {
 
     @Autowired
@@ -24,6 +28,11 @@ public class MdbSpringBootApplication implements CommandLineRunner {
         showAllGroceryItems();
         getTranscriptByName("Transcript 1");
         deleteTranscript("1");
+    }
+
+    @GetMapping("/hello")
+    public String sayHello(@RequestParam(value = "Test", defaultValue = "World") String name) {
+        return String.format("Hello %s!", name);
     }
 
     // CRUD
@@ -41,7 +50,6 @@ public class MdbSpringBootApplication implements CommandLineRunner {
     // READ
     // 1. Show all the data
     public void showAllGroceryItems() {
-
         transcriptRepo.findAll().forEach(item -> System.out.println(getItemDetails(item)));
     }
 
