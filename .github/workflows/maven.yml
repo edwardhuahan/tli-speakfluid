@@ -23,8 +23,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      env: # Or as an environment variable
-        super_secret: ${{ MONGODB_URI }}
+      env: 
+        # Getting mongodb uri from github repository secret and setting it as an environment variable to run in compilation
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       run: mvn -B package --file pom.xml
       working-directory: ./backend/
