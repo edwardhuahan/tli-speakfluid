@@ -25,7 +25,7 @@ jobs:
         
     - name: Adding secret
       run: |
-          printf ${{secrets.MONGODB_URI}} >> src/main/resources/application.properties
+          printf ${{secrets.MONGODB_URI}} >> backend/src/main/resources/application.properties
       shell: bash
 
     - name: Build with Maven
