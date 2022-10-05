@@ -23,6 +23,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
+      env: # Or as an environment variable
+        super_secret: ${{ secrets.MONGODB_URI }}
+
       run: mvn -B package --file pom.xml
       working-directory: ./backend/
       
