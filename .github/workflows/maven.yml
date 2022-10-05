@@ -23,15 +23,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
-    - name: Adding secret
-      run: |
-          echo "$MONGODB_URI" >> backend/src/main/resources/application.properties
-          cat backend/src/main/resources/application.properties
-      shell: bash
-      env:
-        MY_SECRET: ${{secrets.MONGODB_URI}}
-
     - name: Build with Maven
+      env:
+        MONGODB_URI: ${{secrets.MONGODB_URI}}
       run: mvn -B package --file pom.xml
       working-directory: ./backend/
       
