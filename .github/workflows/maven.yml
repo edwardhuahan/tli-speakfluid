@@ -22,11 +22,13 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      env: 
-        # Getting mongodb uri from github repository secret and setting it as an environment variable to run in compilation
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        
+    - name: Adding secret
+      run: |
+          printf ${{secrets.MONGODB_URI}} >> src/main/resources/application.properties
+      shell: bash
 
+    - name: Build with Maven
       run: mvn -B package --file pom.xml
       working-directory: ./backend/
       
