@@ -8,10 +8,6 @@ function App() {
 
   const [name, setName] = useState("")
 
-  useEffect(() => {
-    sayMyName();
-  }, []);
-
   const sayMyName = () => {
     fetch('/hello?myName=' + name)
       .then(response => response.text())
