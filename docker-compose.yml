@@ -13,7 +13,8 @@ services:
       NODE_ENV: production
       CHOKIDAR_USEPOLLING: "true"
     volumes:
-      - ./frontend:/tmp/frontend
+      - ./frontend:/home/node/app
+    working_dir: /home/node/app
     ports:
       - 3000:3000
     depends_on: 
