@@ -33,3 +33,4 @@ build/
 .vscode/
 
 ### MongoDB URI ##
+/src/main/resources/application.properties
