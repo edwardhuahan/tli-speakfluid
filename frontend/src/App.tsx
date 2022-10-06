@@ -7,13 +7,15 @@ function App() {
   const [message, setMessage] = useState("")
   const [transcripts, setTranscripts] = useState()
 
+  const [name, setName] = useState("")
+
   useEffect(() => {
     sayMyName();
     voiceFlowAPI();
   }, []);
 
   const sayMyName = () => {
-    fetch('/hello?myName=React App')
+    fetch('/hello?myName=' + name)
       .then(response => response.text())
       .then(message => {
         setMessage(message);
@@ -27,13 +29,21 @@ function App() {
         .then(data => console.log(data));
   }
 
+  const handleChange = (event: any) => {
+    setName(event.target.value);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <input 
+        onChange={handleChange}
+        ></input>
+
+        <button onClick={sayMyName}> Enter </button>
         <p>
           {message}
-          Test test
         </p>
       </header>
     </div>
