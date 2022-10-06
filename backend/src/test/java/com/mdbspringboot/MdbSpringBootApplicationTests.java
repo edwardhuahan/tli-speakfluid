@@ -1,10 +1,10 @@
-package com.speakfluid.backend;
+package com.mdbspringboot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendApplicationTests {
+class MdbSpringBootApplicationTests {
 
     @Test
     void contextLoads() {
