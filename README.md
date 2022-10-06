@@ -1,4 +1,5 @@
 # tli-speakfluid
+Aurora, Edward, Kai, Minh, Sarah, Zoey 
 
 # MongoDB Setup
 
