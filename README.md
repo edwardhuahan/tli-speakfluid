@@ -6,7 +6,7 @@ Team Speakfluid: Aurora, Edward, Kai, Minh, Sarah, Zoey
 
 ![image](https://user-images.githubusercontent.com/17802344/194219645-6b9512c3-ebb6-4e05-9829-f4bfcfebbe1d.png)
 
-1. Install [Docker](https://www.docker.com/)
+1. Install [Docker](https://www.docker.com/), if you're on mac install Apple Chip version
 2. Open Docker
 3. Navigate to root folder of the project and run `docker compose up --build` in terminal to build the project
 4. Ctrl + C to stop it
