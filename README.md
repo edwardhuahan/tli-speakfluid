@@ -1,16 +1,16 @@
 # UofT TLI Chatbot Builder Project
 Team Speakfluid: Aurora, Edward, Kai, Minh, Sarah, Zoey 
 
-# Frontend setup
+# Node.js setup
 
 `cd frontend`
 `npm install`
 
-# MongoDB Setup
+# MongoDB setup
 
 Make sure to edit `backend/src/main/application.properties` to have the proper MongoDB URI. This would be shared among us privately.
 
-# Docker Setup
+# Docker setup
 
 ![image](https://user-images.githubusercontent.com/17802344/194219645-6b9512c3-ebb6-4e05-9829-f4bfcfebbe1d.png)
 
