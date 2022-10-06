@@ -1,5 +1,5 @@
-# tli-speakfluid
-Aurora, Edward, Kai, Minh, Sarah, Zoey 
+# UofT TLI Chatbot Builder Project
+Team Speakfluid: Aurora, Edward, Kai, Minh, Sarah, Zoey 
 
 # MongoDB Setup
 
