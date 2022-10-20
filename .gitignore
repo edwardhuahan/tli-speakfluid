@@ -129,3 +129,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Mongo URI
+backend/src/main/resources/application.properties
