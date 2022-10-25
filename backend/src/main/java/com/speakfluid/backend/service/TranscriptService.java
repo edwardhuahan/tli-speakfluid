@@ -1,6 +1,6 @@
-package com.mdbspringboot.service;
+package com.speakfluid.backend.service;
 
-import com.mdbspringboot.model.File;
+import com.speakfluid.backend.model.LoadTranscript;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class FileService {
+public class TranscriptService {
 
     @Autowired
     private GridFsTemplate template;
@@ -24,7 +24,7 @@ public class FileService {
     @Autowired
     private GridFsOperations operations;
 
-    public String addFile(MultipartFile upload) throws IOException {
+    public String addTranscript(MultipartFile upload) throws IOException {
 
         DBObject metadata = new BasicDBObject();
         metadata.put("fileSize", upload.getSize());
@@ -35,23 +35,23 @@ public class FileService {
     }
 
 
-    public File downloadFile(String id) throws IOException {
+    public LoadTranscript downloadTranscript(String id) throws IOException {
 
-        GridFSFile gridFSFile = template.findOne( new Query(Criteria.where("_id").is(id)) );
+        GridFSFile gridFSTranscript = template.findOne( new Query(Criteria.where("_id").is(id)) );
 
-        File loadFile = new File();
+        LoadTranscript loadTranscript = new LoadTranscript();
 
-        if (gridFSFile != null && gridFSFile.getMetadata() != null) {
-            loadFile.setFilename( gridFSFile.getFilename() );
+        if (gridFSTranscript != null && gridFSTranscript.getMetadata() != null) {
+            loadTranscript.setTranscriptname( gridFSTranscript.getFilename() );
 
-            loadFile.setFileType( gridFSFile.getMetadata().get("_contentType").toString() );
+            loadTranscript.setTranscriptType( gridFSTranscript.getMetadata().get("_contentType").toString() );
 
-            loadFile.setFileSize( gridFSFile.getMetadata().get("fileSize").toString() );
+            loadTranscript.setTranscriptSize( gridFSTranscript.getMetadata().get("fileSize").toString() );
 
-            loadFile.setFile( IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()) );
+            loadTranscript.setTranscript( IOUtils.toByteArray(operations.getResource(gridFSTranscript).getInputStream()) );
         }
 
-        return loadFile;
+        return loadTranscript;
     }
 
 }

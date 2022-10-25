@@ -13,9 +13,8 @@ function Home() {
 	};
 
 	const handleUpload = () => {
-    const formData = new FormData();
-
-		formData.append('File', selectedFile);
+    	const formData = new FormData();
+		formData.append('transcript', selectedFile);
 
 		fetch(
 			'/upload',
@@ -38,8 +37,8 @@ function Home() {
       <input type="file" name="file" onChange={changeHandler} />
       <p>Filename: {selectedFile.name}</p>
       <div>
-				<button onClick={handleUpload}>Upload</button>
-			</div>
+		  <button onClick={handleUpload}>Upload</button>
+	  </div>
     </div>
   );
 }
