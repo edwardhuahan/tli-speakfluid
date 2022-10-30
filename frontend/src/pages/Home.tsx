@@ -13,17 +13,17 @@ function Home() {
 	};
 
 	const handleUpload = () => {
-    	const formData = new FormData();
+    const formData = new FormData();
 		formData.append('transcript', selectedFile);
 
 		fetch(
-			'/upload',
+			'/transcript/upload',
 			{
 				method: 'POST',
 				body: formData,
 			}
 		)
-			.then((response) => response.json())
+			.then((response) => {{response.json()}})
 			.then((result) => {
 				console.log('Success:', result);
 			})
