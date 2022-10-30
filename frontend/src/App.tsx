@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useState} from "react";
 import './styles/App.css';
+import { da } from "date-fns/locale";
+import { format } from "date-fns/esm";
+
+import { File, UploadFile } from "./upload-file/upload-file";
+import { FilesList } from "./files-list/files-list";
+
 
 type Transcript = {
   turnID: string,
@@ -37,6 +44,20 @@ function App() {
     setName(event.target.value);
   }
 
+  const [files, setFiles] = useState();
+
+  const onFilesSelected = (files: File[]) => {
+    if (!files) return;
+
+    const transformedFiles: File[] = files.map((file: File) => {
+      const lastModified = format(file.lastModified, "d. MMM yyyy", {
+        locale: da
+      });
+      return { lastModified, ...file };
+    });
+
+    setFiles(transformedFiles);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -44,6 +65,8 @@ function App() {
           onChange={handleChange}
         ></input>
         <button onClick={sayMyName}> Enter </button>
+        <UploadFile onFilesSelected={onFilesSelected} />
+        <FilesList files={files} />
         <p>
           {message}
         </p>
