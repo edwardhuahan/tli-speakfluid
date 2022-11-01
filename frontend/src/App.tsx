@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Navbar from './components/Navbar'
-import AnalyticsPage from './Pages/AnalyticsPage/AnalyticsBoard'
+import './styles/App.css';
+
 type Transcript = {
   turnID: string,
   startTime: string
@@ -12,8 +10,26 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Navbar /> */}
-      <AnalyticsPage />
+      <header className="App-header">
+        <input
+          onChange={handleChange}
+        ></input>
+        <button onClick={sayMyName}> Enter </button>
+        <p>
+          {message}
+        </p>
+        <p>
+          {transcripts && transcripts[0].map((t: Transcript) => {
+            return (
+              <li>
+                <h5>turnID: {t.turnID}</h5>
+                <h5>startTime: {t.startTime}</h5>
+              </li>
+            );
+          })
+          }
+        </p>
+      </header>
     </div>
   );
 }
