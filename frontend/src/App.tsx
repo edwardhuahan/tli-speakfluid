@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <Home />
+      {/* <Home /> */}
       <ClippersDrawer />
     </div>
   );
