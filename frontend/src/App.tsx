@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
+import ClippersDrawer from './Pages/ClipperDrawer'
+import Home from './Pages/Home'
 
 type Transcript = {
   turnID: string,
@@ -10,9 +12,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-
-      </header>
+      <Home />
+      <ClippersDrawer />
     </div>
   );
 }
