@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import TranscriptMenu from './TranscriptsMenu';
-import ClippedDrawer from '../ClipperDrawer';
-import { blue } from '@mui/material/colors';
+import TranscriptMenu from '../../components/TranscriptsMenu';
+import DataTable from '../../components/DataTable';
+import Analytics from '../../components/Analytics';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,15 +15,27 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default function AutoGrid() {
+export default function AnalyticsBoard({ showMenu }: any) {
+
+    const [dataTableId, setDataTableId] = useState("Transcript1") //change to first transcript later
+
+    const handleChange = (newId: string) => {
+        setDataTableId(newId)
+    }
     return (
-        <Grid container>
-            <Grid item xs={8}>
-                <ClippedDrawer />
+        <Grid container >
+            <Grid item xs={2} sx={{ overflow: 'auto', display: showMenu ? "flex" : "none" }}>
+                <TranscriptMenu />
+                {/* <TranscriptMenu handleChange={handleChange} /> */}
             </Grid>
-            <Grid item xs={4}>
-                <Box sx={{ height: "100vh", width: '100%', position: 'sticky' }} />
+            <Grid item xs={showMenu ? 5 : 6} sx={{ padding: '20px', backgroundColor: '#90CAF9' }}>
+                <DataTable dataTableId={dataTableId} />
+                {/* <DataTable /> */}
             </Grid>
+            <Grid item xs={showMenu ? 5 : 6}>
+                <Analytics />
+            </Grid>
+
         </Grid>
     );
 }
