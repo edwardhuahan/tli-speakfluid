@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/Home.css';
 import '../types/HomeTypes';
 import { selectedFile } from '../types/HomeTypes';
+import Button from '@mui/material/Button';
 
-function Home() {
+function UploadButton() {
 	const [selectedFile, setSelectedFile] = useState<any>({ name: "No file selected yet.", data: { messages: "" } });
 	const [isSelected, setIsSelected] = useState(false);
 
@@ -33,14 +33,14 @@ function Home() {
 	};
 
 	return (
-		<div className='home-container'>
+		<div style={{ alignContent: "right" }}>
 			<input type="file" name="file" onChange={changeHandler} />
-			<p>Filename: {selectedFile.name}</p>
-			<div>
-				<button onClick={handleUpload}>Upload</button>
-			</div>
+			{/* <p>Filename: {selectedFile.name}</p> */}
+			<button onClick={handleUpload} >
+				Upload
+			</ button>
 		</div>
 	);
 }
 
-export default Home;
+export default UploadButton;

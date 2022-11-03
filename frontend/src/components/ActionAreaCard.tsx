@@ -16,10 +16,17 @@ export default function ActionAreaCard({ id }: AppProps) {
                     <Typography gutterBottom variant="h5" component="div">
                         {id}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                    <Typography variant="body2" color="text.primary">
+                        "What can I help you with today?"
                     </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ display: "inline" }}>
+                        Occurance: 452/1000 | 4.52%
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ display: "inline", flexDirection: "column-reverse" }}>
+                        Confidence Level 97.87%
+                    </Typography>
+
+
                 </CardContent>
             </CardActionArea>
         </Card>

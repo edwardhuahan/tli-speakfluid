@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
-import ClippersDrawer from './Pages/ClipperDrawer'
-import Home from './Pages/Home'
-
-type Transcript = {
-  turnID: string,
-  startTime: string
-}
+import Navbar from './components/Navbar'
+import AnalyticsBoard from './Pages/AnalyticsPage/AnalyticsBoard'
 
 function App() {
+  const [showMenu, setShowMenu] = useState(true)
+
+  const handleToggle = () => {
+    setShowMenu(!showMenu)
+  }
 
   return (
     <div className="App">
-      {/* <Home /> */}
-      <ClippersDrawer />
+      <Navbar handleToggle={handleToggle} />
+      <AnalyticsBoard showMenu={showMenu} />
     </div>
   );
 }
