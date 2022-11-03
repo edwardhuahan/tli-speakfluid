@@ -1,23 +1,3 @@
-// import * as React from 'react';
-// import Card from '@mui/material/Card';
-// import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
-// import Typography from '@mui/material/Typography';
-// import {Box, Button, CardActionArea, CardActions, Container, Grid, Stack} from '@mui/material';
-// import SuggestionCard from "./SuggestionCard";
-// import AnalyticsCard from "./AnalyticsCard";
-// import Navbar from "./Navbar";
-// import AnalyticGraphs from "./AnalyticGraphs";
-//
-//
-// const AnalyticsBoard = () => {
-//     return(
-//         <Box bgcolor={"cornflowerblue"} flex={2} sx={{height: '100vh'}}>
-//             <AnalyticGraphs/>
-//         </Box>
-//     )
-// }
-// export default AnalyticsBoard
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
