@@ -1,6 +1,8 @@
 # pull official base image
-FROM node:18.12.0-bullseye-slim
+FROM node:18.12.0
 ENV NODE_ENV=production
+
+RUN npm install -g create-react-app
 
 # set working directory
 WORKDIR /usr/src/app

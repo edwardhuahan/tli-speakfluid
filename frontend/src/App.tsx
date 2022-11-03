@@ -3,6 +3,11 @@ import './styles/App.css';
 import Navbar from './components/Navbar'
 import AnalyticsBoard from './Pages/AnalyticsPage/AnalyticsBoard'
 
+type Transcript = {
+  turnID: string,
+  startTime: string
+}
+
 function App() {
   const [showMenu, setShowMenu] = useState(true)
 
