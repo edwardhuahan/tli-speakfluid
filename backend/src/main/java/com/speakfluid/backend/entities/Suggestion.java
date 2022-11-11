@@ -1,5 +1,5 @@
 java.import.util.*;
-//suggestion class (noun)
+
 public class FindOptimalTalkStep {
     private TextStep text;
     private ImageStep image;
