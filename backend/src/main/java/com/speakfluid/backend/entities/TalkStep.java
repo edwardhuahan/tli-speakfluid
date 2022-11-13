@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
  * @since   2022-11-12
  */
 abstract public class TalkStep {
-    private int scoreAccumulator;
-    private int maxScore; // = A CONSTANT
+    protected int scoreAccumulator;
+    protected int maxScore; // = A CONSTANT
 
     public double getMaxScore(){
         return this.maxScore;
