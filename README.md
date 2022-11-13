@@ -2,22 +2,29 @@
 Team Speakfluid: Aurora, Edward, Kai, Minh, Sarah, Zoey 
 
 # Setup
-## Docker setup
+* Install Node.js
+* Install Docker
 
-![image](https://user-images.githubusercontent.com/17802344/194219645-6b9512c3-ebb6-4e05-9829-f4bfcfebbe1d.png)
+## Development
+1. Ensure your local files are synced with any updates on GitHub
+2. Run the following commands in the main directory (make sure Docker is running!):
+```
+docker-compose -f docker-compose.dev.yml build
+docker-compose -f docker-compose.dev.yml up
+```
+and navigate to http://localhost:3000/ to view your local version of the website!
 
-1. Install [Docker](https://www.docker.com/), if you're on mac install Apple Chip version
-2. Open Docker
-3. Navigate to root folder of the project and run `docker compose up --build` in terminal to build the project
-4. Ctrl + C to stop it
-5. Run `docker compose up` whenever you want to run without building the project.
+* The `build` command should be ran after any packages are installed, so to be safe, run it every time you pull from GitHub (and whenever you install new packages).
+* Hot reloading is enabled for React, meaning you can make changes to your files, save them, and they'll be reflected on localhost.
+* If stuff seems really broken, run `docker system prune -a` then the usual command (there's probably a more efficient way to do this)
+* Sometimes you need a `-V` at the end of the command but idk
 
-## MongoDB setup
-
-Make sure to edit `backend/src/main/application.properties` to have the proper MongoDB URI. This would be shared among us privately.
-
-## Node.js setup
-
-`cd frontend`
-`npm install`
-
+## Pushing Working Changes
+1. Make sure your changes are working
+2. Make sure you are on an appropriate branch
+    * To view existing branches: `git branch`
+    * To switch to an existing branch: `git checkout <branch_name>`
+    * To create a new branch and switch to it: `git checkout -b <branch_name>`
+3. Add the appropriate files to commit: `git add <file_name>`
+4. Create a new commit: `git commit -m "quality message"`
+5. Push the commit to GitHub: `git push`
