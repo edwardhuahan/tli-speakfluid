@@ -39,9 +39,8 @@ abstract public class TalkStep {
     }
 
     /**
-     * countMatchKeywords finds the difference in minutes in a
-     * dialogue between a question and response, which are two
-     * Speech.timeStamp() LocalDateTime objects
+     * countMatchKeywords find the number of matching words in
+     * speech message and keywords.
      * @param speech speech from first speaker
      * @param keywords  speech from second speaker
      * @return the number of matches between speech message and keywords
