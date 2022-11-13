@@ -14,11 +14,7 @@ import java.time.LocalDateTime;
  */
 abstract public class TalkStep {
     private int scoreAccumulator;
-    private int maxScore;
-
-    public void setMaxScore(int maxScore){
-        this.maxScore = maxScore;
-    }
+    private int maxScore; // = A CONSTANT
 
     public double getMaxScore(){
         return this.maxScore;
