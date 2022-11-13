@@ -2,25 +2,28 @@ version: '3.4'
 
 services:
   react-frontend:
-    container_name: speakfluid-frontend    
+    container_name: speakfluid-dev-frontend
+    image: frontend
     build:
       context: ./frontend
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./frontend:/home/node/app:cached
     working_dir: /home/node/app
     ports:
-      - '80:80'
-      - '443:443'
+      - 3000:3000
     depends_on: 
       - spring-middleware
 
   spring-middleware:
-    container_name: speakfluid-backend    
+    container_name: speakfluid-dev-backend
+    image: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - '8080:8080'
+      - 8080:8080
+

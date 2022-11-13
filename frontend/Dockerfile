@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:18.12.0
+FROM node:18.12.0-alpine
 ENV NODE_ENV=production
 
 RUN npm install -g create-react-app
@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 
 # add packages and install them
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm ci --only=production
+RUN npm ci
 
 # add app
 COPY . .
