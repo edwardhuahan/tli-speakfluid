@@ -43,7 +43,9 @@ public class Speech {
         return this.traceType;
     }
 
+
     public String getMessage() {
         return this.message;
     }
+
 }

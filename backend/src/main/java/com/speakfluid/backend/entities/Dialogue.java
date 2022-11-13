@@ -34,4 +34,5 @@ public class Dialogue {
     public void setStepSuggestion(String talkStep) {
         this.stepSuggestion = talkStep;
     }
+
 }
