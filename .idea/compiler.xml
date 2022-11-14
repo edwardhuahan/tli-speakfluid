@@ -15,6 +15,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="backend" options="-parameters" />
+      <module name="tli-speakfluid" options="--add-exports java.base/com=ALL-UNNAMED" />
     </option>
   </component>
 </project>

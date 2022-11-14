@@ -44,18 +44,18 @@ public class TextStep extends TalkStep {
         return 0;
     }
 
-    public int calculateConsecutiveBotMsg(Dialogue dialogue) {
-        ArrayList<Speech> messages = dialogue.getDialogue();
-        int dialogueLength = messages.size();
-        int numConsecutives = 0;
-        for (int i = 0; i < dialogueLength - 1; i++) {
-            if (messages.get(i).getTraceFormat().equals("trace")) {   // check if it's a bot message or not
-                if (messages.get(i + 1).getTraceFormat().equals("trace")) {  // check if the next message is form a bot
-                    numConsecutives += 1;
-                }
-            }
-        }return numConsecutives;
-    }
+//    public int calculateConsecutiveBotMsg(Dialogue dialogue) {
+//        ArrayList<Speech> messages = dialogue.getDialogue();
+//        int dialogueLength = messages.size();
+//        int numConsecutives = 0;
+//        for (int i = 0; i < dialogueLength - 1; i++) {
+//            if (messages.get(i).getTraceFormat().equals("trace")) {   // check if it's a bot message or not
+//                if (messages.get(i + 1).getTraceFormat().equals("trace")) {  // check if the next message is form a bot
+//                    numConsecutives += 1;
+//                }
+//            }
+//        }return numConsecutives;
+//    }
 
     public void runAnalysis(Dialogue dialogue) {
 
@@ -80,7 +80,7 @@ public class TextStep extends TalkStep {
         }
 
         scoreAccumulator += isLastSentence(dialogue);
-        scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * 5;
+//        scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * 5;
 
     }
 

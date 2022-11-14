@@ -19,7 +19,7 @@ public class Dialogue {
     // Store the dialogue between the chatBot and the user
     private ArrayList<Speech> dialogue;
     private String stepSuggestion;
-    private int confidenceScore;
+    private double confidenceScore;
 
 
     public Dialogue(ArrayList<Speech> dialogue){
@@ -30,7 +30,7 @@ public class Dialogue {
         return this.dialogue;
     }
 
-    public void setConfidenceScore(int confidenceScore) {
+    public void setConfidenceScore(double confidenceScore) {
         this.confidenceScore = confidenceScore;
     }
 
