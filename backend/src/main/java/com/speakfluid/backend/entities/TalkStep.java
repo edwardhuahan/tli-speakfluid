@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @since   2022-11-12
  */
 abstract public class TalkStep {
-    private static int scoreAccumulator;
+    private int scoreAccumulator;
     private int maxScore; // = A CONSTANT
 
     public double getMaxScore(){
@@ -21,7 +21,7 @@ abstract public class TalkStep {
     }
 
     public double getScoreAccumulator(){
-        return this.scoreAccumulator;
+        return scoreAccumulator;
     }
 
     public static void setZeroScoreAccumulator(){
@@ -45,7 +45,7 @@ abstract public class TalkStep {
      * @param keywords  speech from second speaker
      * @return the number of matches between speech message and keywords
      */
-    public int countMatchKeywords(Speech speech, ArrayList<String> keywords){
+    public int countMatchKeywords(Speech speech, List<String> keywords){
         int numMatches = 0;
         for (String word: speech.getMessage().split(" ")){
             if (keywords.contains(word)) numMatches++;
