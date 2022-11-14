@@ -7,7 +7,8 @@ import java.util.*;
 public class ButtonStep extends TalkStep{
     String stepName;
     Map<String, Double> keywordWeights;
-    public static double scoreAccumulator = 0.0;
+    public static double scoreAccumulator = 0.0; // does this restart? have a start from 0 method in TalkStep class
+                                                // after get confidence score reset the accumulator to 0 in StepManager class
     public static double maxScore = 10.0; //arbitrary, subject to change
     double confidenceScore;
     double chatbotMsgLength;

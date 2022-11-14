@@ -19,16 +19,17 @@ import java.util.*;
       * Calls the StepManager object to implement all methods for each TalkStep and store the
       * returned confidence score in the talkStepToScoreMapping HashMap to keep track of the
       * talk step to its confidence score
-      * @param step the TalkStep whose methods are being called
       * @param dialogue the dialogue ArrayList containing the Speeches of the user and chatbot
       */
-     public void callManager(TalkStep step, Dialogue dialogue){
+     public void callStepManager( Dialogue dialogue){
          for(TalkStep talkStep: steps){
              stepManager.passDialogueToTalkStep(dialogue, talkStep);
              stepConfidenceScore = stepManager.calculateConfidenceScore();
-             talkStepToScoreMapping.put(step.stepName, stepConfidenceScore);
+             talkStepToScoreMapping.put(talkStep.stepName, stepConfidenceScore);
          }
      }
+
+     //find a way to calculate confidence score of Card if card and button
 
      /**
       * Returns the talk step with the highest confidence score from the talkStepToScoreMapping.

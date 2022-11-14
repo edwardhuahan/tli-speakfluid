@@ -18,6 +18,8 @@ public class StepManager implements Scorable{
         step.countMatchKeywords(dialogue);
         step.calculateChatbotToUserMsgRatio();
 
+        //have mapping of talk step to all methods it will have to run
+
         stepTotalScore = TalkStep.maxScore;
         stepScoreAccumulator = TalkStep.scoreAccumulator;
     }
@@ -26,7 +28,7 @@ public class StepManager implements Scorable{
      * Calculates the confidence score of the talk step.
      * @return returns the confidence score of the talk step.
      */
-    @Override
+    @Override //change to getConfidenceScore()
     public double calculateConfidenceScore() {
         return (stepScoreAccumulator / stepTotalScore);
     }
