@@ -3,6 +3,7 @@ import java.lang.String;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * The TalkStep abstract class is parent to all Step entities,
@@ -21,7 +22,7 @@ abstract public class TalkStep {
     }
 
     public double getScoreAccumulator(){
-        return this.scoreAccumulator;
+        return scoreAccumulator;
     }
 
     public static void setZeroScoreAccumulator(){
@@ -45,7 +46,7 @@ abstract public class TalkStep {
      * @param keywords  speech from second speaker
      * @return the number of matches between speech message and keywords
      */
-    public int countMatchKeywords(Speech speech, ArrayList<String> keywords){
+    public int countMatchKeywords(Speech speech, List<String> keywords){
         int numMatches = 0;
         for (String word: speech.getMessage().split(" ")){
             if (keywords.contains(word)) numMatches++;
@@ -69,5 +70,7 @@ abstract public class TalkStep {
         long seconds = difference.toSeconds();
         return minutes*60 + seconds;
     }
+
+    public abstract void runAnalysis();
 
 }
