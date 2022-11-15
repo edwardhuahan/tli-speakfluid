@@ -46,10 +46,11 @@ abstract public class TalkStep {
     }
 
     /**
-     * countMatchKeywords find the number of matching words in
-     * speech message and keywords and adds it to scoreAccumulator
+     * countMatchKeywords finds if words in a chatbot/user message matches
+     * keywords in a keywordCluster, and adds to the ScoreAccumulator
+     * the weighting of that keyword if there is a match.
      * @param speech speech from first speaker
-     * @param keywords  list of list of keyword groups with mappings of keyword to weighting
+     * @param keywords  list of maps of keyword to weighting, where each map is a keywordCluster
      */
     public void countMatchKeywords(Speech speech, ArrayList<Map<String, Double>> keywords){
         for(Map<String, Double> keywordCluster: keywords){
