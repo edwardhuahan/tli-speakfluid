@@ -1,8 +1,18 @@
+<<<<<<< HEAD
 package java.com.speakfluid.backend.entities;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+=======
+package com.speakfluid.backend.entities;
+import java.lang.String;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+>>>>>>> 8046603679cec5cf9f57649ac2274456f5e080da
 
 /**
  * The TalkStep abstract class is parent to all Step entities,
@@ -13,19 +23,38 @@ import java.util.List;
  * @since   2022-11-12
  */
 abstract public class TalkStep {
+<<<<<<< HEAD
     private static int scoreAccumulator;
     private int maxScore; // = A CONSTANT
+=======
+    private int scoreAccumulator;
+    private int maxScore;
+    private String stepName;
+
+    public String getStepName(){
+        return this.stepName;
+    }
+>>>>>>> 8046603679cec5cf9f57649ac2274456f5e080da
 
     public double getMaxScore(){
         return this.maxScore;
     }
 
+<<<<<<< HEAD
     public void setScoreAccumulator(int scoreAccum){
         scoreAccumulator = scoreAccum;
     }
 
     public double getScoreAccumulator(){
         return scoreAccumulator;
+=======
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
+>>>>>>> 8046603679cec5cf9f57649ac2274456f5e080da
     }
 
     /**
@@ -39,6 +68,7 @@ abstract public class TalkStep {
     }
 
     /**
+<<<<<<< HEAD
      * countMatchKeywords find the number of matching words in
      * speech message and keywords.
      * @param speech speech from first speaker
@@ -51,6 +81,23 @@ abstract public class TalkStep {
             if (keywords.contains(word)) numMatches++;
         }
         return numMatches;
+=======
+     * countMatchKeywords finds if words in a chatbot/user message matches
+     * keywords in a keywordCluster, and adds to the ScoreAccumulator
+     * the weighting of that keyword if there is a match.
+     * @param speech speech from first speaker
+     * @param keywords  list of maps of keyword to weighting, where each map is a keywordCluster
+     */
+    public void countMatchKeywords(Speech speech, ArrayList<Map<String, Double>> keywords){
+        for(Map<String, Double> keywordCluster: keywords){
+            for(Map.Entry<String, Double> keyword: keywordCluster.entrySet()){
+                if(speech.getMessage().contains(keyword.getKey())){
+                    scoreAccumulator += keyword.getValue();
+                    break;
+                }
+            }
+        }
+>>>>>>> 8046603679cec5cf9f57649ac2274456f5e080da
     }
 
     /**
@@ -69,4 +116,10 @@ abstract public class TalkStep {
         long seconds = difference.toSeconds();
         return minutes*60 + seconds;
     }
+<<<<<<< HEAD
+=======
+
+    public abstract void runAnalysis(Dialogue dialogue);
+
+>>>>>>> 8046603679cec5cf9f57649ac2274456f5e080da
 }
