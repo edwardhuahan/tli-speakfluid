@@ -1,4 +1,5 @@
 package com.speakfluid.backend.entities;
+
 /**
  * Scorable is an interface for calculating the confidence score
  * that reflects how much does each talk step fit for the dialogue.

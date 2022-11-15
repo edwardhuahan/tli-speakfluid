@@ -1,5 +1,6 @@
 package com.speakfluid.backend.entities;
 import java.time.LocalDateTime;
+
 /**
 * The Speech object stores the specific information about
 * every message/interaction in a dialogue, including:

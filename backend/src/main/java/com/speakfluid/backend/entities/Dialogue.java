@@ -1,5 +1,6 @@
 package com.speakfluid.backend.entities;
 import java.util.ArrayList;
+
 /**
  * A dialogue is defined as back-forth messages/interactions between the chatBot
  * grouped under the same session ID in the raw transcript. It always starts with a bot's message
