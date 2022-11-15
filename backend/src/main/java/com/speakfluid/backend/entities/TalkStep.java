@@ -51,14 +51,12 @@ abstract public class TalkStep {
      * @param speech speech from first speaker
      * @param keywords  list of list of keyword groups with mappings of keyword to weighting
      */
-    public void countMatchKeywords(Speech speech, ArrayList<ArrayList<Map<String, Double>>> keywords){
-        for (ArrayList<Map<String,Double>> commonUtterances: keywords){
-            for(Map<String,Double> utteranceGroup : commonUtterances){
-                for(Map.Entry<String, Double> entry: utteranceGroup.entrySet()) {
-                    if(speech.getMessage().contains(entry.getKey())){
-                        scoreAccumulator += entry.getValue();
-                    }
-
+    public void countMatchKeywords(Speech speech, ArrayList<Map<String, Double>> keywords){
+        for(Map<String, Double> keywordCluster: keywords){
+            for(Map.Entry<String, Double> keyword: keywordCluster.entrySet()){
+                if(speech.getMessage().contains(keyword.getKey())){
+                    scoreAccumulator += keyword.getValue();
+                    break;
                 }
             }
         }
