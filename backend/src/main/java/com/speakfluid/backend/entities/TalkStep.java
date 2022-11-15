@@ -80,6 +80,6 @@ abstract public class TalkStep {
         return minutes*60 + seconds;
     }
 
-    public abstract void runAnalysis();
+    public abstract void runAnalysis(Dialogue dialogue);
 
 }
