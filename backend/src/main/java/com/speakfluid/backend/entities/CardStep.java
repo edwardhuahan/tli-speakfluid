@@ -15,7 +15,7 @@ import static java.util.Map.entry;
 public class CardStep extends TalkStep{
     private Double scoreAccumulator;
     private final Double maxScore = 20.0;
-    private String stepName;
+    private final String stepName = "card step";
     private double chatbotMsgLength;
     private double userMsgLength;
 

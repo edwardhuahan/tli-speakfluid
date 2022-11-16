@@ -19,14 +19,9 @@ public class ButtonStep extends TalkStep{
 
     private double scoreAccumulator;
     private final double maxScore = 12;
-    private final String stepName;
+    private final String stepName = "button step";
     int chatbotMsgLength;
     int userMsgLength;
-
-    public ButtonStep(){
-        this.stepName = "button step";
-        this.scoreAccumulator = 0;
-    }
     private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
             Map.ofEntries(entry("would you", 2.0),
                     entry("what type", 2.0), entry("are you", 2.0), entry("would it", 2.0),
@@ -39,11 +34,6 @@ public class ButtonStep extends TalkStep{
             Map.ofEntries(entry("booking", 2.0),
                     entry("train", 2.0), entry("go to", 2.0), entry("arrive", 2.0)),
             Map.ofEntries(entry("hotel", 4.0), entry("cheap", 4.0), entry("hospital", 4.0)));
-
-    @Override
-    public String getStepName() {
-        return stepName;
-    }
 
     /**
      * runs each method to analyze both the user and chatbot output to see whether this dialogue is
