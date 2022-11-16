@@ -18,21 +18,27 @@ import static java.util.Map.entry;
  * to reflect how well the dialogue matches with the Image Talk Step's features.
  *
  * @author  Zoey Zhang
- * @version 1.0
- * @since   2022-11-12
+ * @version 2.0
+ * @since   2022-11-16
  */
 public class ImageStep extends TalkStep {
     private int scoreAccumulator;
     private final int maxScore = 20;
     private final String stepName = "Image";
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
-            Map.ofEntries(entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0),
-                    entry("here are the locations", 5.0),
-                    entry("here are possible the directions", 5.0)),
-            Map.ofEntries(entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0),
-                    entry("here is a picture", 4.0), entry("here is an image", 4.0)),
+            Map.ofEntries(entry("here are the locations", 5.0),
+                    entry("here are possible the directions", 5.0),
+                    entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0)
+                    ),
+            Map.ofEntries(entry("here is a picture", 4.0), entry("here is an image", 4.0),
+                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)),
             Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0))
     );
+
+
+    public ImageStep(){
+        this.scoreAccumulator = 0;
+    }
 
     /**
      * runAnalysis for ImageStep determines:
@@ -45,13 +51,10 @@ public class ImageStep extends TalkStep {
     public void runAnalysis(Dialogue dialogue) {
 
         for (Speech message : dialogue.getChatBotMessage()) {
+            countMatchKeywords(message, imageKeyWords);
             if (calculateMsgLength(message) <= 6) {
                 scoreAccumulator += 5;
             }
-        }
-
-        for (Speech message : dialogue.getChatBotMessage()) {
-            countMatchKeywords(message, imageKeyWords);
         }
     }
 

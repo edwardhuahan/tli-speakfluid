@@ -28,9 +28,9 @@ public class TextStep extends TalkStep {
     private int scoreAccumulator;
     private final int maxScore = 59;
     private final String stepName = "Text";
-    private final List<Map<String, Double>> textKeyWords = Arrays.asList(
-            Map.ofEntries(entry("thank you", 4.0), entry("thank you for", 4.5), entry("thanks", 4.0),
-                    entry("thank you for using", 5.0),entry("thank you for contacting", 5.0)),
+    private final List<Map<String, Double>> textKeyWordsChatBot = Arrays.asList(
+            Map.ofEntries(entry("thank you for using", 5.0),entry("thank you for contacting", 5.0),
+                    entry("thank you", 4.0), entry("thank you for", 4.5), entry("thanks", 4.0)),
             Map.ofEntries(entry("have a great day", 4.0), entry("have a good day", 4.0),
                     entry("good day", 2.0)),
             Map.ofEntries(entry("i am", 0.5), entry("my name is", 0.5)),
@@ -38,6 +38,16 @@ public class TextStep extends TalkStep {
             Map.ofEntries(entry("glad to help", 5.0), entry("happy to help", 5.0))
     );
 
+    private final List<Map<String, Double>> textKeyWordsUser = Arrays.asList(
+            Map.ofEntries(entry("thank you for helping", 3.0), entry("thank you", 2.0),
+                    entry("thanks", 2.0),entry("thx", 2.0), entry("appreciated", 2.0)),
+            Map.ofEntries(entry("that's all", 2.0), entry("have a good day", 2.0),
+                    entry("goodbye", 2.0), entry("bye", 2.0))
+    );
+
+    public TextStep(){
+        this.scoreAccumulator = 0;
+    }
     /**
      * isnotQuestion determines if each message in the Dialogue is a question or not.
      *
@@ -71,8 +81,8 @@ public class TextStep extends TalkStep {
 
     /**
      * runAnalysis for TextStep determines:
-     * 1. If the bot's message is long
-     * 2. How many text keywords the message has?
+     * 1. How many text keywords the bot's messages and user's messages have?
+     * 2. If the bot's message is long
      * 3. If the bot's message is a question or not. If not then it has a high change to be a text step.
      * 4. How many consecutive messsages from the chatbot before any user response.
      *
@@ -82,17 +92,14 @@ public class TextStep extends TalkStep {
     public void runAnalysis(Dialogue dialogue) {
 
         for (Speech message : dialogue.getChatBotMessage()) {
-            if (calculateMsgLength(message) >= 15) {
+            countMatchKeywords(message, textKeyWordsChatBot);
+            scoreAccumulator += isNotQuestion(message);
+            if (calculateMsgLength(message) >= 10) {
                 scoreAccumulator += 5;
             }
         }
-
-        for (Speech message : dialogue.getChatBotMessage()) {
-            countMatchKeywords(message, textKeyWords);
-        }
-
-        for (Speech message : dialogue.getChatBotMessage()) {
-            scoreAccumulator += isNotQuestion(message);
+        for (Speech message : dialogue.getUserMessage()) {
+            countMatchKeywords(message, textKeyWordsUser);
         }
 
         scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * 5;

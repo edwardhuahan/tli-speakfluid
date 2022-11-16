@@ -18,24 +18,28 @@ import static java.util.Map.entry;
  * to reflect how well the dialogue matches with the Carousel Talk Step's features.
  *
  * @author  Zoey Zhang
- * @version 1.0
- * @since   2022-11-12
+ * @version 2.0
+ * @since   2022-11-16
  */
 public class CarouselStep extends TalkStep {
     private int scoreAccumulator;
     private final int maxScore = 16;
     private final String stepName = "Carousel";
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
-            Map.ofEntries(entry("map", 1.0), entry("location", 1.0),entry("direction", 1.0),
-                    entry("here are", 2.0)),
-            Map.ofEntries(entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0),
-                    entry("here is a picture", 4.0), entry("here is an image", 4.0)),
+            Map.ofEntries(entry("here are", 2.0),entry("map", 1.0), entry("location", 1.0),
+                    entry("direction", 1.0)),
+            Map.ofEntries(entry("here is a picture", 4.0), entry("here is an image", 4.0),
+                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)
+                    ),
             Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0)),
-            Map.ofEntries(entry("list of", 5.0), entry("list", 4.0),entry("a list of", 5.0),
-                    entry("lists of", 5.0),entry("here are a list of", 2.0)),
-            Map.ofEntries(entry("", 3.0),entry("illustration", 3.0),entry("image", 3.0),
-                    entry("choose from the following", 4.0))
+            Map.ofEntries(entry("list of", 5.0), entry("a list of", 5.0),
+                    entry("lists of", 5.0),entry("here are a list of", 5.0), entry("list", 4.0)),
+            Map.ofEntries(entry("choose from the following", 4.0))
             );
+
+    public CarouselStep(){
+        this.scoreAccumulator = 0;
+    }
 
     /**
      * runAnalysis for ImageStep determines:
@@ -46,12 +50,10 @@ public class CarouselStep extends TalkStep {
     @Override
     public void runAnalysis(Dialogue dialogue) {
         for (Speech message : dialogue.getChatBotMessage()) {
+            countMatchKeywords(message, imageKeyWords);
             if (calculateMsgLength(message) >= 6) {
                 scoreAccumulator += 5;
             }
-        }
-        for (Speech message : dialogue.getChatBotMessage()) {
-            countMatchKeywords(message, imageKeyWords);
         }
     }
 
