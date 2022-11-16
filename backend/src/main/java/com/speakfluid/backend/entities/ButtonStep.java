@@ -1,90 +1,81 @@
 package main.java.com.speakfluid.backend.entities;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 import static java.util.Map.entry;
-import java.util.*;
+
+/**
+ * The ButtonStep class runs the inputted Dialogue object through all metrics for calculating the probability of
+ * the usefulness of a button for this step in the conversational flow. It implements the TalkStep abstract class
+ * and inherits all of its attributes and methods.
+ * @author Aurora Zhang
+ * @version 1.0
+ * @since November 16th 2022
+ */
 
 public class ButtonStep extends TalkStep{
-    String stepName;
-    Map<String, Double> keywordWeights;
-    public static double scoreAccumulator = 0.0; // does this restart? have a start from 0 method in TalkStep class
-                                                // after get confidence score reset the accumulator to 0 in StepManager class
-    public static double maxScore = 10.0; //arbitrary, subject to change
-    double confidenceScore;
-    double chatbotMsgLength;
-    double userMsgLength;
-    double chatbotToUserMsgRatio;
 
-    public ButtonStep(String nameOfStep){
-        this.stepName = nameOfStep;
-        this.keywordWeights = Map.ofEntries(entry("What Kind", 2.0), entry("What Type", 2.0),
-                entry("Choose", 1.5), entry("Select", 1.5), entry("Would You", 1.5));
+    private double scoreAccumulator;
+    private final double maxScore = 12;
+    private final String stepName;
+    int chatbotMsgLength;
+    int userMsgLength;
 
+    public ButtonStep(){
+        this.stepName = "button step";
+        this.scoreAccumulator = 0;
+    }
+    private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+            Map.ofEntries(entry("would you", 2.0),
+                    entry("what type", 2.0), entry("are you", 2.0), entry("would it", 2.0),
+                    entry("what kind", 2.0), entry("here are", 2.0), entry("do you", 2.0),
+                    entry("here is", 2.0)),
+            Map.ofEntries(entry("here are", 4.0), entry("choose", 4.0), entry("select", 4.0)),
+            Map.ofEntries(entry("destination", 3.0), entry("date", 3.0), entry("departure", 3.0),
+                    entry("arriving", 3.0)));
+    private final ArrayList<Map<String, Double>> userKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+            Map.ofEntries(entry("booking", 2.0),
+                    entry("train", 2.0), entry("go to", 2.0), entry("arrive", 2.0)),
+            Map.ofEntries(entry("hotel", 4.0), entry("cheap", 4.0), entry("hospital", 4.0)));
+
+    @Override
+    public String getStepName() {
+        return stepName;
     }
 
     /**
-     * Adds up all the chatbot message lengths in the dialogue.
-     * @param dialogue the single back and forth between the user and the chatbot.
-     */
-    @Override
-    public void calculateChatbotMsgLength(Dialogue dialogue) {
-        for(Speech speech: dialogue.dialogue){
-            if(Objects.equals(speech.speaker, "chatbot") && !Objects.equals(speech.message, "")){
-                chatbotMsgLength += speech.message.length();
-            }
-        }
-
-    }
-
-    /**
-     * Adds up all the user message lengths in the dialogue.
-     * @param dialogue the single back and forth between the user and the chatbot.
-     */
-    @Override
-    public void calculateUserMsgLength(Dialogue dialogue) {
-        for(Speech speech: dialogue.dialogue){
-            if(Objects.equals(speech.speaker, "user") && !Objects.equals(speech.message, "")){
-                userMsgLength += speech.message.length();
-            }
-        }
-    }
-
-    /**
-     * Adds up all the weighted scores of the keywords that are contained in the dialogue. Each weight
-     * is added to the scoreAccumulator attribute.
-     * @param dialogue the single back and forth between the user and the chatbot.
+     * runs each method to analyze both the user and chatbot output to see whether this dialogue is
+     * best suited for the use of a button. Updates the accumulated score attribute accordingly.
+     * @param dialogue a single back and forth between the user and the chatbot.
      */
 
-    //we should also have a keyword dictionary for what the user says in response.
     @Override
-    public void countMatchKeywords(Dialogue dialogue) {
-        for(Speech speech: dialogue.dialogue) {
-            if(Objects.equals(speech.speaker, "chatbot")){
-                for(Map.Entry<String, Double> entry: keywordWeights.entrySet()) {
-                    if(speech.message.contains(entry.getKey())){
-                        scoreAccumulator += entry.getValue();
-                    }
+    public void runAnalysis(Dialogue dialogue) {
+        for(Speech speech: dialogue.getChatbotMessage()){
+            countMatchKeywords(speech, chatbotKeywordsScoreMap);
+            chatbotMsgLength = calculateMsgLength(speech);
 
-                }
-            }
+        }
+        for(Speech speech: dialogue.getUserMessage()){
+            countMatchKeywords(speech, userKeywordsScoreMap);
+            userMsgLength = calculateMsgLength(speech);
+
+        }
+        // if the chatbot outputs more information than the user, buttons are not suitable
+        if((chatbotMsgLength/userMsgLength) > 1){
+            this.scoreAccumulator -= 2;
+        }
+        else{
+            this.scoreAccumulator += 2;
+        }
+        // if the user response is short, then this suggests buttons are suitable
+        if(userMsgLength <= 5){
+            this.scoreAccumulator += 2;
         }
 
-    }
 
-    /**
-     * determines the ratio of the chatbot message length to user message length and adds
-     * a predetermined score to the scoreAccumulator.
-     * if the ratio is low, the chatbot outputs less data and buttons are helpful so the score is increased.
-     * if the ratio is high, the chatbot outputs more data and buttons are not helpful so the score is subtracted.
-     *
-     */
-    @Override
-    public void calculateChatbotToUserMsgRatio() {
-        chatbotToUserMsgRatio = chatbotMsgLength / userMsgLength;
-        if(chatbotToUserMsgRatio > 1.0){
-            scoreAccumulator -= -0.5;
-        }
-        scoreAccumulator += 1.0;
     }
 
 
