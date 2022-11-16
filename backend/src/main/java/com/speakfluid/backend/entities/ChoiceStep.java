@@ -12,12 +12,13 @@ import java.util.*;
  * Choice Listen Step is mainly used for "Yes" and "No" simple responses.
  *
  * @author  Sarah Xu
- * @version 1.0
- * @since   2022-11-15
+ * @version 2.0
+ * @since   2022-11-16
  */
 public class ChoiceStep extends TalkStep {
-    private static int scoreAccumulator = 0;
-    private final int maxScore = 25;
+    private final String stepName = "Choice";
+    private int scoreAccumulator = 0;
+    private final int maxScore = 20;
     private double confidenceScore;
     private final List<Map<String, Double>> choiceKeyWordsChatbot =
             Arrays.asList(
@@ -35,6 +36,10 @@ public class ChoiceStep extends TalkStep {
                     Map.ofEntries(entry("no", 5.0), entry("nope", 4.0), entry("nah", 3.0),
                             entry("not", 2.0))
             );
+
+    public ChoiceStep(){
+        this.scoreAccumulator = 0;
+    }
 
     /**
      * runAnalysis() takes in a Dialogue object and analyses

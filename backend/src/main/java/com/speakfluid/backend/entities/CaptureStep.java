@@ -13,12 +13,13 @@ import static java.util.Map.entry;
  * Choice Listen Step is mainly used for "Yes" and "No" simple responses.
  *
  * @author  Sarah Xu
- * @version 1.0
- * @since   2022-11-15
+ * @version 2.0
+ * @since   2022-11-16
  */
 public class CaptureStep extends TalkStep {
-    private static int scoreAccumulator = 0;
-    private final int maxScore = 25;
+    private final String stepName = "Capture";
+    private int scoreAccumulator = 0;
+    private final int maxScore = 30;
     private double confidenceScore;
     private final List<Map<String, Double>> captureKeyWordsChatbot =
             Arrays.asList(
@@ -32,6 +33,10 @@ public class CaptureStep extends TalkStep {
                     Map.ofEntries(entry("address", 5.0), entry("zip code", 5.0), entry("location", 4.0)),
                     Map.ofEntries(entry("name", 5.0), entry("full name", 5.0), entry("address you", 3.0))
             );
+
+    public CaptureStep(){
+        this.scoreAccumulator = 0;
+    }
 
     // includes special characters, week days, times, address, emails
     private final List<Map<String, Double>> captureKeyWordsUsers =
@@ -61,6 +66,7 @@ public class CaptureStep extends TalkStep {
         for(String word : speech.getMessage().split(" ")){
             if(speech.getMessage().matches(".*[0-9].*")){
                 scoreAccumulator += 3;
+                break;
             }
         }
     }
@@ -75,6 +81,7 @@ public class CaptureStep extends TalkStep {
         for(String word : speech.getMessage().split(" ")){
             if(speech.getMessage().matches("\\A[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+\\Z")){
                 scoreAccumulator += 10;
+                break;
             }
         }
     }
