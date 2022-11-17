@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Interactor is SpeakFluid's use case interactor for the use case of analyzing transcripts.
+ * TranscriptAnalysisInteractor is SpeakFluid's use case interactor for the use case of analyzing transcripts.
  * It generates 6 TalkStep entities, 1 ArrayList of Talkstep, 1 StepManager, 1 SuggestionManager.
  * Then the interactor has storeStepSuggestionPair, which stores the suggested step to each dialogue
  * with the corresponding confidence score in the Dialogue object's stepSuggestion and confidenceScore attributes.
@@ -17,7 +17,8 @@ import java.util.Map;
  * @since   2022-11-17
  */
 
-public class TranscriptAnalysisInteractor {
+// Use Case Layer
+public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoundary{
 
     // Generate all TalkStep entities,except Card
     ButtonStep buttonStep = new ButtonStep();
@@ -51,6 +52,7 @@ public class TranscriptAnalysisInteractor {
      *                   and user's message respectively.
      * @return the analyzed transcript which contains Dialogue objects with updated stepSuggestion and confidenceScore.
      */
+    @Override
     public ArrayList<HashMap<String, ArrayList<Dialogue>>> analyzeTranscript(
             ArrayList<HashMap<String, ArrayList<Dialogue>>> transcript) {
 
