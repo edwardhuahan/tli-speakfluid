@@ -43,7 +43,7 @@ public class TranscriptService {
 
         if (gridFSTranscript != null && gridFSTranscript.getMetadata() != null) {
             loadTranscript.setTranscriptname( gridFSTranscript.getFilename() );
-
+            // use builder?
             loadTranscript.setTranscriptType( gridFSTranscript.getMetadata().get("_contentType").toString() );
 
             loadTranscript.setTranscriptSize( gridFSTranscript.getMetadata().get("fileSize").toString() );
