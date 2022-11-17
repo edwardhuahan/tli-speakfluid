@@ -26,12 +26,13 @@ public class TranscriptAnalysisInteractor {
     CarouselStep carouselStep = new CarouselStep();
     TextStep textStep = new TextStep();
     ChoiceStep choiceStep = new ChoiceStep();
+    CardStep cardStep = new CardStep();
 
     // Make an ArrayList of TalkStep entities to be passed in SuggestionManager
     final ArrayList<TalkStep> steps = new ArrayList<>(
             Arrays.asList(
                     buttonStep, imageStep, captureStep,
-                    carouselStep, textStep, choiceStep));
+                    carouselStep, textStep, choiceStep, cardStep));
 
     // Generate StepManager and SuggestionManager
     StepManager stepManager = new StepManager();
