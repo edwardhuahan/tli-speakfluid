@@ -4,12 +4,12 @@ import java.util.ArrayList;
 /**
  * A dialogue is defined as back-forth messages/interactions between the chatBot
  * grouped under the same session ID in the raw transcript.
- * A Dialogue object stores chat bot's message and the user's message in the dialogue;
+ * A Dialogue object stores chatbot's message and the user's message in the dialogue;
  * It also stores the suggested talk step and the corresponding confidence score
  * which will be set in the StepSuggestionInteractor(the use case interactor).
  *
  * @author  Zoey Zhang
- * @version 1.0
+ * @version 2.0
  * @since   2022-11-12
  */
 
@@ -20,7 +20,7 @@ public class Dialogue {
     private ArrayList<Speech> chatBotMessage;
     private ArrayList<Speech> userMessage;
     private String stepSuggestion;
-    private int confidenceScore;
+    private double confidenceScore;
 
 
     public Dialogue(ArrayList<Speech> chatBotM, ArrayList<Speech> userM){
