@@ -34,7 +34,6 @@ public class TranscriptService {
         return fileID.toString();
     }
 
-
     public LoadTranscript downloadTranscript(String id) throws IOException {
 
         GridFSFile gridFSTranscript = template.findOne( new Query(Criteria.where("_id").is(id)) );
