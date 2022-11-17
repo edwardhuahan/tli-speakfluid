@@ -9,8 +9,8 @@ Team Speakfluid: Aurora, Edward, Kai, Minh, Sarah, Zoey
 1. Ensure your local files are synced with any updates on GitHub
 2. Run the following commands in the main directory (make sure Docker is running!):
 ```
-docker-compose -f docker-compose.dev.yml build
-docker-compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml build
+docker compose -f docker-compose.dev.yml up
 ```
 and navigate to http://localhost:3000/ to view your local version of the website!
 
