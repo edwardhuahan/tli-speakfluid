@@ -33,7 +33,7 @@ public class Dialogue {
     public ArrayList<Speech> getUserMessage(){
         return this.userMessage;
     }
-    public void setConfidenceScore(int confidenceScore) {
+    public void setConfidenceScore(double confidenceScore) {
         this.confidenceScore = confidenceScore;
     }
 
