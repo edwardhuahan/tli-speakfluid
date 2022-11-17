@@ -13,11 +13,14 @@ import static java.util.Map.entry;
  */
 
 public class CardStep extends TalkStep{
-    private Double scoreAccumulator;
-    private final Double maxScore = 20.0;
-    private final String stepName = "card step";
-    private double chatbotMsgLength;
-    private double userMsgLength;
+    private double scoreAccumulator;
+    private final double maxScore = 25.0;
+    private final String stepName = "Card";
+
+    public CardStep(){
+        this.scoreAccumulator = 0.0;
+
+    }
 
     private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
             Map.ofEntries(entry("can i help", 5.0),
@@ -42,21 +45,22 @@ public class CardStep extends TalkStep{
         //match the keywords for both the user and chatbot outputs in the dialogue
         for(Speech speech: dialogue.getChatBotMessage()){
             countMatchKeywords(speech, chatbotKeywordsScoreMap);
-            calculateMsgLength(speech);
+            double chatbotMsgLength = calculateMsgLength(speech);
+            // if the chatbot outputs a shorter message, this suggests buttons with a image are more suitable
+            if(chatbotMsgLength < 10){
+                this.scoreAccumulator += 2;
+            }
 
         }
         for(Speech speech: dialogue.getUserMessage()){
             countMatchKeywords(speech, userKeywordsScoreMap);
-            calculateMsgLength(speech);
+            double userMsgLength = calculateMsgLength(speech);
+            if(userMsgLength < 15){
+                scoreAccumulator += 2;
+            }
 
         }
-        // if the chatbot outputs a shorter message, this suggests buttons with a image are more suitable
-        if(chatbotMsgLength < 10){
-            this.scoreAccumulator += 2;
-        }
-        else{
-            this.scoreAccumulator -= 2;
-        }
+
 
     }
 }

@@ -25,6 +25,7 @@ public class StepManager implements Scorable{
         step.runAnalysis(dialogue);
         stepTotalScore = step.getMaxScore();
         stepScoreAccumulator = step.getScoreAccumulator();
+        step.setZeroScoreAccumulator();
     }
 
     /**

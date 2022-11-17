@@ -18,14 +18,17 @@ import static java.util.Map.entry;
 public class ButtonStep extends TalkStep{
 
     private double scoreAccumulator;
-    private final double maxScore = 12;
-    private final String stepName = "button step";
-    int chatbotMsgLength;
-    int userMsgLength;
+    private final double maxScore = 22.0;
+    private final String stepName = "Button";
+
+
+    public ButtonStep(){
+        this.scoreAccumulator = 0.0;
+    }
     private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
-            Map.ofEntries(entry("would you", 2.0),
-                    entry("what type", 2.0), entry("are you", 2.0), entry("would it", 2.0),
-                    entry("what kind", 2.0), entry("here are", 2.0), entry("do you", 2.0),
+            Map.ofEntries(entry("would you", 5.0),
+                    entry("what type", 4.0), entry("what kind", 2.0), entry("are you", 4.0),
+                    entry("would it", 4.0),entry("here are", 2.0), entry("do you", 2.0),
                     entry("here is", 2.0)),
             Map.ofEntries(entry("here are", 4.0), entry("choose", 4.0), entry("select", 4.0)),
             Map.ofEntries(entry("destination", 3.0), entry("date", 3.0), entry("departure", 3.0),
@@ -45,24 +48,20 @@ public class ButtonStep extends TalkStep{
     public void runAnalysis(Dialogue dialogue) {
         for(Speech speech: dialogue.getChatBotMessage()){
             countMatchKeywords(speech, chatbotKeywordsScoreMap);
-            chatbotMsgLength = calculateMsgLength(speech);
+            int chatbotMsgLength = calculateMsgLength(speech);
+            if(chatbotMsgLength < 10){
+                scoreAccumulator += 2;
+            }
 
         }
         for(Speech speech: dialogue.getUserMessage()){
             countMatchKeywords(speech, userKeywordsScoreMap);
-            userMsgLength = calculateMsgLength(speech);
+            int userMsgLength = calculateMsgLength(speech);
+            // if the user response is short, then this suggests buttons are suitable
+            if(userMsgLength <= 5){
+                this.scoreAccumulator += 2;
+            }
 
-        }
-        // if the chatbot outputs more information than the user, buttons are not suitable
-        if((chatbotMsgLength/userMsgLength) > 1){
-            this.scoreAccumulator -= 2;
-        }
-        else{
-            this.scoreAccumulator += 2;
-        }
-        // if the user response is short, then this suggests buttons are suitable
-        if(userMsgLength <= 5){
-            this.scoreAccumulator += 2;
         }
     }
 }
