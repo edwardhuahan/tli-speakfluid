@@ -19,7 +19,7 @@ public class ButtonStep extends TalkStep{
 
     private double scoreAccumulator;
     private final double maxScore = 12;
-    String stepName = "button step";
+    private final String stepName = "button step";
     int chatbotMsgLength;
     int userMsgLength;
     private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
