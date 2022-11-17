@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * grouped under the same session ID in the raw transcript.
  * A Dialogue object stores chatbot's message and the user's message in the dialogue;
  * It also stores a list of suggested talk step and the corresponding confidence scores
- * which will be set in the StepSuggestionInteractor(the use case interactor).
+ * which will be set in the TranscriptAnalysisInteractor(the use case interactor).
  *
  * We will return the step with the highest confidence score. However, if the top confidence score is low,
  * the top three layers will be returned with a notice saying
