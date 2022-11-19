@@ -62,7 +62,7 @@ public class CaptureStep extends TalkStep {
      * specific, or personal information.
      * @param speech one message from user
      */
-    public void hasNumbers(Speech speech){
+    public void hasNumbers(WozMessage speech){
         for(String word : speech.getMessage().split(" ")){
             if(speech.getMessage().matches(".*[0-9].*")){
                 scoreAccumulator += 3;
@@ -77,7 +77,7 @@ public class CaptureStep extends TalkStep {
      * to use the Capture Step here.
      * @param speech one message from user
      */
-    public void isEmail(Speech speech){
+    public void isEmail(WozMessage speech){
         for(String word : speech.getMessage().split(" ")){
             if(speech.getMessage().matches("\\A[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+\\Z")){
                 scoreAccumulator += 10;
@@ -91,7 +91,7 @@ public class CaptureStep extends TalkStep {
      * their zipcode. The current method checks for US and Canadian ZipCodes
      * @param speech one message from user
      */
-    public void isZipCode(Speech speech){
+    public void isZipCode(WozMessage speech){
         for(String word : speech.getMessage().split(" ")){
             if(speech.getMessage().matches( "^\\d{5}([-+]?\\d{4})?$")
                     || speech.getMessage().matches( "/^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$/")){
@@ -110,11 +110,11 @@ public class CaptureStep extends TalkStep {
      */
     public void runAnalysis(Dialogue dialogue){
         // Chatbot messages
-        for (Speech chatbotMessage : dialogue.getChatBotMessage()){
+        for (WozMessage chatbotMessage : dialogue.getChatBotMessage()){
             countMatchKeywords(chatbotMessage, captureKeyWordsChatbot);
         }
         // User messages
-        for (Speech userMessage : dialogue.getUserMessage()){
+        for (WozMessage userMessage : dialogue.getUserMessage()){
             countMatchKeywords(userMessage, captureKeyWordsChatbot);
             if(calculateMsgLength(userMessage) <= 3) {
                 scoreAccumulator += 5;

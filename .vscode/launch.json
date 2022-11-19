@@ -1,6 +1,20 @@
 {
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch WozTranscriptParse",
+            "request": "launch",
+            "mainClass": "com.speakfluid.backend.controller.WozTranscriptParse",
+            "projectName": "backend"
+        },
+        {
+            "type": "java",
+            "name": "Launch TranscriptParse",
+            "request": "launch",
+            "mainClass": "com.speakfluid.backend.controller.TranscriptParse",
+            "projectName": "backend"
+        },
+        {
             "name": "Docker Node.js Launch",
             "type": "docker",
             "request": "launch",

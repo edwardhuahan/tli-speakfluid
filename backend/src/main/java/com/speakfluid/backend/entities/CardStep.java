@@ -43,7 +43,7 @@ public class CardStep extends TalkStep{
     @Override
     public void runAnalysis(Dialogue dialogue) {
         //match the keywords for both the user and chatbot outputs in the dialogue
-        for(Speech speech: dialogue.getChatBotMessage()){
+        for(WozMessage speech: dialogue.getChatBotMessage()){
             countMatchKeywords(speech, chatbotKeywordsScoreMap);
             double chatbotMsgLength = calculateMsgLength(speech);
             // if the chatbot outputs a shorter message, this suggests buttons with a image are more suitable
@@ -52,7 +52,7 @@ public class CardStep extends TalkStep{
             }
 
         }
-        for(Speech speech: dialogue.getUserMessage()){
+        for(WozMessage speech: dialogue.getUserMessage()){
             countMatchKeywords(speech, userKeywordsScoreMap);
             double userMsgLength = calculateMsgLength(speech);
             if(userMsgLength < 15){
