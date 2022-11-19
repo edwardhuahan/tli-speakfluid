@@ -42,7 +42,8 @@ public class WozTranscriptParse {
      */
     public ArrayList<HashMap<String, ArrayList<Dialogue>>> parseTranscript(String transcript_path) {
 
-        ArrayList<HashMap<String, ArrayList<Dialogue>>> parsedTranscript = new ArrayList<HashMap<String, ArrayList<Dialogue>>>();
+        ArrayList<HashMap<String, ArrayList<Dialogue>>> parsedTranscript = 
+        new ArrayList<HashMap<String, ArrayList<Dialogue>>>();
 
         try {
             // create mapper of json file
@@ -69,40 +70,60 @@ public class WozTranscriptParse {
 
                 int message_count = jsonfile.get("log").size();
 
-                // iterate through list of messages in one conversation, updating userMessage and chatbotMessage
+                // iterate through list of messages in one conversation, 
+                // updating userMessage and chatbotMessage
                 // and adding to dialogueList
                 for (int i = 0; i < message_count; i++) {
                     
                     JsonNode current_message = jsonfile.get("log").get(i);
 
                     // if current message is sent by chatbot and is the last message in conversation
-                    if (!current_message.get("metadata").isEmpty() && i == message_count - 1) {
-                        chatbotMessage.add(new WozMessage("response", current_message.get("text").toString()));
+                    if (!current_message.get(
+                        "metadata").isEmpty() && i == message_count - 1) {
+
+                        chatbotMessage.add(
+                            new WozMessage("response", current_message.get("text").toString()));
                         dialogueList.add(new Dialogue(chatbotMessage, userMessage));
                         chatbotMessage = new ArrayList<>();
                         userMessage = new ArrayList<>();
                     } 
+                    
                     // if current message is sent by user and is the last message in conversation
-                    else if (current_message.get("metadata").isEmpty() && i == message_count - 1){
-                        userMessage.add(new WozMessage("request", current_message.get("text").toString()));
+                    else if (current_message.get(
+                        "metadata").isEmpty() && i == message_count - 1) {
+
+                        userMessage.add(
+                            new WozMessage("request", current_message.get("text").toString()));
                         dialogueList.add(new Dialogue(chatbotMessage, userMessage));
                         chatbotMessage = new ArrayList<>();
                         userMessage = new ArrayList<>();
                     }
+
                     // if current message is sent by user and the next message is sent by chatbot
-                    else if (current_message.get("metadata").isEmpty() && !jsonfile.get("log").get(i + 1).isEmpty()) {
-                        userMessage.add(new WozMessage("request", current_message.get("text").toString()));
+                    else if (current_message.get(
+                        "metadata").isEmpty() && !jsonfile.get("log").get(i + 1).isEmpty()) {
+
+                        userMessage.add(
+                            new WozMessage("request", current_message.get("text").toString()));
                         dialogueList.add(new Dialogue(chatbotMessage, userMessage));
                         chatbotMessage = new ArrayList<>();
                         userMessage = new ArrayList<>();
                     }
+
                     // if current message is sent by user and the next message is also sent by user
-                    else if (current_message.get("metadata").isEmpty() && jsonfile.get("log").get(i + 1).isEmpty()) {
-                        userMessage.add(new WozMessage("request", current_message.get("text").toString()));
+                    else if (current_message.get(
+                        "metadata").isEmpty() && 
+                        jsonfile.get("log").get(i + 1).isEmpty()) {
+
+                        userMessage.add(
+                            new WozMessage("request", current_message.get("text").toString()));
                     }
+
                     // if current message is sent by chatbot
                     else if (!current_message.get("metadata").isEmpty()) {
-                        chatbotMessage.add(new WozMessage("response", current_message.get("text").toString()));
+
+                        chatbotMessage.add(
+                            new WozMessage("response", current_message.get("text").toString()));
                     }
                 
                 }
