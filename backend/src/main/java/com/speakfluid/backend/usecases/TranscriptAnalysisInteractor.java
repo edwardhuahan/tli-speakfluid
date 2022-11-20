@@ -64,24 +64,27 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
 
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue dialogue : conversation) {
-                    suggestionManager.callStepManager(dialogue);
+                    if (dialogue.getChatBotMessage().size() != 0){
+                        suggestionManager.callStepManager(dialogue);
                     /* callStepManager is called to initiate all the TalkSteps and their own analysis for
                     the individual confidence score
                      */
 
-                    HashMap<String, Double> suggestionPair = suggestionManager.findSuggestedTalkStep();
+                        HashMap<String, Double> suggestionPair = suggestionManager.findSuggestedTalkStep();
                     /* findSuggestedTalkStep is called to compare all the individual confidence score from the step
                     entities to return a mapping of the name and the confidence score of the step that has
                     the highest score.
                     We decide to return the top three step-suggestions with the score if the top one score is low.Thus,
                     the following for loop gives the option to append more than one step-score-pair.
                      */
-                    for (Map.Entry<String, Double> entry : suggestionPair.entrySet()) {
-                        String stepSuggestion = entry.getKey();
-                        double confidenceScore = entry.getValue();
-                        dialogue.setStepSuggestion(stepSuggestion);
-                        dialogue.setConfidenceScore(confidenceScore);
+                        for (Map.Entry<String, Double> entry : suggestionPair.entrySet()) {
+                            String stepSuggestion = entry.getKey();
+                            double confidenceScore = entry.getValue();
+                            dialogue.setStepSuggestion(stepSuggestion);
+                            dialogue.setConfidenceScore(confidenceScore);
+                        }
                     }
+
                 }
             }
         } return transcript;
