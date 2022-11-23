@@ -14,12 +14,12 @@ public class SuggestionManager {
     ArrayList<TalkStep> steps;
     HashMap<String, Double> talkStepToScoreMapping = new HashMap<>();
     HashMap<String, Double> suggestedTalkStep = new HashMap<>();
-    StepManager stepManager;
+    ConfidenceScoreCalculator confidenceScoreCalculator;
     Double stepConfidenceScore;
     Double highestConfidenceScore;
 
-    public SuggestionManager(StepManager manager, ArrayList<TalkStep> stepList) {
-        this.stepManager = manager;
+    public SuggestionManager(ConfidenceScoreCalculator calculator, ArrayList<TalkStep> stepList) {
+        this.confidenceScoreCalculator = calculator;
         this.steps = stepList;
     }
 
@@ -31,8 +31,8 @@ public class SuggestionManager {
      */
     public void callStepManager(Dialogue dialogue){
         for(TalkStep talkStep: steps){
-            stepManager.passDialogueToTalkStep(dialogue, talkStep);
-            stepConfidenceScore = stepManager.calculateConfidenceScore();
+            confidenceScoreCalculator.passDialogueToTalkStep(dialogue, talkStep);
+            stepConfidenceScore = confidenceScoreCalculator.calculateConfidenceScore();
             talkStepToScoreMapping.put(talkStep.getStepName(), stepConfidenceScore);
         }
     }
