@@ -17,20 +17,20 @@ import java.util.ArrayList;
 public class Dialogue {
 
     // Store the dialogue between the chatBot and the user
-    private ArrayList<WozMessage> chatBotMessage;
-    private ArrayList<WozMessage> userMessage;
+    private ArrayList<Message> chatBotMessage;
+    private ArrayList<Message> userMessage;
     private String stepSuggestion;
     private double confidenceScore;
 
 
-    public Dialogue(ArrayList<WozMessage> chatBotM, ArrayList<WozMessage> userM){
+    public Dialogue(ArrayList<Message> chatBotM, ArrayList<Message> userM){
         this.chatBotMessage = chatBotM;
         this.userMessage = userM;
     }
-    public ArrayList<WozMessage> getChatBotMessage(){
+    public ArrayList<Message> getChatBotMessage(){
         return this.chatBotMessage;
     }
-    public ArrayList<WozMessage> getUserMessage(){
+    public ArrayList<Message> getUserMessage(){
         return this.userMessage;
     }
     public void setConfidenceScore(int confidenceScore) {
