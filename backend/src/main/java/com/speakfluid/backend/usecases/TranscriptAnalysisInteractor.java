@@ -37,7 +37,7 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
 
     // Generate StepManager and SuggestionManager
     ConfidenceScoreCalculator confidenceScoreCalculator = new ConfidenceScoreCalculator();
-    SuggestionManager suggestionManager = new SuggestionManager(confidenceScoreCalculator, steps);
+    ConfidenceScoreOptimizer confidenceScoreOptimizer = new ConfidenceScoreOptimizer(confidenceScoreCalculator, steps);
 
 
     /**
@@ -65,12 +65,12 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue dialogue : conversation) {
                     if (dialogue.getChatBotMessage().size() != 0){
-                        suggestionManager.callStepManager(dialogue);
+                        confidenceScoreOptimizer.callConfidenceScoreCalculator(dialogue);
                     /* callStepManager is called to initiate all the TalkSteps and their own analysis for
                     the individual confidence score
                      */
 
-                        HashMap<String, Double> suggestionPair = suggestionManager.findSuggestedTalkStep();
+                        HashMap<String, Double> suggestionPair = confidenceScoreOptimizer.findSuggestedTalkStep();
                     /* findSuggestedTalkStep is called to compare all the individual confidence score from the step
                     entities to return a mapping of the name and the confidence score of the step that has
                     the highest score.
