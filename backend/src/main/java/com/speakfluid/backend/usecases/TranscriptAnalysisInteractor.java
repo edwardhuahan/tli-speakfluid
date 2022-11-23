@@ -36,8 +36,8 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
                     carouselStep, textStep, choiceStep, cardStep));
 
     // Generate StepManager and SuggestionManager
-    StepManager stepManager = new StepManager();
-    SuggestionManager suggestionManager = new SuggestionManager(stepManager, steps);
+    ConfidenceScoreCalculator confidenceScoreCalculator = new ConfidenceScoreCalculator();
+    SuggestionManager suggestionManager = new SuggestionManager(confidenceScoreCalculator, steps);
 
 
     /**
