@@ -1,6 +1,6 @@
 package com.speakfluid.backend.service;
 
-import com.speakfluid.backend.model.LoadTranscript;
+import com.speakfluid.backend.model.TranscriptLoader;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -15,6 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * TranscriptService is used to query MongoDB.
+ *
+ * @author  Kai Zhuang
+ * @version 1.0
+ * @since   2022-11-12
+ */
+
 @Service
 public class TranscriptService {
 
@@ -24,6 +32,9 @@ public class TranscriptService {
     @Autowired
     private GridFsOperations operations;
 
+    /**
+     * addTranscript() takes in a MultipartFile object and stores it in the DB
+     */
     public String addTranscript(MultipartFile upload) throws IOException {
 
         DBObject metadata = new BasicDBObject();
@@ -34,24 +45,27 @@ public class TranscriptService {
         return fileID.toString();
     }
 
-
-    public LoadTranscript downloadTranscript(String id) throws IOException {
+    /**
+     * downloadTranscript() takes in an id of a transcript and uses that
+     * retrieve and return the corresponding transcript in the DB.
+     */
+    public TranscriptLoader downloadTranscript(String id) throws IOException {
 
         GridFSFile gridFSTranscript = template.findOne( new Query(Criteria.where("_id").is(id)) );
 
-        LoadTranscript loadTranscript = new LoadTranscript();
+        TranscriptLoader transcriptLoader = new TranscriptLoader();
 
         if (gridFSTranscript != null && gridFSTranscript.getMetadata() != null) {
-            loadTranscript.setTranscriptname( gridFSTranscript.getFilename() );
-            // use builder?
-            loadTranscript.setTranscriptType( gridFSTranscript.getMetadata().get("_contentType").toString() );
+            transcriptLoader.setTranscriptname( gridFSTranscript.getFilename() );
 
-            loadTranscript.setTranscriptSize( gridFSTranscript.getMetadata().get("fileSize").toString() );
+            transcriptLoader.setTranscriptType( gridFSTranscript.getMetadata().get("_contentType").toString() );
 
-            loadTranscript.setTranscript( IOUtils.toByteArray(operations.getResource(gridFSTranscript).getInputStream()) );
+            transcriptLoader.setTranscriptSize( gridFSTranscript.getMetadata().get("fileSize").toString() );
+
+            transcriptLoader.setTranscript( IOUtils.toByteArray(operations.getResource(gridFSTranscript).getInputStream()) );
         }
 
-        return loadTranscript;
+        return transcriptLoader;
     }
 
 }
