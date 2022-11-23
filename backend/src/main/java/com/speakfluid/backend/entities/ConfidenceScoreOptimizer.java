@@ -9,7 +9,7 @@ import java.util.*;
  * @version 1.0
  * @since November 16th, 2022
  */
-public class SuggestionManager {
+public class ConfidenceScoreOptimizer {
 
     ArrayList<TalkStep> steps;
     HashMap<String, Double> talkStepToScoreMapping = new HashMap<>();
@@ -18,7 +18,7 @@ public class SuggestionManager {
     Double stepConfidenceScore;
     Double highestConfidenceScore;
 
-    public SuggestionManager(StepManager manager, ArrayList<TalkStep> stepList) {
+    public ConfidenceScoreOptimizer(StepManager manager, ArrayList<TalkStep> stepList) {
         this.stepManager = manager;
         this.steps = stepList;
     }
