@@ -14,23 +14,23 @@ import java.util.ArrayList;
  */
 
 /* Entity layer */
-public class Dialogue {
+public class Dialogue<T> {
 
     // Store the dialogue between the chatBot and the user
-    private ArrayList<Message> chatBotMessage;
-    private ArrayList<Message> userMessage;
+    private ArrayList<T> chatBotMessage;
+    private ArrayList<T> userMessage;
     private String stepSuggestion;
     private double confidenceScore;
 
 
-    public Dialogue(ArrayList<Message> chatBotM, ArrayList<Message> userM){
+    public Dialogue(ArrayList<T> chatBotM, ArrayList<T> userM){
         this.chatBotMessage = chatBotM;
         this.userMessage = userM;
     }
-    public ArrayList<Message> getChatBotMessage(){
+    public ArrayList<T> getChatBotMessage(){
         return this.chatBotMessage;
     }
-    public ArrayList<Message> getUserMessage(){
+    public ArrayList<T> getUserMessage(){
         return this.userMessage;
     }
     public void setConfidenceScore(int confidenceScore) {

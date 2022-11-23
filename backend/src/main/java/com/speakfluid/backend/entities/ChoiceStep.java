@@ -19,7 +19,6 @@ public class ChoiceStep extends TalkStep {
     private final String stepName = "Choice";
     private int scoreAccumulator = 0;
     private final int maxScore = 20;
-    private double confidenceScore;
     private final List<Map<String, Double>> choiceKeyWordsChatbot =
             Arrays.asList(
                     Map.ofEntries(entry("would you like", 5.0), entry("would you", 4.5)),
@@ -48,15 +47,15 @@ public class ChoiceStep extends TalkStep {
      * the dialogue is compatible with a Choice Step.
      * @param dialogue one back and forth between chatbot and user
      */
-    public void runAnalysis(Dialogue dialogue){
+    public void runAnalysis(Dialogue dialogue) {
         // Chatbot messages
-        for (WozMessage chatbotMessage : dialogue.getChatBotMessage()){
-            countMatchKeywords(chatbotMessage, choiceKeyWordsChatbot);
+        for (Object chatbotMessage : dialogue.getChatBotMessage()){
+            countMatchKeywords((Message) chatbotMessage, choiceKeyWordsChatbot);
         }
         // User messages
-        for (WozMessage userMessage : dialogue.getUserMessage()){
-            countMatchKeywords(userMessage, choiceKeyWordsUser);
-            if(calculateMsgLength(userMessage) <= 3) {
+        for (Object userMessage : dialogue.getUserMessage()){
+            countMatchKeywords((Message) userMessage, choiceKeyWordsUser);
+            if(calculateMsgLength((Message) userMessage) <= 3) {
                 scoreAccumulator += 7;
             }
         }

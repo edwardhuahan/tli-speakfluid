@@ -38,24 +38,24 @@ abstract public class TalkStep {
     /**
      * calculateMsgLength finds the length of a chatbot or user
      * message by the number of words
-     * @param speech speech from first speaker
-     * @return the length of a speech message
+     * @param message message from first speaker
+     * @return the length of a message
      */
-    public int calculateMsgLength(WozMessage speech){
-        return speech.getMessage().split(" ").length;
+    public int calculateMsgLength(Message message){
+        return message.getMessage().split(" ").length;
     }
 
     /**
      * countMatchKeywords finds if words in a chatbot/user message matches
      * keywords in a keywordCluster, and adds to the ScoreAccumulator
      * the weighting of that keyword if there is a match.
-     * @param speech speech from first speaker
+     * @param message speech from first speaker
      * @param keywords  list of maps of keyword to weighting, where each map is a keywordCluster
      */
-    public void countMatchKeywords(WozMessage speech, List<Map<String, Double>> keywords){
+    public void countMatchKeywords(Message message, List<Map<String, Double>> keywords){
         for(Map<String, Double> keywordCluster: keywords){
             for(Map.Entry<String, Double> keyword: keywordCluster.entrySet()){
-                if(speech.getMessage().contains(keyword.getKey())){
+                if(message.getMessage().contains(keyword.getKey())){
                     scoreAccumulator += keyword.getValue();
                     break;
                 }

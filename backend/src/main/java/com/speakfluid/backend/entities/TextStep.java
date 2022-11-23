@@ -51,12 +51,12 @@ public class TextStep extends TalkStep {
     /**
      * isnotQuestion determines if each message in the Dialogue is a question or not.
      *
-     * @param speech speech from first speaker(a chatbot or a user)
+     * @param message message from first speaker(a chatbot or a user)
      * @return indicator which equals 10 if the message is not a question or 0 if the message is a question
      */
-    public int isNotQuestion(WozMessage speech) {
+    public int isNotQuestion(Message message) {
         int indicator = 0;
-        if (!(speech.getMessage().contains("?"))) {
+        if (!(message.getMessage().contains("?"))) {
             indicator = 10;
         }
         return indicator;
@@ -91,15 +91,15 @@ public class TextStep extends TalkStep {
     @Override
     public void runAnalysis(Dialogue dialogue) {
 
-        for (WozMessage message : dialogue.getChatBotMessage()) {
-            countMatchKeywords(message, textKeyWordsChatBot);
-            scoreAccumulator += isNotQuestion(message);
-            if (calculateMsgLength(message) >= 10) {
+        for (Object message : dialogue.getChatBotMessage()) {
+            countMatchKeywords((Message) message, textKeyWordsChatBot);
+            scoreAccumulator += isNotQuestion((Message) message);
+            if (calculateMsgLength((Message) message) >= 10) {
                 scoreAccumulator += 5;
             }
         }
-        for (WozMessage message : dialogue.getUserMessage()) {
-            countMatchKeywords(message, textKeyWordsUser);
+        for (Object message : dialogue.getUserMessage()) {
+            countMatchKeywords((Message) message, textKeyWordsUser);
         }
 
         scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * 5;

@@ -109,18 +109,18 @@ public class CaptureStep extends TalkStep {
      */
     public void runAnalysis(Dialogue dialogue){
         // Chatbot messages
-        for (Message chatbotMessage : dialogue.getChatBotMessage()){
-            countMatchKeywords(chatbotMessage, captureKeyWordsChatbot);
+        for (Object chatbotMessage : dialogue.getChatBotMessage()){
+            countMatchKeywords((Message) chatbotMessage, captureKeyWordsChatbot);
         }
         // User messages
-        for (Message userMessage : dialogue.getUserMessage()){
-            countMatchKeywords(userMessage, captureKeyWordsUsers);
-            if(calculateMsgLength(userMessage) <= 3) {
+        for (Object userMessage : dialogue.getUserMessage()){
+            countMatchKeywords((Message) userMessage, captureKeyWordsUsers);
+            if(calculateMsgLength((Message) userMessage) <= 3) {
                 scoreAccumulator += 5;
             }
-            hasNumbers(userMessage);
-            isZipCode(userMessage);
-            isEmail(userMessage);
+            hasNumbers((Message) userMessage);
+            isZipCode((Message) userMessage);
+            isEmail((Message) userMessage);
         }
     }
 

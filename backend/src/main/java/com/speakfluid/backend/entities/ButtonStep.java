@@ -46,17 +46,17 @@ public class ButtonStep extends TalkStep{
 
     @Override
     public void runAnalysis(Dialogue dialogue) {
-        for(WozMessage speech: dialogue.getChatBotMessage()){
-            countMatchKeywords(speech, chatbotKeywordsScoreMap);
-            int chatbotMsgLength = calculateMsgLength(speech);
+        for(Object message: dialogue.getChatBotMessage()){
+            countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
+            int chatbotMsgLength = calculateMsgLength((Message) message);
             if(chatbotMsgLength < 10){
                 scoreAccumulator += 2;
             }
 
         }
-        for(WozMessage speech: dialogue.getUserMessage()){
-            countMatchKeywords(speech, userKeywordsScoreMap);
-            int userMsgLength = calculateMsgLength(speech);
+        for(Object message: dialogue.getUserMessage()){
+            countMatchKeywords((Message) message, userKeywordsScoreMap);
+            int userMsgLength = calculateMsgLength((Message) message);
             // if the user response is short, then this suggests buttons are suitable
             if(userMsgLength <= 5){
                 this.scoreAccumulator += 2;
