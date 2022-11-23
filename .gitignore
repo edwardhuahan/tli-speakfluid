@@ -133,3 +133,4 @@ dist
 # Mongo URI
 backend/src/main/resources/application.properties
 backend/.DS_Store
+backend/src/main/java/com/speakfluid/.DS_Store
