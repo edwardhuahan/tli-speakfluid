@@ -46,9 +46,9 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
      *
      * @param transcript the parsed transcript in the structure of ArrayList<HashMap<String, ArrayList<Dialogue>>>.
      *
-     *                   The parsed transcript is a list of conversations id mapping to a list of Dialogue objects.
+     *                   The parsed transcript is a list of interactions id mapping to a list of Dialogue objects.
      *                   Dialogue object represents one conversation between the bot and the user.
-     *                   It contains two Arraylists of Speech object, representing detailed information of bot's message
+     *                   It contains two Arraylists of Message object, representing detailed information of bot's message
      *                   and user's message respectively.
      * @return the analyzed transcript which contains Dialogue objects with updated stepSuggestion and confidenceScore.
      */
