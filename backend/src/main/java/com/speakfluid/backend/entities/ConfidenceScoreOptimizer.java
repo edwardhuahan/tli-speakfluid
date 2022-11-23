@@ -20,8 +20,8 @@ public class ConfidenceScoreOptimizer {
     Double highestConfidenceScore;
     List<String> topThreeSteps;
 
-    public ConfidenceScoreOptimizer(ConfidenceScoreCalculator manager, ArrayList<TalkStep> stepList) {
-        this.confidenceScoreCalculator = manager;
+    public ConfidenceScoreOptimizer(ConfidenceScoreCalculator confidenceScoreCalculator, ArrayList<TalkStep> stepList) {
+        this.confidenceScoreCalculator = confidenceScoreCalculator;
         this.steps = stepList;
     }
 
