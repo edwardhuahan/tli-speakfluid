@@ -1,21 +1,30 @@
 package com.speakfluid.backend.model;
 
-public class LoadTranscript {
+/**
+ * TranscriptLoader is used to load raw transcripts
+ * from MongoDB.
+ *
+ * @author  Kai Zhuang
+ * @version 1.0
+ * @since   2022-11-12
+ */
 
-    private String transcriptname;
+public class TranscriptLoader {
+
+    private String transcriptName;
     private String transcriptType;
     private String transcriptSize;
     private byte[] transcript;
 
-    public LoadTranscript() {
+    public TranscriptLoader() {
     }
 
-    public String getTranscriptname() {
-        return transcriptname;
+    public String getTranscriptName() {
+        return transcriptName;
     }
 
-    public void setTranscriptname(String transcriptname) {
-        this.transcriptname = transcriptname;
+    public void setTranscriptname(String transcriptName) {
+        this.transcriptName = transcriptName;
     }
 
     public String getTranscriptType() {
@@ -33,7 +42,7 @@ public class LoadTranscript {
     public void setTranscriptSize(String transcriptSize) {
         this.transcriptSize = transcriptSize;
     }
-
+    
     public byte[] getTranscript() {
         return transcript;
     }
