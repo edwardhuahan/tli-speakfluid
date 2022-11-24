@@ -22,7 +22,7 @@ public class CardStep extends TalkStep{
 
     }
 
-    private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+    private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("can i help", 5.0),
                     entry("can i do", 4.0)),
             Map.ofEntries(entry("here are", 3.0), entry("there are", 3.0),
