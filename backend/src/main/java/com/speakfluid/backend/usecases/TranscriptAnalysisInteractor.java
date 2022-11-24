@@ -21,19 +21,19 @@ import java.util.Map;
 public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoundary{
 
     // Generate all TalkStep entities,except Card
-    ButtonStep buttonStep = new ButtonStep();
+    //ButtonStep buttonStep = new ButtonStep();
     ImageStep imageStep = new ImageStep();
     CaptureStep captureStep = new CaptureStep();
     CarouselStep carouselStep = new CarouselStep();
     TextStep textStep = new TextStep();
     ChoiceStep choiceStep = new ChoiceStep();
-    CardStep cardStep = new CardStep();
+    //CardStep cardStep = new CardStep();
 
     // Make an ArrayList of TalkStep entities to be passed in SuggestionManager
     final ArrayList<TalkStep> steps = new ArrayList<>(
             Arrays.asList(
-                    buttonStep, imageStep, captureStep,
-                    carouselStep, textStep, choiceStep, cardStep));
+                    imageStep, captureStep,
+                    carouselStep, textStep, choiceStep));
 
     // Generate StepManager and SuggestionManager
     ConfidenceScoreCalculator confidenceScoreCalculator = new ConfidenceScoreCalculator();
@@ -63,7 +63,7 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
             for (ArrayList<Dialogue<WozMessage>> conversation : idToConversations.values()) {
 
                 // To access each back and forth dialogue within each conversation
-                for (Dialogue dialogue : conversation) {
+                for (Dialogue<WozMessage> dialogue : conversation) {
                     if (dialogue.getChatBotMessage().size() != 0){
                         confidenceScoreOptimizer.callConfidenceScoreCalculator(dialogue);
                     /* callStepManager is called to initiate all the TalkSteps and their own analysis for
@@ -80,8 +80,8 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
                         for (Map.Entry<String, Double> entry : suggestionPair.entrySet()) {
                             String stepSuggestion = entry.getKey();
                             double confidenceScore = entry.getValue();
-                            dialogue.setStepSuggestion(stepSuggestion);
-                            dialogue.setConfidenceScore(confidenceScore);
+                            dialogue.addStepSuggestion(stepSuggestion);
+                            dialogue.addConfidenceScore(confidenceScore);
                         }
                     }
 
