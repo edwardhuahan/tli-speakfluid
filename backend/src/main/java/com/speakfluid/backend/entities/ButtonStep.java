@@ -1,6 +1,6 @@
 package com.speakfluid.backend.entities;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class ButtonStep extends TalkStep{
     public ButtonStep(){
         this.scoreAccumulator = 0.0;
     }
-    private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+    private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("would you", 5.0),
                     entry("what type", 4.0), entry("what kind", 2.0), entry("are you", 4.0),
                     entry("would it", 4.0),entry("here are", 2.0), entry("do you", 2.0),
@@ -33,7 +33,7 @@ public class ButtonStep extends TalkStep{
             Map.ofEntries(entry("here are", 4.0), entry("choose", 4.0), entry("select", 4.0)),
             Map.ofEntries(entry("destination", 3.0), entry("date", 3.0), entry("departure", 3.0),
                     entry("arriving", 3.0)));
-    private final ArrayList<Map<String, Double>> userKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+    private final List<Map<String, Double>> userKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("booking", 2.0),
                     entry("train", 2.0), entry("go to", 2.0), entry("arrive", 2.0)),
             Map.ofEntries(entry("hotel", 4.0), entry("cheap", 4.0), entry("hospital", 4.0)));
