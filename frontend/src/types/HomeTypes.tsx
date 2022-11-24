@@ -3,5 +3,4 @@ export type selectedFile = {
   data: {
           messages: String;
         }
-
 }

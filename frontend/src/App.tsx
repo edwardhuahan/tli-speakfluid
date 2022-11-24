@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
-import Navbar from './components/Navbar'
-import AnalyticsBoard from './Pages/AnalyticsPage/AnalyticsBoard'
+import Navbar from './components/NavBar'
+import AnalyticsBoard from './pages/AnalyticsPage'
 
 type Transcript = {
   turnID: string,

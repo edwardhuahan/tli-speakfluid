@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import TranscriptMenu from '../../components/TranscriptsMenu';
-import DataTable from '../../components/DataTable';
-import Analytics from '../../components/Analytics';
+import TranscriptMenu from '../components/TranscriptsMenu';
+import DataTable from '../components/DataTable';
+import Analytics from '../components/Analytics';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default function AnalyticsBoard({ showMenu }: any) {
+export default function AnalyticsPage({ showMenu }: any) {
 
     const [dataTableId, setDataTableId] = useState("Transcript1") //change to first transcript later
 
