@@ -1,8 +1,8 @@
 package com.speakfluid.backend.entities;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.time.LocalDateTime;
 
 
 /**
@@ -13,19 +13,18 @@ import java.time.LocalDateTime;
  * @since   2022-11-19
  */
 
-class SpeechTests {
-    LocalDateTime dt = LocalDateTime.now();
-    Speech speech = new Speech(dt, "Filler", "Filler", "Filler", "Test message.");
+class WozMessageTests {
 
-    @Test
-    void testGetTimeStamp() {
-        LocalDateTime ts = speech.getTimeStamp();
-        assertEquals(dt, ts);
+    static WozMessage message;
+    @BeforeAll
+    public static void setUp(){
+        message = new WozMessage("Filler type", "Filler message");
     }
+
 
     @Test
     void testGetMessage() {
-        String msg = speech.getMessage();
+        String msg = message.getMessage();
         assertEquals("Test message.", msg);
     }
 
