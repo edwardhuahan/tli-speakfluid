@@ -18,7 +18,7 @@ class WozMessageTests {
     static WozMessage message;
     @BeforeAll
     public static void setUp(){
-        message = new WozMessage("Filler type", "Filler message");
+        message = new WozMessage("Filler type", "Test message.");
     }
 
 
