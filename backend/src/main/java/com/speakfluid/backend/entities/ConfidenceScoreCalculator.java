@@ -1,15 +1,15 @@
 package com.speakfluid.backend.entities;
 
 /**
- * StepManager is responsible for calling every method for each child of TalkStep to increment or decrement their
+ * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to increment or decrement their
  * corresponding accumulated scores as necessary. It then returns the confidence score of the TalkStep child based on the
  * inputted Dialogue object.
  * @author Aurora Zhang
- * @version 1.0
+ * @version 2.0
  * @since November 16th, 2022
  */
 
-public class StepManager implements Scorable{
+public class ConfidenceScoreCalculator implements Scorable{
     double stepScoreAccumulator;
     double stepTotalScore;
 
