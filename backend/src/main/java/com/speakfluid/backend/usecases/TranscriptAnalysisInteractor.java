@@ -53,14 +53,14 @@ public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoun
      * @return the analyzed transcript which contains Dialogue objects with updated stepSuggestion and confidenceScore.
      */
     @Override
-    public ArrayList<HashMap<String, ArrayList<Dialogue>>> analyzeTranscript(
-            ArrayList<HashMap<String, ArrayList<Dialogue>>> transcript) {
+    public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzeTranscript(
+         ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> transcript) {
 
         // To access all the different id-to-conversation-content pairs in the same session
-        for (HashMap<String, ArrayList<Dialogue>> idToConversations : transcript) {
+        for (HashMap<String, ArrayList<Dialogue<WozMessage>>> idToConversations : transcript) {
 
             // To access the conversations in the id-to-conversation-content pairs
-            for (ArrayList<Dialogue> conversation : idToConversations.values()) {
+            for (ArrayList<Dialogue<WozMessage>> conversation : idToConversations.values()) {
 
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue dialogue : conversation) {
