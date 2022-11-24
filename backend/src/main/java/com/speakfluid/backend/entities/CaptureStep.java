@@ -20,7 +20,6 @@ public class CaptureStep extends TalkStep {
     private final String stepName = "Capture";
     private int scoreAccumulator = 0;
     private final int maxScore = 30;
-    private double confidenceScore;
     private final List<Map<String, Double>> captureKeyWordsChatbot =
             Arrays.asList(
                     Map.ofEntries(entry("please provide", 5.0), entry("please enter", 5.0), entry("what is your", 5.0),
@@ -60,11 +59,11 @@ public class CaptureStep extends TalkStep {
      * such as for phone number, address, date, time, email, etc. which
      * are indications that a capture step should be used to capture these
      * specific, or personal information.
-     * @param speech one message from user
+     * @param message one message from user
      */
-    public void hasNumbers(Speech speech){
-        for(String word : speech.getMessage().split(" ")){
-            if(speech.getMessage().matches(".*[0-9].*")){
+    public void hasNumbers(Message message){
+        for(String word : message.getMessage().split(" ")){
+            if(word.matches(".*[0-9].*")){
                 scoreAccumulator += 3;
                 break;
             }
@@ -75,11 +74,11 @@ public class CaptureStep extends TalkStep {
      * isEmail() is checks if user provides an email address,
      * and adds 10 to scoreAccumulator because it is important
      * to use the Capture Step here.
-     * @param speech one message from user
+     * @param message one message from user
      */
-    public void isEmail(Speech speech){
-        for(String word : speech.getMessage().split(" ")){
-            if(speech.getMessage().matches("\\A[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+\\Z")){
+    public void isEmail(Message message){
+        for(String word : message.getMessage().split(" ")){
+            if(word.matches("\\A[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+\\Z")){
                 scoreAccumulator += 10;
                 break;
             }
@@ -89,12 +88,12 @@ public class CaptureStep extends TalkStep {
     /**
      * isZipCode() is used for situation where a user provides
      * their zipcode. The current method checks for US and Canadian ZipCodes
-     * @param speech one message from user
+     * @param message one message from user
      */
-    public void isZipCode(Speech speech){
-        for(String word : speech.getMessage().split(" ")){
-            if(speech.getMessage().matches( "^\\d{5}([-+]?\\d{4})?$")
-                    || speech.getMessage().matches( "/^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$/")){
+    public void isZipCode(Message message){
+        for(String word : message.getMessage().split(" ")){
+            if(word.matches( "^\\d{5}([-+]?\\d{4})?$")
+                    || word.matches( "/^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$/")){
                 scoreAccumulator += 10;
                 break;
             }
@@ -110,18 +109,18 @@ public class CaptureStep extends TalkStep {
      */
     public void runAnalysis(Dialogue dialogue){
         // Chatbot messages
-        for (Speech chatbotMessage : dialogue.getChatBotMessage()){
-            countMatchKeywords(chatbotMessage, captureKeyWordsChatbot);
+        for (Object chatbotMessage : dialogue.getChatBotMessage()){
+            countMatchKeywords((Message) chatbotMessage, captureKeyWordsChatbot);
         }
         // User messages
-        for (Speech userMessage : dialogue.getUserMessage()){
-            countMatchKeywords(userMessage, captureKeyWordsChatbot);
-            if(calculateMsgLength(userMessage) <= 3) {
+        for (Object userMessage : dialogue.getUserMessage()){
+            countMatchKeywords((Message) userMessage, captureKeyWordsUsers);
+            if(calculateMsgLength((Message) userMessage) <= 3) {
                 scoreAccumulator += 5;
             }
-            hasNumbers(userMessage);
-            isZipCode(userMessage);
-            isEmail(userMessage);
+            hasNumbers((Message) userMessage);
+            isZipCode((Message) userMessage);
+            isEmail((Message) userMessage);
         }
     }
 
