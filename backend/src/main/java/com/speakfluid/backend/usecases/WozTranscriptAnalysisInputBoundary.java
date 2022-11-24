@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * TranscriptAnalysisInputBoundary is the interface for the use case interactor.
+ * WozTranscriptAnalysisInputBoundary is the interface for the use case interactor.
  *
  * @author  Zoey Zhang
  * @version 1.0
@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 
 // use case layer
-public interface TranscriptAnalysisInputBoundary {
+public interface WozTranscriptAnalysisInputBoundary {
     public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzeTranscript(
             ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> transcript) ;
 

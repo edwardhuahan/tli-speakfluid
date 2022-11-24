@@ -7,7 +7,7 @@ import com.speakfluid.backend.entities.WozMessage;
 import com.speakfluid.backend.model.TranscriptLoader;
 
 import com.speakfluid.backend.service.TranscriptService;
-import com.speakfluid.backend.usecases.TranscriptAnalysisInteractor;
+import com.speakfluid.backend.usecases.WozWozTranscriptAnalysisInteractor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -55,7 +55,7 @@ public class TranscriptController {
         ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = parser.parseTranscript(transcript);
 
         // Code to classify the talksteps on parsedTranscript will be here.
-        TranscriptAnalysisInteractor interactor = new TranscriptAnalysisInteractor();
+        WozWozTranscriptAnalysisInteractor interactor = new WozWozTranscriptAnalysisInteractor();
         ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzedTranscript = interactor.analyzeTranscript(parsedTranscript);
 
         // return parsedTranscript;

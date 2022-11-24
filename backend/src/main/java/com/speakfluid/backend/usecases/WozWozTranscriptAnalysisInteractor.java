@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TranscriptAnalysisInteractor is SpeakFluid's use case interactor for the use case of analyzing transcripts.
+ * WozWozTranscriptAnalysisInteractor is SpeakFluid's use case interactor for the use case of analyzing transcripts.
  * It generates 6 TalkStep entities, 1 ArrayList of Talkstep, 1 StepManager, 1 SuggestionManager.
  * Then the interactor has storeStepSuggestionPair, which stores the suggested step to each dialogue
  * with the corresponding confidence score in the Dialogue object's stepSuggestion and confidenceScore attributes.
@@ -18,22 +18,22 @@ import java.util.Map;
  */
 
 // Use Case Layer
-public class TranscriptAnalysisInteractor implements TranscriptAnalysisInputBoundary{
+public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
 
     // Generate all TalkStep entities,except Card
-    //ButtonStep buttonStep = new ButtonStep();
+    ButtonStep buttonStep = new ButtonStep();
     ImageStep imageStep = new ImageStep();
     CaptureStep captureStep = new CaptureStep();
     CarouselStep carouselStep = new CarouselStep();
     TextStep textStep = new TextStep();
     ChoiceStep choiceStep = new ChoiceStep();
-    //CardStep cardStep = new CardStep();
+    CardStep cardStep = new CardStep();
 
     // Make an ArrayList of TalkStep entities to be passed in SuggestionManager
     final ArrayList<TalkStep> steps = new ArrayList<>(
             Arrays.asList(
-                    imageStep, captureStep,
-                    carouselStep, textStep, choiceStep));
+                    buttonStep, imageStep, captureStep,
+                    carouselStep, textStep, choiceStep, cardStep));
 
     // Generate StepManager and SuggestionManager
     ConfidenceScoreCalculator confidenceScoreCalculator = new ConfidenceScoreCalculator();
