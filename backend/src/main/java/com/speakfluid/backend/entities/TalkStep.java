@@ -57,7 +57,6 @@ abstract public class TalkStep {
             for(Map.Entry<String, Double> keyword: keywordCluster.entrySet()){
                 if(message.getMessage().contains(keyword.getKey())){
                     scoreAccumulator += keyword.getValue();
-                    break;
                 }
             }
         }

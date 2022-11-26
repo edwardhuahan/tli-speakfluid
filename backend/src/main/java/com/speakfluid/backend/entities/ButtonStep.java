@@ -28,7 +28,7 @@ public class ButtonStep extends TalkStep{
     private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("would you", 5.0),
                     entry("what type", 4.0), entry("what kind", 2.0), entry("are you", 4.0),
-                    entry("would it", 4.0),entry("here are", 2.0), entry("do you", 2.0),
+                    entry("would it", 4.0), entry("do you", 2.0),
                     entry("here is", 2.0)),
             Map.ofEntries(entry("here are", 4.0), entry("choose", 4.0), entry("select", 4.0)),
             Map.ofEntries(entry("destination", 3.0), entry("date", 3.0), entry("departure", 3.0),
