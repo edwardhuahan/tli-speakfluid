@@ -6,7 +6,7 @@ services:
     image: frontend
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     environment:
       NODE_ENV: development
       CHOKIDAR_USEPOLLING: "true"
@@ -23,7 +23,7 @@ services:
     image: backend
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - 8080:8080
 

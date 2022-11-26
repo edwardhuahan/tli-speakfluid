@@ -57,4 +57,20 @@ public class CarouselStep extends TalkStep {
         }
     }
 
+    public String getStepName(){
+        return this.stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
+    }
+
 }
