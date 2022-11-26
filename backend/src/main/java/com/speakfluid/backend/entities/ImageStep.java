@@ -22,8 +22,8 @@ import static java.util.Map.entry;
  * @since   2022-11-16
  */
 public class ImageStep extends TalkStep {
-    private int scoreAccumulator;
-    private final int maxScore = 20;
+    private double scoreAccumulator;
+    private final double maxScore = 20;
     private final String stepName = "Image";
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
             Map.ofEntries(entry("here are the locations", 5.0),
