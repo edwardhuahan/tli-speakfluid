@@ -19,8 +19,8 @@ public class Dialogue<T> {
     // Store the dialogue between the chatBot and the user
     private ArrayList<T> chatBotMessage;
     private ArrayList<T> userMessage;
-    private ArrayList<String> stepSuggestion;
-    private ArrayList<Double> confidenceScore;
+    private ArrayList<String> stepSuggestionList = new ArrayList<String>();
+    private ArrayList<Double> confidenceScoreList = new ArrayList<Double>();;
 
 
     public Dialogue(ArrayList<T> chatBotM, ArrayList<T> userM){
@@ -33,21 +33,20 @@ public class Dialogue<T> {
     public ArrayList<T> getUserMessage(){
         return this.userMessage;
     }
-    public void setConfidenceScore(double confidenceScore) {
-
-        this.confidenceScore.add(confidenceScore);
+    public void addConfidenceScore(double confidenceScore) {
+       this.confidenceScoreList.add(confidenceScore);
     }
 
-    public void setStepSuggestion(String talkStep) {
-        this.stepSuggestion.add(talkStep);
+    public void addStepSuggestion(String talkStep) {
+        this.stepSuggestionList.add(talkStep);
     }
 
     public ArrayList<String> getStepSuggestion() {
-        return this.stepSuggestion;
+        return this.stepSuggestionList;
     }
 
     public ArrayList<Double> getConfidenceScore(){
-        return this.confidenceScore;
+        return this.confidenceScoreList;
     }
 
 }
