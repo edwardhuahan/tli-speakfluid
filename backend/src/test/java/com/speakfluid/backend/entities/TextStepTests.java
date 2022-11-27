@@ -61,7 +61,7 @@ class TextStepTests extends TalkStepTest {
     }
 
     @Test
-    void testCalculateConsecutiveBotMsgNoCCon() {
+    void testCalculateConsecutiveBotMsgNoCon() {
         assertEquals(0, textStep.calculateConsecutiveBotMsg(d1));
     }
 
@@ -74,6 +74,7 @@ class TextStepTests extends TalkStepTest {
     void testRunAnalysis() {
         textStep.runAnalysis(d1);
         double actualScore = textStep.getScoreAccumulator();
+        textStep.setZeroScoreAccumulator();
         assertEquals(6.0, actualScore);
     }
 }

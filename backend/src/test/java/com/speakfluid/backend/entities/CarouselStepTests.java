@@ -66,6 +66,7 @@ class CarouselStepTests extends TalkStepTest {
     void testRunAnalysisWithBothMessages() {
         carouselStep.runAnalysis(d1);
         double actualScore = carouselStep.getScoreAccumulator();
+        carouselStep.setZeroScoreAccumulator();
         assertEquals(13.0, actualScore);
     }
 
@@ -73,6 +74,7 @@ class CarouselStepTests extends TalkStepTest {
     void testRunAnalysisWithBothMessagesWithOnlyBotMsg() {
         carouselStep.runAnalysis(d2);
         double actualScore = carouselStep.getScoreAccumulator();
+        carouselStep.setZeroScoreAccumulator();
         assertEquals(16.0, actualScore);
     }
 }

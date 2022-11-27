@@ -25,11 +25,11 @@ class ImageStepTests extends TalkStepTest {
     static ArrayList<WozMessage> botMsg2;
     static ArrayList<WozMessage> userMsg2;
     static ArrayList<WozMessage> userMsg3;
-    static WozMessage m1 = new WozMessage("text", "Hi, we have following locations.");
-    static WozMessage m2 = new WozMessage("text", "Which store would you like to go?");
-    static WozMessage m3 = new WozMessage("text", "Hi,");
-    static WozMessage m4 = new WozMessage("text", "Can I have the direction to the nearest store?");
-    static WozMessage m5 = new WozMessage("text", "no");
+    static WozMessage m1 = new WozMessage("response", "Hi, we have following locations.");
+    static WozMessage m2 = new WozMessage("response", "Which store would you like to go?");
+    static WozMessage m3 = new WozMessage("request", "Hi,");
+    static WozMessage m4 = new WozMessage("request", "Can I have the direction to the nearest store?");
+    static WozMessage m5 = new WozMessage("request", "no");
 
 
 
@@ -58,7 +58,7 @@ class ImageStepTests extends TalkStepTest {
 
     @Test
     void testGetScoreAccumulator() {
-        assertEquals(16.0, imageStep.getScoreAccumulator());
+        assertEquals(0.0, imageStep.getScoreAccumulator());
     }
 
     @Test
@@ -71,18 +71,21 @@ class ImageStepTests extends TalkStepTest {
     void testRunAnalysisWithBothMatches() {
         imageStep.runAnalysis(d1);
         double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(16.0, actualScore);
+        imageStep.setZeroScoreAccumulator();
+        assertEquals(12.0, actualScore);
     }
     @Test
     void testRunAnalysisWithBotMsgMatch() {
         imageStep.runAnalysis(d3);
         double actualScore = imageStep.getScoreAccumulator();
+        imageStep.setZeroScoreAccumulator();
         assertEquals(4.0, actualScore);
     }
     @Test
     void testRunAnalysisWithUserMsgEmpty() {
         imageStep.runAnalysis(d2);
         double actualScore = imageStep.getScoreAccumulator();
+        imageStep.setZeroScoreAccumulator();
         assertEquals(4.0, actualScore);
     }
 }
