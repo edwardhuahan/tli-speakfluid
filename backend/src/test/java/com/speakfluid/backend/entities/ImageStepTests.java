@@ -77,13 +77,13 @@ class ImageStepTests extends TalkStepTest {
 
     @Test
     void testGetScoreAccumulator() {
-        assertEquals(0.0, imageStep.getScoreAccumulator());
+        assertEquals(24.0, imageStep.getScoreAccumulator());
     }
 
     @Test
     void testSetZeroScoreAccumulator() {
         imageStep.runAnalysis(d1);
         imageStep.setZeroScoreAccumulator();
-        assertEquals(24.0, imageStep.getScoreAccumulator());
+        assertEquals(0.0, imageStep.getScoreAccumulator());
     }
 }
