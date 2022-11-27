@@ -22,8 +22,8 @@ import static java.util.Map.entry;
  * @since   2022-11-16
  */
 public class CarouselStep extends TalkStep {
-    private int scoreAccumulator;
-    private final int maxScore = 16;
+    private double scoreAccumulator;
+    private final double maxScore = 10.0;
     private final String stepName = "Carousel";
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
             Map.ofEntries(entry("here are", 2.0),entry("map", 1.0), entry("location", 1.0),
@@ -48,7 +48,7 @@ public class CarouselStep extends TalkStep {
      * @param dialogue one back-and-forth conversation between the chatbot and the user.
      */
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         for (Object message : dialogue.getChatBotMessage()) {
             countMatchKeywords((Message) message, imageKeyWords);
             if (calculateMsgLength((Message) message) >= 6) {

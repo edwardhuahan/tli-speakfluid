@@ -25,8 +25,8 @@ import static java.util.Map.entry;
  * @since   2022-11-12
  */
 public class TextStep extends TalkStep {
-    private int scoreAccumulator;
-    private final int maxScore = 59;
+    private double scoreAccumulator;
+    private final double maxScore = 15.0;
     private final String stepName = "Text";
     private final List<Map<String, Double>> textKeyWordsChatBot = Arrays.asList(
             Map.ofEntries(entry("thank you for using", 5.0),entry("thank you for contacting", 5.0),
@@ -69,7 +69,7 @@ public class TextStep extends TalkStep {
      * @param dialogue one back-and-forth conversation between the chatbot and the user.
      * @return the number of consecutive chatbot messages.
      */
-    public int calculateConsecutiveBotMsg(Dialogue dialogue) {
+    public int calculateConsecutiveBotMsg(Dialogue<?> dialogue) {
 
         int botMsgLength = dialogue.getChatBotMessage().size();
         int userMsgLength = dialogue.getUserMessage().size();
@@ -89,13 +89,13 @@ public class TextStep extends TalkStep {
      * @param dialogue one back-and-forth conversation between the chatbot and the user.
      */
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
 
         for (Object message : dialogue.getChatBotMessage()) {
             countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
             if (calculateMsgLength((Message) message) >= 10) {
-                scoreAccumulator += 5;
+                scoreAccumulator += 3;
             }
         }
         for (Object message : dialogue.getUserMessage()) {

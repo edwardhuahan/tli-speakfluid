@@ -23,14 +23,24 @@ import static java.util.Map.entry;
  */
 public class ImageStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = 20;
+    private final double maxScore = 13.0;
     private final String stepName = "Image";
-    private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
+    private final List<Map<String, Double>> imageKeyWordsBot = Arrays.asList(
             Map.ofEntries(entry("here are the locations", 5.0),
                     entry("here are possible the directions", 5.0),
                     entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0)
                     ),
             Map.ofEntries(entry("here is a picture", 4.0), entry("here is an image", 4.0),
+                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)),
+            Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0))
+    );
+
+    private final List<Map<String, Double>> imageKeyWordsUser = Arrays.asList(
+            Map.ofEntries(entry("locations of the stores", 5.0),
+                    entry("direction to the store", 5.0),
+                    entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0)
+            ),
+            Map.ofEntries(entry("another picture", 4.0), entry("here is an image", 4.0),
                     entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)),
             Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0))
     );
@@ -48,13 +58,17 @@ public class ImageStep extends TalkStep {
      * @param dialogue one back-and-forth conversation between the chatbot and the user.
      */
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
 
         for (Object message : dialogue.getChatBotMessage()) {
-            countMatchKeywords((Message) message, imageKeyWords);
+            countMatchKeywords((Message) message, imageKeyWordsBot);
             if (calculateMsgLength((Message) message) <= 6) {
                 scoreAccumulator += 5;
             }
+        }
+
+        for (Object message : dialogue.getUserMessage()) {
+            countMatchKeywords((Message) message, imageKeyWordsUser);
         }
     }
 
