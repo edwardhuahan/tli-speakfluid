@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
-import Navbar from './components/NavBar'
-import AnalyticsBoard from './pages/AnalyticsPage'
+import NavBar from './components/NavBar';
+import AnalyticsBoard from './pages/AnalyticsPage';
 
 type Transcript = {
   turnID: string,
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar handleToggle={handleToggle} />
+      <NavBar handleToggle={handleToggle} />
       <AnalyticsBoard showMenu={showMenu} />
     </div>
   );

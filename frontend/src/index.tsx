@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, } from "react-router-dom";
 
 /***PAGES***/
 import Home from './pages/Home';
-import AnalyticsPage from './pages/AnalyticsPage';
+import Analytics from './pages/Analytics';
 
 /***STYLES***/
 import './styles/index.css';
@@ -24,7 +24,7 @@ root.render(
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/analytics" element={<Analytics />} />
         </Routes>
     </BrowserRouter>
   </React.StrictMode>
