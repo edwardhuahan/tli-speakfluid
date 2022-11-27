@@ -26,7 +26,8 @@ import static java.util.Map.entry;
  */
 public class TextStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalAnalysis* 3;
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalMethod * 2
+            + ScoreStandards.additionalKeywordsMatching;
     private final List<Map<String, Double>> textKeyWordsChatBot = Arrays.asList(
             Map.ofEntries(entry("thank you for using", ScoreStandards.highMatch),
                     entry("thank you for contacting", ScoreStandards.highMatch),

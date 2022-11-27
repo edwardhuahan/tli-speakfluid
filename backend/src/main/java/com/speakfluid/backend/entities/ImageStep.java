@@ -22,7 +22,7 @@ import static java.util.Map.entry;
  */
 public class ImageStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalAnalysis;
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalKeywordsMatching;
     private final List<Map<String, Double>> imageKeyWordsBot = Arrays.asList(
             Map.ofEntries(entry("here are the locations", ScoreStandards.highMatch),
                     entry("here are possible the directions", ScoreStandards.highMatch),
@@ -36,8 +36,8 @@ public class ImageStep extends TalkStep {
     );
 
     private final List<Map<String, Double>> imageKeyWordsUser = Arrays.asList(
-            Map.ofEntries(entry("locations of the stores", ScoreStandards.highMatch),
-                    entry("direction to the store", ScoreStandards.highMatch),
+            Map.ofEntries(entry("locations of", ScoreStandards.highMatch),
+                    entry("direction to", ScoreStandards.highMatch),
                     entry("map", ScoreStandards.highMatch), entry("location", ScoreStandards.mediumMatch),
                     entry("direction", ScoreStandards.mediumMatch)
             ),

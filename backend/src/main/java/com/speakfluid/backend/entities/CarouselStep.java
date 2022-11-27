@@ -23,7 +23,7 @@ import static java.util.Map.entry;
  */
 public class CarouselStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = ScoreStandards.standardStepClass;
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalKeywordsMatching;
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
             Map.ofEntries(entry("here are", ScoreStandards.mediumMatch),entry("map", ScoreStandards.lowMatch),
                     entry("location", ScoreStandards.lowMatch),
