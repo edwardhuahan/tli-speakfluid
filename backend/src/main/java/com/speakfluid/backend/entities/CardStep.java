@@ -22,7 +22,7 @@ public class CardStep extends TalkStep{
 
     }
 
-    private final ArrayList<Map<String, Double>> chatbotKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+    private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("can i help", 5.0),
                     entry("can i do", 4.0)),
             Map.ofEntries(entry("here are", 3.0), entry("there are", 3.0),
@@ -32,7 +32,7 @@ public class CardStep extends TalkStep{
                     entry("leaves", 3.0)),
             Map.ofEntries(entry("image", 4.0), entry("picture", 4.0)),
             Map.ofEntries(entry("choose", 4.0), entry("select", 4.0), entry("pick", 4.0)));
-    private final ArrayList<Map<String, Double>> userKeywordsScoreMap = (ArrayList<Map<String, Double>>) Arrays.asList(
+    private final List<Map<String, Double>> userKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("museum", 5.0),
                     entry("gallery", 4.0), entry("restaurant", 4.0), entry("hospital", 4.0), entry("clinic", 3.0),
                     entry("hotel", 3.0), entry("attraction", 3.0),
@@ -43,18 +43,18 @@ public class CardStep extends TalkStep{
     @Override
     public void runAnalysis(Dialogue dialogue) {
         //match the keywords for both the user and chatbot outputs in the dialogue
-        for(Speech speech: dialogue.getChatBotMessage()){
-            countMatchKeywords(speech, chatbotKeywordsScoreMap);
-            double chatbotMsgLength = calculateMsgLength(speech);
+        for(Object message: dialogue.getChatBotMessage()){
+            countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
+            double chatbotMsgLength = calculateMsgLength((Message) message);
             // if the chatbot outputs a shorter message, this suggests buttons with a image are more suitable
             if(chatbotMsgLength < 10){
                 this.scoreAccumulator += 2;
             }
 
         }
-        for(Speech speech: dialogue.getUserMessage()){
-            countMatchKeywords(speech, userKeywordsScoreMap);
-            double userMsgLength = calculateMsgLength(speech);
+        for(Object message: dialogue.getUserMessage()){
+            countMatchKeywords((Message) message, userKeywordsScoreMap);
+            double userMsgLength = calculateMsgLength((Message) message);
             if(userMsgLength < 15){
                 scoreAccumulator += 2;
             }
@@ -63,4 +63,21 @@ public class CardStep extends TalkStep{
 
 
     }
+
+    public String getStepName(){
+        return this.stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
+    }
+    
 }

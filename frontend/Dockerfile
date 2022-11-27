@@ -1,21 +1,17 @@
 # pull official base image
-FROM node:18.12.0-alpine
-ENV NODE_ENV=production
-
-RUN npm install -g create-react-app
-
+FROM node:18.12.0-alpine as build
 # set working directory
-WORKDIR /usr/src/app
-
-# add packages and install them
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm ci
-
+WORKDIR /app/frontend
 # add app
-COPY . .
+COPY . ./
+RUN npm install -g create-react-app
+# add packages and install them
+RUN npm ci
+RUN npm run build
 
 # start app
-EXPOSE 3000
-RUN chown -R node /usr/src/app
-USER node
-CMD ["npm", "start"]
+FROM nginx:stable-alpine
+COPY nginx/nginx.conf /etc/nginx/conf.d/configfile.template
+COPY --from=build /app/frontend/build /usr/share/nginx/html
+
+CMD sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/configfile.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"

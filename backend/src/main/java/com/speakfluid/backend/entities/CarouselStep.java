@@ -49,12 +49,29 @@ public class CarouselStep extends TalkStep {
      */
     @Override
     public void runAnalysis(Dialogue dialogue) {
-        for (Speech message : dialogue.getChatBotMessage()) {
-            countMatchKeywords(message, imageKeyWords);
-            if (calculateMsgLength(message) >= 6) {
+        for (Object message : dialogue.getChatBotMessage()) {
+            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWords);
+
+            if (calculateMsgLength((Message) message) >= 6) {
                 scoreAccumulator += 5;
             }
         }
+    }
+
+    public String getStepName(){
+        return this.stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
     }
 
 }
