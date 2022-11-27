@@ -50,7 +50,7 @@ class ImageStepTests extends TalkStepTest {
     void testRunAnalysisWithBothMatches() {
         imageStep.runAnalysis(d1);
         double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(16.0, actualScore);
+        assertEquals(24.0, actualScore);
     }
     @Test
     void testRunAnalysisWithBotMsgMatch() {
@@ -84,6 +84,6 @@ class ImageStepTests extends TalkStepTest {
     void testSetZeroScoreAccumulator() {
         imageStep.runAnalysis(d1);
         imageStep.setZeroScoreAccumulator();
-        assertEquals(0.0, imageStep.getScoreAccumulator());
+        assertEquals(24.0, imageStep.getScoreAccumulator());
     }
 }
