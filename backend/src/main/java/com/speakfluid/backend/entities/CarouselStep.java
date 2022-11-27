@@ -50,7 +50,8 @@ public class CarouselStep extends TalkStep {
     @Override
     public void runAnalysis(Dialogue<?> dialogue) {
         for (Object message : dialogue.getChatBotMessage()) {
-            countMatchKeywords((Message) message, imageKeyWords);
+            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWords);
+
             if (calculateMsgLength((Message) message) >= 6) {
                 scoreAccumulator += 5;
             }

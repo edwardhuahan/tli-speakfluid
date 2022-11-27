@@ -50,7 +50,7 @@ public class ChoiceStep extends TalkStep {
     public void runAnalysis(Dialogue dialogue) {
         // Chatbot messages
         for (Object chatbotMessage : dialogue.getChatBotMessage()){
-            countMatchKeywords((Message) chatbotMessage, choiceKeyWordsChatbot);
+            scoreAccumulator += countMatchKeywords((Message) chatbotMessage, choiceKeyWordsChatbot);
         }
         // User messages
         for (Object userMessage : dialogue.getUserMessage()){
