@@ -70,19 +70,23 @@ public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysis
                     the individual confidence score
                      */
 
-                        HashMap<String, Double> suggestionPair = confidenceScoreOptimizer.findSuggestedTalkStep();
+                        ArrayList<Map<String, Double>> suggestionPair = confidenceScoreOptimizer.findSuggestedTalkStep();
                     /* findSuggestedTalkStep is called to compare all the individual confidence score from the step
                     entities to return a mapping of the name and the confidence score of the step that has
                     the highest score.
                     We decide to return the top three step-suggestions with the score if the top one score is low.Thus,
                     the following for loop gives the option to append more than one step-score-pair.
                      */
-                        for (Map.Entry<String, Double> entry : suggestionPair.entrySet()) {
-                            String stepSuggestion = entry.getKey();
-                            double confidenceScore = entry.getValue();
-                            dialogue.addStepSuggestion(stepSuggestion);
-                            dialogue.addConfidenceScore(confidenceScore);
+                        for(Map<String, Double> talkStepPair: suggestionPair) {
+                            for(Map.Entry<String, Double> entry : talkStepPair.entrySet()) {
+                                String stepSuggestion = entry.getKey();
+                                double confidenceScore = entry.getValue();
+                                dialogue.addStepSuggestion(stepSuggestion);
+                                dialogue.addConfidenceScore(confidenceScore);
+                            }
                         }
+
+
                     }
 
                 }

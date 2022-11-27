@@ -2,6 +2,8 @@ package com.speakfluid.backend.entities;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 /**
  * ConfidenceScoreOptimizer calls the ConfidenceScoreOptimizer to store each talk step's confidence score. It then returns a Hashmap mapping
@@ -18,7 +20,8 @@ public class ConfidenceScoreOptimizer {
     ConfidenceScoreCalculator confidenceScoreCalculator;
     Double stepConfidenceScore;
     Double highestConfidenceScore;
-    List<String> topThreeSteps;
+    ArrayList<Map<String, Double>> rankedTalkStepList;
+
 
     public ConfidenceScoreOptimizer(ConfidenceScoreCalculator confidenceScoreCalculator, ArrayList<TalkStep> stepList) {
         this.confidenceScoreCalculator = confidenceScoreCalculator;
@@ -40,39 +43,28 @@ public class ConfidenceScoreOptimizer {
     }
 
     /**
-     * Returns the talk step with the highest confidence score from the talkStepToScoreMapping if the confidence score is
-     * above 70%. Otherwise returns the top three choices with the top three confidence scores.
-     *
-     * @return String returns the suggested talk step as a String.
+     * Turns the talkStepToScore Mapping and returns an ArrayList<Map<String, Double>> which is the sorted
+     * talkStepToScoreMapping in decreasing order.
+     * @return rankedTalkStepList is an ordered arraylist containing a Map of each talkstep to
+     * their confidence score in decreasing order of ranking.
      */
-    public HashMap<String, Double> findSuggestedTalkStep() {
-        highestConfidenceScore = Collections.max(talkStepToScoreMapping.values());
+    public ArrayList<Map<String, Double>> findSuggestedTalkStep() {
+        //Sorting the map in increasing order
+        LinkedHashMap<String, Double> rankedTalkStepMap = new LinkedHashMap<>();
+        talkStepToScoreMapping.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .forEachOrdered(x -> rankedTalkStepMap.put(x.getKey(), x.getValue()));
 
-        if(highestConfidenceScore >= 70) {
-            for(Map.Entry<String, Double> entry: talkStepToScoreMapping.entrySet()) {
-                if(Objects.equals(entry.getValue(), highestConfidenceScore)){
-                    suggestedTalkStep.put(entry.getKey(), entry.getValue());
-                    return suggestedTalkStep;
-                }
-            }
+        //adding each entry to the front of the list so it will become decreasing order
+        for(Map.Entry<String, Double> entry: rankedTalkStepMap.entrySet()){
+            HashMap<String, Double> talkStepPair = new HashMap<>();
+            talkStepPair.put(entry.getKey(), entry.getValue());
+            rankedTalkStepList.add(0, talkStepPair);
+
         }
-        else{
-            //Get top 3 keys (talk steps) of a map with top 3 highest confidence scores
-            topThreeSteps = talkStepToScoreMapping.entrySet().stream()
-                    .sorted(Map.Entry.<String, Double>comparingByValue().reversed()).
-                    limit(3).map(Map.Entry::getKey).collect(Collectors.toList());
-            // iterate through talkStepToScoreMapping to find corresponding values and add them to
-            //the returned suggestedTalkStep HashMap
-            for (String topThreeStep : topThreeSteps) {
-                for (Map.Entry<String, Double> entry : talkStepToScoreMapping.entrySet()) {
-                    if (entry.getKey().equals(topThreeStep)) {
-                        suggestedTalkStep.put(entry.getKey(), entry.getValue());
-                    }
-                }
-            }
-            return suggestedTalkStep;
-        }
-        return suggestedTalkStep;
+        return rankedTalkStepList;
+
     }
 
 }
