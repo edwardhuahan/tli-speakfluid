@@ -31,11 +31,17 @@ public class CardStepTests {
     WozMessage user3;
     WozMessage chat3;
 
-    // initialize array to an empty ArrayList otherwise default value is null.
-    ArrayList<WozMessage> userMsgs = new ArrayList<>();
-    ArrayList<WozMessage> chatbotMsgs = new ArrayList<>();
+    // initialize arrays to an empty ArrayList otherwise default value is null.
+    ArrayList<WozMessage> userMsgs1 = new ArrayList<>();
+    ArrayList<WozMessage> chatbotMsgs1 = new ArrayList<>();
+    ArrayList<WozMessage> userMsgs2 = new ArrayList<>();
+    ArrayList<WozMessage> chatbotMsgs2 = new ArrayList<>();
+    ArrayList<WozMessage> userMsgs3 = new ArrayList<>();
+    ArrayList<WozMessage> chatbotMsgs3 = new ArrayList<>();
 
+    Dialogue dialogue1;
     Dialogue dialogue2;
+    Dialogue dialogue3;
 
     private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
             Map.ofEntries(entry("can i help", ScoreStandards.highMatch),
@@ -70,18 +76,28 @@ public class CardStepTests {
         user3 = new WozMessage("SNG990","yes. thank you");
         chat3 = new WozMessage("SNG990", "okay it is booked. thank you and have a good day.");
 
-        userMsgs.addAll(Arrays.asList(user1, user2, user3));
-        chatbotMsgs.addAll(Arrays.asList(chat1, chat2, chat3));
+        chatbotMsgs1.add(chat1);
+        chatbotMsgs2.add(chat2);
+        chatbotMsgs3.add(chat3);
 
-        dialogue2 = new Dialogue(chatbotMsgs, userMsgs);
+        userMsgs2.add(user2);
+        userMsgs3.add(user3);
+
+
+        dialogue1 = new Dialogue(chatbotMsgs1, userMsgs1);
+        dialogue2 = new Dialogue(chatbotMsgs2, userMsgs2);
+        dialogue3 = new Dialogue(chatbotMsgs3, userMsgs3);
     }
 
     @AfterEach
     public void reset(){
-        card.setZeroScoreAccumulator();
         // because each message is added before each test, we must clear them to prevent it from repeating.
-        userMsgs.clear();
-        chatbotMsgs.clear();
+        userMsgs1.clear();
+        chatbotMsgs1.clear();
+        userMsgs2.clear();
+        chatbotMsgs2.clear();
+        userMsgs3.clear();
+        chatbotMsgs3.clear();
 
     }
 
@@ -111,36 +127,48 @@ public class CardStepTests {
     }
 
     @Test
-    void testRunAnalysisWithEntireDialogue(){
-        card.runAnalysis(dialogue2);
-        double expected = 28.0;
+    void testCardRunAnalysisDialogue1(){
+        TalkStep talkstep = mock(TalkStep.class);
+        Mockito.when(talkstep.calculateMsgLength(user1)).thenReturn(18);
+        Mockito.when(talkstep.calculateMsgLength(chat1)).thenReturn(11);
+        Mockito.when(talkstep.countMatchKeywords(user1, userKeywordsScoreMap)).thenReturn(5);
+        Mockito.when(talkstep.countMatchKeywords(chat1, chatbotKeywordsScoreMap)).thenReturn(5);
+
+        card.runAnalysis(dialogue1);
+        double expected = 11.0;
         double actual = card.getScoreAccumulator();
         assertEquals(expected, actual);
     }
 
     @Test
-    void testRunAnalysis(){
+    void testCardRunAnalysisDialogue2(){
         TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user1)).thenReturn(18);
         Mockito.when(talkstep.calculateMsgLength(user2)).thenReturn(9);
-        Mockito.when(talkstep.calculateMsgLength(user3)).thenReturn(3);
-
-        Mockito.when(talkstep.calculateMsgLength(chat1)).thenReturn(11);
         Mockito.when(talkstep.calculateMsgLength(chat2)).thenReturn(16);
-        Mockito.when(talkstep.calculateMsgLength(chat3)).thenReturn(11);
-
-        Mockito.when(talkstep.countMatchKeywords(user1, userKeywordsScoreMap)).thenReturn(5);
         Mockito.when(talkstep.countMatchKeywords(user2, userKeywordsScoreMap)).thenReturn(3);
-        Mockito.when(talkstep.countMatchKeywords(user3, userKeywordsScoreMap)).thenReturn(0);
-
-        Mockito.when(talkstep.countMatchKeywords(chat1, chatbotKeywordsScoreMap)).thenReturn(5);
         Mockito.when(talkstep.countMatchKeywords(chat2, chatbotKeywordsScoreMap)).thenReturn(5);
-        Mockito.when(talkstep.countMatchKeywords(chat3, chatbotKeywordsScoreMap)).thenReturn(0);
 
         card.runAnalysis(dialogue2);
-        double expected = 28.0;
+        double expected = 10.0;
         double actual = card.getScoreAccumulator();
         assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void testCardRunAnalysisDialogue3(){
+        TalkStep talkstep = mock(TalkStep.class);
+        Mockito.when(talkstep.calculateMsgLength(user3)).thenReturn(3);
+        Mockito.when(talkstep.calculateMsgLength(chat3)).thenReturn(11);
+        Mockito.when(talkstep.countMatchKeywords(user3, userKeywordsScoreMap)).thenReturn(0);
+        Mockito.when(talkstep.countMatchKeywords(chat3, chatbotKeywordsScoreMap)).thenReturn(0);
+
+        card.runAnalysis(dialogue3);
+        double expected = 2.0;
+        double actual = card.getScoreAccumulator();
+        assertEquals(expected, actual);
+
+
     }
 
 
