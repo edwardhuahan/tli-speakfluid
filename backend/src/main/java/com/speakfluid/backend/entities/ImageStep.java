@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Map.entry;
-
 /**
  * ImageStep class stores and reflects the features of the Image Talk Step functionality of Voiceflow.
  *
@@ -23,26 +22,31 @@ import static java.util.Map.entry;
  */
 public class ImageStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = 13.0;
+    private final double maxScore = 12.0;
     private final String stepName = "Image";
     private final List<Map<String, Double>> imageKeyWordsBot = Arrays.asList(
-            Map.ofEntries(entry("here are the locations", 5.0),
-                    entry("here are possible the directions", 5.0),
-                    entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0)
+            Map.ofEntries(entry("here are the locations", ScoreStandards.highMatch),
+                    entry("here are possible the directions", ScoreStandards.highMatch),
+                    entry("map", ScoreStandards.mediumMatch), entry("location", 3.0),entry("direction", 3.0)
                     ),
-            Map.ofEntries(entry("here is a picture", 4.0), entry("here is an image", 4.0),
-                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)),
-            Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0))
+            Map.ofEntries(entry("here is a picture", ScoreStandards.highMatch),
+                    entry("here is an image", ScoreStandards.highMatch),
+                    entry("picture", ScoreStandards.highMatch),entry("illustration", ScoreStandards.highMatch),
+                    entry("image", ScoreStandards.highMatch)),
+            Map.ofEntries(entry("show", ScoreStandards.lowMatch), entry("illustrate", ScoreStandards.lowMatch))
     );
 
     private final List<Map<String, Double>> imageKeyWordsUser = Arrays.asList(
-            Map.ofEntries(entry("locations of the stores", 5.0),
-                    entry("direction to the store", 5.0),
-                    entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0)
+            Map.ofEntries(entry("locations of the stores", ScoreStandards.highMatch),
+                    entry("direction to the store", ScoreStandards.highMatch),
+                    entry("map", ScoreStandards.highMatch), entry("location", ScoreStandards.mediumMatch),
+                    entry("direction", ScoreStandards.mediumMatch)
             ),
-            Map.ofEntries(entry("another picture", 4.0), entry("here is an image", 4.0),
-                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)),
-            Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0))
+            Map.ofEntries(entry("another picture", ScoreStandards.mediumMatch),
+                    entry("here is an image", ScoreStandards.mediumMatch),
+                    entry("picture", ScoreStandards.mediumMatch),entry("illustration", ScoreStandards.mediumMatch),
+                    entry("image", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("show", ScoreStandards.lowMatch), entry("illustrate", ScoreStandards.lowMatch))
     );
 
 
@@ -61,14 +65,15 @@ public class ImageStep extends TalkStep {
     public void runAnalysis(Dialogue<?> dialogue) {
 
         for (Object message : dialogue.getChatBotMessage()) {
-            countMatchKeywords((Message) message, imageKeyWordsBot);
-            if (calculateMsgLength((Message) message) <= 6) {
-                scoreAccumulator += 5;
+            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsBot);
+            if (scoreAccumulator != 0.0 &&
+                    calculateMsgLength((Message) message) <= 6){
+                scoreAccumulator += ScoreStandards.mediumMatch;
             }
         }
 
         for (Object message : dialogue.getUserMessage()) {
-            countMatchKeywords((Message) message, imageKeyWordsUser);
+            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsUser);
         }
     }
 

@@ -29,20 +29,27 @@ public class TextStep extends TalkStep {
     private final double maxScore = 15.0;
     private final String stepName = "Text";
     private final List<Map<String, Double>> textKeyWordsChatBot = Arrays.asList(
-            Map.ofEntries(entry("thank you for using", 5.0),entry("thank you for contacting", 5.0),
-                    entry("thank you", 4.0), entry("thank you for", 4.5), entry("thanks", 4.0)),
-            Map.ofEntries(entry("have a great day", 4.0), entry("have a good day", 4.0),
-                    entry("good day", 2.0)),
-            Map.ofEntries(entry("i am", 0.5), entry("my name is", 0.5)),
-            Map.ofEntries(entry("goodbye", 4.5), entry("bye", 4.5)),
-            Map.ofEntries(entry("glad to help", 5.0), entry("happy to help", 5.0))
+            Map.ofEntries(entry("thank you for using", ScoreStandards.highMatch),
+                    entry("thank you for contacting", ScoreStandards.highMatch),
+                    entry("thank you", ScoreStandards.mediumMatch),
+                    entry("thank you for", ScoreStandards.mediumMatch), entry("thanks", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("have a great day", ScoreStandards.mediumMatch),
+                    entry("have a good day", ScoreStandards.mediumMatch),
+                    entry("good day", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("i am", ScoreStandards.lowMatch), entry("my name is", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("goodbye", ScoreStandards.highMatch), entry("bye", ScoreStandards.highMatch)),
+            Map.ofEntries(entry("glad to help", ScoreStandards.highMatch),
+                    entry("happy to help", ScoreStandards.highMatch))
     );
 
     private final List<Map<String, Double>> textKeyWordsUser = Arrays.asList(
-            Map.ofEntries(entry("thank you for helping", 3.0), entry("thank you", 2.0),
-                    entry("thanks", 2.0),entry("thx", 2.0), entry("appreciated", 2.0)),
-            Map.ofEntries(entry("that's all", 2.0), entry("have a good day", 2.0),
-                    entry("goodbye", 2.0), entry("bye", 2.0))
+            Map.ofEntries(entry("thank you for helping", ScoreStandards.highMatch),
+                    entry("thank you", ScoreStandards.highMatch),
+                    entry("thanks", ScoreStandards.highMatch),entry("thx", ScoreStandards.mediumMatch),
+                    entry("appreciated", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("that's all", ScoreStandards.highMatch),
+                    entry("have a good day", ScoreStandards.highMatch),
+                    entry("goodbye", ScoreStandards.mediumMatch), entry("bye", ScoreStandards.mediumMatch))
     );
 
     public TextStep(){
@@ -57,7 +64,7 @@ public class TextStep extends TalkStep {
     public int isNotQuestion(Message message) {
         int indicator = 0;
         if (!(message.getMessage().contains("?"))) {
-            indicator = 10;
+            indicator += ScoreStandards.highMatch;
         }
         return indicator;
     }
@@ -92,17 +99,17 @@ public class TextStep extends TalkStep {
     public void runAnalysis(Dialogue<?> dialogue) {
 
         for (Object message : dialogue.getChatBotMessage()) {
-            countMatchKeywords((Message) message, textKeyWordsChatBot);
+            scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
-            if (calculateMsgLength((Message) message) >= 10) {
-                scoreAccumulator += 3;
+            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 10) {
+                scoreAccumulator += ScoreStandards.mediumMatch;
             }
         }
         for (Object message : dialogue.getUserMessage()) {
-            countMatchKeywords((Message) message, textKeyWordsUser);
+            scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsUser);
         }
 
-        scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * 5;
+        scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * ScoreStandards.mediumMatch;
 
     }
 
