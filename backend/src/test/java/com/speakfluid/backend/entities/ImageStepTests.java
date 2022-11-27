@@ -18,28 +18,51 @@ import static org.junit.jupiter.api.Assertions.*;
 class ImageStepTests extends TalkStepTest {
     static ImageStep imageStep = new ImageStep();
     static Dialogue<WozMessage> d1;
-    static ArrayList<WozMessage> botMsg;
-    static ArrayList<WozMessage> userMsg;
-    static WozMessage m1 = new WozMessage("text", "Hi, I am your personal chatbot!");
-    static WozMessage m2 = new WozMessage("text", "What can I help you today?");
+    static Dialogue<WozMessage> d2;
+    static Dialogue<WozMessage> d3;
+    static ArrayList<WozMessage> botMsg1;
+    static ArrayList<WozMessage> userMsg1;
+    static ArrayList<WozMessage> botMsg2;
+    static ArrayList<WozMessage> userMsg2;
+    static ArrayList<WozMessage> userMsg3;
+    static WozMessage m1 = new WozMessage("text", "Hi, here are the locations of our stores");
+    static WozMessage m2 = new WozMessage("text", "What else can I help you with today?");
     static WozMessage m3 = new WozMessage("text", "Hi,");
     static WozMessage m4 = new WozMessage("text", "Can I have the direction to the store?");
+    static WozMessage m5 = new WozMessage("text", "no");
 
 
 
     @BeforeAll
     public static void setUp(){
-        botMsg = new ArrayList<>(Arrays.asList(m1,m2));
-        userMsg = new ArrayList<>(Arrays.asList(m3, m4));
-        d1 = new Dialogue<>(botMsg, userMsg);
+        botMsg1 = new ArrayList<>(Arrays.asList(m1,m2));
+        userMsg1 = new ArrayList<>(Arrays.asList(m3, m4));
+        d1 = new Dialogue<>(botMsg1, userMsg1);
+        botMsg2 = new ArrayList<>(Arrays.asList(m1,m2));
+        userMsg2 = new ArrayList<>();
+        d2 = new Dialogue<>(botMsg2, userMsg2);
+        userMsg3 = new ArrayList<>(Arrays.asList(m5));
+        d3 = new Dialogue<>(botMsg2, userMsg3);
 
     }
 
     @Test
-    void testRunAnalysis() {
+    void testRunAnalysisWithBothMatches() {
         imageStep.runAnalysis(d1);
         double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(10.0, actualScore);
+        assertEquals(16.0, actualScore);
+    }
+    @Test
+    void testRunAnalysisWithBotMsgMatch() {
+        imageStep.runAnalysis(d3);
+        double actualScore = imageStep.getScoreAccumulator();
+        assertEquals(8.0, actualScore);
+    }
+    @Test
+    void testRunAnalysisWithUserMsgEmpty() {
+        imageStep.runAnalysis(d2);
+        double actualScore = imageStep.getScoreAccumulator();
+        assertEquals(8.0, actualScore);
     }
 
     @Test
@@ -49,11 +72,12 @@ class ImageStepTests extends TalkStepTest {
 
     @Test
     void testGetMaxScore() {
-        assertEquals(20.0, imageStep.getMaxScore());
+        assertEquals(18.0, imageStep.getMaxScore());
     }
 
     @Test
     void testGetScoreAccumulator() {
+        assertEquals(0.0, imageStep.getScoreAccumulator());
     }
 
     @Test

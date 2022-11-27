@@ -15,51 +15,66 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since   2022-11-26
  */
 class CarouselStepTests extends TalkStepTest {
-    static ImageStep imageStep = new ImageStep();
+    static CarouselStep carouselStep = new CarouselStep();
     static Dialogue<WozMessage> d1;
     static ArrayList<WozMessage> botMsg;
     static ArrayList<WozMessage> userMsg;
-    static WozMessage m1 = new WozMessage("text", "Hi, I am your personal chatbot!");
-    static WozMessage m2 = new WozMessage("text", "What can I help you today?");
-    static WozMessage m3 = new WozMessage("text", "Hi,");
-    static WozMessage m4 = new WozMessage("text", "Can I have the direction to the store?");
+    static WozMessage m1 = new WozMessage("response", "Hi, here are the recommended songs.");
+    static WozMessage m2 = new WozMessage("response", "Album covers are included.");
+    static WozMessage m3 = new WozMessage("request", "Great!");
+    static WozMessage m4 = new WozMessage("request", "Thank you for the recommendation!");
 
-
+    static Dialogue<WozMessage> d2;
+    static ArrayList<WozMessage> botMsg2;
+    static ArrayList<WozMessage> userMsg2;
+    static WozMessage m5 = new WozMessage("response", "Hi, here is a list of matching products.");
+    static WozMessage m6 = new WozMessage("response", "Pictures of them are shown.");
 
     @BeforeAll
     public static void setUp(){
         botMsg = new ArrayList<>(Arrays.asList(m1,m2));
         userMsg = new ArrayList<>(Arrays.asList(m3, m4));
         d1 = new Dialogue<>(botMsg, userMsg);
+        botMsg2 = new ArrayList<>(Arrays.asList(m5,m6));
+        userMsg2 = new ArrayList<>();
+        d2 = new Dialogue<>(botMsg2, userMsg2);
+
 
     }
 
     @Test
-    void testRunAnalysis() {
-        imageStep.runAnalysis(d1);
-        double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(10.0, actualScore);
+    void testRunAnalysisWithBothMessages() {
+        carouselStep.runAnalysis(d1);
+        double actualScore = carouselStep.getScoreAccumulator();
+        assertEquals(13.0, actualScore);
+    }
+    @Test
+    void testRunAnalysisWithBothMessagesWithOnlyBotMsg() {
+        carouselStep.runAnalysis(d2);
+        double actualScore = carouselStep.getScoreAccumulator();
+        assertEquals(16.0, actualScore);
     }
 
     @Test
     void testGetStepName() {
-        assertEquals("Image", imageStep.getStepName());
+        assertEquals("Carousel", carouselStep.getStepName());
     }
 
     @Test
     void testGetMaxScore() {
-        assertEquals(20.0, imageStep.getMaxScore());
+        assertEquals(15.0, carouselStep.getMaxScore());
     }
 
     @Test
     void testGetScoreAccumulator() {
+        assertEquals(0.0, carouselStep.getScoreAccumulator());
     }
 
     @Test
     void testSetZeroScoreAccumulator() {
-        imageStep.runAnalysis(d1);
-        imageStep.setZeroScoreAccumulator();
-        assertEquals(0.0, imageStep.getScoreAccumulator());
+        carouselStep.runAnalysis(d1);
+        carouselStep.setZeroScoreAccumulator();
+        assertEquals(0.0, carouselStep.getScoreAccumulator());
     }
 
 }

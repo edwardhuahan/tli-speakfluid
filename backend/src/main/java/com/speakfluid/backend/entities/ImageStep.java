@@ -22,8 +22,7 @@ import static java.util.Map.entry;
  */
 public class ImageStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = 12.0;
-    private final String stepName = "Image";
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalAnalysis;
     private final List<Map<String, Double>> imageKeyWordsBot = Arrays.asList(
             Map.ofEntries(entry("here are the locations", ScoreStandards.highMatch),
                     entry("here are possible the directions", ScoreStandards.highMatch),
@@ -53,6 +52,22 @@ public class ImageStep extends TalkStep {
     public ImageStep(){
         this.scoreAccumulator = 0;
     }
+    public String getStepName(){
+        String stepName = "Image";
+        return stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
+    }
 
     /**
      * runAnalysis for ImageStep determines:
@@ -68,29 +83,14 @@ public class ImageStep extends TalkStep {
             scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsBot);
             if (scoreAccumulator != 0.0 &&
                     calculateMsgLength((Message) message) <= 6){
-                scoreAccumulator += ScoreStandards.mediumMatch;
+                scoreAccumulator += ScoreStandards.lowMatch;
             }
         }
-
-        for (Object message : dialogue.getUserMessage()) {
-            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsUser);
+        if (dialogue.getUserMessage().size() != 0) {
+            for (Object message : dialogue.getUserMessage()) {
+                scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsUser);
+            }
         }
-    }
-
-    public String getStepName(){
-        return this.stepName;
-    }
-
-    public double getMaxScore(){
-        return this.maxScore;
-    }
-
-    public double getScoreAccumulator(){
-        return this.scoreAccumulator;
-    }
-
-    public void setZeroScoreAccumulator(){
-        this.scoreAccumulator = 0;
     }
 
 }

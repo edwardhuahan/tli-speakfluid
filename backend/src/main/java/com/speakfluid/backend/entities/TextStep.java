@@ -26,8 +26,7 @@ import static java.util.Map.entry;
  */
 public class TextStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = 15.0;
-    private final String stepName = "Text";
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalAnalysis* 3;
     private final List<Map<String, Double>> textKeyWordsChatBot = Arrays.asList(
             Map.ofEntries(entry("thank you for using", ScoreStandards.highMatch),
                     entry("thank you for contacting", ScoreStandards.highMatch),
@@ -55,6 +54,24 @@ public class TextStep extends TalkStep {
     public TextStep(){
         this.scoreAccumulator = 0;
     }
+
+    public String getStepName(){
+        String stepName = "Text";
+        return stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
+    }
+
     /**
      * isnotQuestion determines if each message in the Dialogue is a question or not.
      *
@@ -102,7 +119,7 @@ public class TextStep extends TalkStep {
             scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
             if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 10) {
-                scoreAccumulator += ScoreStandards.mediumMatch;
+                scoreAccumulator += ScoreStandards.lowMatch;
             }
         }
         for (Object message : dialogue.getUserMessage()) {
@@ -113,20 +130,5 @@ public class TextStep extends TalkStep {
 
     }
 
-    public String getStepName(){
-        return this.stepName;
-    }
-
-    public double getMaxScore(){
-        return this.maxScore;
-    }
-
-    public double getScoreAccumulator(){
-        return this.scoreAccumulator;
-    }
-
-    public void setZeroScoreAccumulator(){
-        this.scoreAccumulator = 0;
-    }
 
 }

@@ -23,32 +23,48 @@ import static java.util.Map.entry;
  */
 public class CarouselStep extends TalkStep {
     private double scoreAccumulator;
-    private final double maxScore = 10.0;
-    private final String stepName = "Carousel";
+    private final double maxScore = ScoreStandards.standardStepClass;
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
             Map.ofEntries(entry("here are", ScoreStandards.mediumMatch),entry("map", ScoreStandards.lowMatch),
                     entry("location", ScoreStandards.lowMatch),
                     entry("direction", ScoreStandards.lowMatch)),
-            Map.ofEntries(entry("here is a picture", ScoreStandards.mediumMatch),
-                    entry("here is an image", ScoreStandards.mediumMatch),
+            Map.ofEntries(entry("here are pictures", ScoreStandards.mediumMatch),
+                    entry("here are images", ScoreStandards.mediumMatch),
                     entry("picture", ScoreStandards.mediumMatch),entry("illustration", ScoreStandards.mediumMatch),
                     entry("image", ScoreStandards.mediumMatch)
                     ),
             Map.ofEntries(entry("show", ScoreStandards.lowMatch), entry("illustrate", ScoreStandards.lowMatch)),
             Map.ofEntries(entry("list of", ScoreStandards.highMatch), entry("a list of", ScoreStandards.highMatch),
-                    entry("lists of", ScoreStandards.highMatch),entry("here are a list of", ScoreStandards.highMatch),
+                    entry("here are a list of", ScoreStandards.highMatch),
                     entry("list", ScoreStandards.mediumMatch)),
             Map.ofEntries(entry("choose from the following", ScoreStandards.mediumMatch))
             );
     private final List<Map<String, Double>> buttonKeyWords = Arrays.asList(
-            Map.ofEntries(entry("The following are", 5.0),
-                    entry("These are", 4.0),entry("here are", ScoreStandards.mediumMatch),
+            Map.ofEntries(entry("The following are", ScoreStandards.highMatch),
+                    entry("These are", ScoreStandards.highMatch),entry("here are", ScoreStandards.mediumMatch),
                     entry("do you", ScoreStandards.lowMatch),
                     entry("here is", ScoreStandards.lowMatch)),
             Map.ofEntries(entry("here are", ScoreStandards.highMatch), entry("choose", ScoreStandards.highMatch),
                     entry("select", ScoreStandards.highMatch), entry("options", ScoreStandards.highMatch)));
 
     public CarouselStep(){
+        this.scoreAccumulator = 0;
+    }
+
+    public String getStepName(){
+        String stepName = "Carousel";
+        return stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
         this.scoreAccumulator = 0;
     }
 
@@ -65,25 +81,9 @@ public class CarouselStep extends TalkStep {
             scoreAccumulator += countMatchKeywords((Message) message, buttonKeyWords);
             if (scoreAccumulator != 0.0 &&
                     calculateMsgLength((Message) message) <= 6){
-                scoreAccumulator += ScoreStandards.mediumMatch;
+                scoreAccumulator += ScoreStandards.lowMatch;
             }
         }
-    }
-
-    public String getStepName(){
-        return this.stepName;
-    }
-
-    public double getMaxScore(){
-        return this.maxScore;
-    }
-
-    public double getScoreAccumulator(){
-        return this.scoreAccumulator;
-    }
-
-    public void setZeroScoreAccumulator(){
-        this.scoreAccumulator = 0;
     }
 
 }
