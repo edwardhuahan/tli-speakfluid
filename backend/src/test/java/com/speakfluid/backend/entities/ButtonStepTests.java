@@ -82,14 +82,6 @@ public class ButtonStepTests {
     }
 
     @Test
-    void testGetMaxScore(){
-        double expected = 27.0;
-        double actual = button.getMaxScore();
-        assertEquals(expected, actual);
-
-    }
-
-    @Test
     void setZeroScoreAccumulator(){
         double expected = 0.0;
         button.runAnalysis(dialogue1);
