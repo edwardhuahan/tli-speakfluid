@@ -26,7 +26,7 @@ class ImageStepTests extends TalkStepTest {
     static ArrayList<WozMessage> userMsg2;
     static ArrayList<WozMessage> userMsg3;
     static WozMessage m1 = new WozMessage("text", "Hi, here are the locations of our stores");
-    static WozMessage m2 = new WozMessage("text", "What else can I help you with today?");
+    static WozMessage m2 = new WozMessage("text", "What else can I help you?");
     static WozMessage m3 = new WozMessage("text", "Hi,");
     static WozMessage m4 = new WozMessage("text", "Can I have the direction to the store?");
     static WozMessage m5 = new WozMessage("text", "no");
@@ -47,25 +47,6 @@ class ImageStepTests extends TalkStepTest {
     }
 
     @Test
-    void testRunAnalysisWithBothMatches() {
-        imageStep.runAnalysis(d1);
-        double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(24.0, actualScore);
-    }
-    @Test
-    void testRunAnalysisWithBotMsgMatch() {
-        imageStep.runAnalysis(d3);
-        double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(8.0, actualScore);
-    }
-    @Test
-    void testRunAnalysisWithUserMsgEmpty() {
-        imageStep.runAnalysis(d2);
-        double actualScore = imageStep.getScoreAccumulator();
-        assertEquals(8.0, actualScore);
-    }
-
-    @Test
     void testGetStepName() {
         assertEquals("Image", imageStep.getStepName());
     }
@@ -77,7 +58,7 @@ class ImageStepTests extends TalkStepTest {
 
     @Test
     void testGetScoreAccumulator() {
-        assertEquals(24.0, imageStep.getScoreAccumulator());
+        assertEquals(26.0, imageStep.getScoreAccumulator());
     }
 
     @Test
@@ -85,5 +66,23 @@ class ImageStepTests extends TalkStepTest {
         imageStep.runAnalysis(d1);
         imageStep.setZeroScoreAccumulator();
         assertEquals(0.0, imageStep.getScoreAccumulator());
+    }
+    @Test
+    void testRunAnalysisWithBothMatches() {
+        imageStep.runAnalysis(d1);
+        double actualScore = imageStep.getScoreAccumulator();
+        assertEquals(26.0, actualScore);
+    }
+    @Test
+    void testRunAnalysisWithBotMsgMatch() {
+        imageStep.runAnalysis(d3);
+        double actualScore = imageStep.getScoreAccumulator();
+        assertEquals(9.0, actualScore);
+    }
+    @Test
+    void testRunAnalysisWithUserMsgEmpty() {
+        imageStep.runAnalysis(d2);
+        double actualScore = imageStep.getScoreAccumulator();
+        assertEquals(9.0, actualScore);
     }
 }
