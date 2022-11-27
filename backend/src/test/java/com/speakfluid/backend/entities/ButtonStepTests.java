@@ -68,18 +68,35 @@ public class ButtonStepTests {
     }
 
     @AfterEach
-    public void resetScoreAccumulator() {
-        button.setZeroScoreAccumulator();
+    public void reset() {
         // because each message is added before each test, we must clear them to prevent it from repeating.
         userMsgs.clear();
         chatbotMsgs.clear();
     }
+
     @Test
-    void testScoreAccumulator() {
-        double expectedScore = 17 + 6;
+    void testGetStepName(){
+        String expected = "Button";
+        String actual = button.getStepName();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGetMaxScore(){
+        double expected = 27.0;
+        double actual = button.getMaxScore();
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void setZeroScoreAccumulator(){
+        double expected = 0.0;
         button.runAnalysis(dialogue1);
-        double actualScore = button.getScoreAccumulator();
-        assertEquals(expectedScore, actualScore);
+        button.setZeroScoreAccumulator();
+        double actual = button.getScoreAccumulator();
+        assertEquals(expected, actual);
+
     }
 
     @Test
@@ -89,33 +106,8 @@ public class ButtonStepTests {
         assertEquals(expected, actual);
     }
 
-    @Test
-    void testChatbotMsgLength(){
-        double actual = button.calculateMsgLength(chat1);
-        double expected = 18;
-        assertEquals(expected, actual);
 
-    }
 
-    @Test
-    void testCountMatchKeywords1(){
-        button.countMatchKeywords(chat1,chatbotKeywordsScoreMap);
-        double actual = button.getScoreAccumulator();
-        double expected = 9.0;
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testCountMatchKeywords2(){
-        button.countMatchKeywords(chat2, chatbotKeywordsScoreMap);
-        double actual = button.getScoreAccumulator();
-        double expected = 8.0;
-        assertEquals(expected, actual);
-    }
-    @Test
-    void testCountMatchKeywords3(){
-
-    }
 
 
 }
