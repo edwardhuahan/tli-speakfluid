@@ -78,8 +78,8 @@ public class TextStep extends TalkStep {
      * @param message message from first speaker(a chatbot or a user)
      * @return indicator which equals 10 if the message is not a question or 0 if the message is a question
      */
-    public int isNotQuestion(Message message) {
-        int indicator = 0;
+    public double isNotQuestion(Message message) {
+        double indicator = 0.0;
         if (!(message.getMessage().contains("?"))) {
             indicator += ScoreStandards.highMatch;
         }
@@ -118,7 +118,7 @@ public class TextStep extends TalkStep {
         for (Object message : dialogue.getChatBotMessage()) {
             scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
-            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 10) {
+            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 8) {
                 scoreAccumulator += ScoreStandards.lowMatch;
             }
         }

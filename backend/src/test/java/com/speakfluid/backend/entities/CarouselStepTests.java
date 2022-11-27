@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CarouselStepTests extends TalkStepTest {
     static CarouselStep carouselStep = new CarouselStep();
     static Dialogue<WozMessage> d1;
-    static ArrayList<WozMessage> botMsg;
-    static ArrayList<WozMessage> userMsg;
+    static ArrayList<WozMessage> botMsg1;
+    static ArrayList<WozMessage> userMsg1;
     static WozMessage m1 = new WozMessage("response", "Hi, here are the recommended songs.");
     static WozMessage m2 = new WozMessage("response", "Album covers are included.");
     static WozMessage m3 = new WozMessage("request", "Great!");
@@ -32,27 +32,12 @@ class CarouselStepTests extends TalkStepTest {
 
     @BeforeAll
     public static void setUp(){
-        botMsg = new ArrayList<>(Arrays.asList(m1,m2));
-        userMsg = new ArrayList<>(Arrays.asList(m3, m4));
-        d1 = new Dialogue<>(botMsg, userMsg);
+        botMsg1 = new ArrayList<>(Arrays.asList(m1,m2));
+        userMsg1 = new ArrayList<>(Arrays.asList(m3, m4));
+        d1 = new Dialogue<>(botMsg1, userMsg1);
         botMsg2 = new ArrayList<>(Arrays.asList(m5,m6));
         userMsg2 = new ArrayList<>();
         d2 = new Dialogue<>(botMsg2, userMsg2);
-
-
-    }
-
-    @Test
-    void testRunAnalysisWithBothMessages() {
-        carouselStep.runAnalysis(d1);
-        double actualScore = carouselStep.getScoreAccumulator();
-        assertEquals(13.0, actualScore);
-    }
-    @Test
-    void testRunAnalysisWithBothMessagesWithOnlyBotMsg() {
-        carouselStep.runAnalysis(d2);
-        double actualScore = carouselStep.getScoreAccumulator();
-        assertEquals(16.0, actualScore);
     }
 
     @Test
@@ -77,4 +62,17 @@ class CarouselStepTests extends TalkStepTest {
         assertEquals(0.0, carouselStep.getScoreAccumulator());
     }
 
+    @Test
+    void testRunAnalysisWithBothMessages() {
+        carouselStep.runAnalysis(d1);
+        double actualScore = carouselStep.getScoreAccumulator();
+        assertEquals(13.0, actualScore);
+    }
+
+    @Test
+    void testRunAnalysisWithBothMessagesWithOnlyBotMsg() {
+        carouselStep.runAnalysis(d2);
+        double actualScore = carouselStep.getScoreAccumulator();
+        assertEquals(16.0, actualScore);
+    }
 }
