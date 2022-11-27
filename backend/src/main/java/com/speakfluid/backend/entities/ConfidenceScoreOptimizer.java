@@ -9,17 +9,15 @@ import java.util.stream.Stream;
  * ConfidenceScoreOptimizer calls the ConfidenceScoreOptimizer to store each talk step's confidence score. It then returns a Hashmap mapping
  * the talk step with the highest confidence score to its confidence score. This class is called by the use case interactor.
  * @author Aurora Zhang
- * @version 2.0
+ * @version 4.0
  * @since November 16th, 2022
  */
 public class ConfidenceScoreOptimizer {
 
     ArrayList<TalkStep> steps;
     HashMap<String, Double> talkStepToScoreMapping = new HashMap<>();
-    HashMap<String, Double> suggestedTalkStep = new HashMap<>();
     ConfidenceScoreCalculator confidenceScoreCalculator;
     Double stepConfidenceScore;
-    Double highestConfidenceScore;
     ArrayList<Map<String, Double>> rankedTalkStepList;
 
 
@@ -48,7 +46,7 @@ public class ConfidenceScoreOptimizer {
      * @return rankedTalkStepList is an ordered arraylist containing a Map of each talkstep to
      * their confidence score in decreasing order of ranking.
      */
-    public ArrayList<Map<String, Double>> findSuggestedTalkStep() {
+    public ArrayList<Map<String, Double>> rankTalkSteps() {
         //Sorting the map in increasing order
         LinkedHashMap<String, Double> rankedTalkStepMap = new LinkedHashMap<>();
         talkStepToScoreMapping.entrySet()

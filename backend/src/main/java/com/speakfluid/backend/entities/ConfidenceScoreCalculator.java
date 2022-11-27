@@ -29,12 +29,20 @@ public class ConfidenceScoreCalculator implements Scorable{
     }
 
     /**
-     * Calculates the confidence score of the talk step.
+     * Calculates the confidence score of the talk step. If it exceeds 100%, then
+     * 95% will be returned as a capping mechanism.
      * @return returns the confidence score of the talk step.
      */
     @Override
     public double calculateConfidenceScore() {
-        return (stepScoreAccumulator / stepTotalScore) * 100;
+
+        if(((stepScoreAccumulator / stepTotalScore) * 100) > 100){
+            return 95.0;
+
+        }
+        else{
+            return (stepScoreAccumulator / stepTotalScore) * 100;
+        }
     }
 
 }
