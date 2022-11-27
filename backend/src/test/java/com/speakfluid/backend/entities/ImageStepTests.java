@@ -53,7 +53,7 @@ class ImageStepTests extends TalkStepTest {
 
     @Test
     void testGetMaxScore() {
-        assertEquals(18.0, imageStep.getMaxScore());
+        assertEquals(20.0, imageStep.getMaxScore());
     }
 
     @Test

@@ -35,7 +35,7 @@ class TextStepTests extends TalkStepTest {
 
     @Test
     void testGetMaxScore() {
-        assertEquals(24.0, textStep.getMaxScore());
+        assertEquals(26.0, textStep.getMaxScore());
     }
 
     @Test

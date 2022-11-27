@@ -47,7 +47,7 @@ class CarouselStepTests extends TalkStepTest {
 
     @Test
     void testGetMaxScore() {
-        assertEquals(15.0, carouselStep.getMaxScore());
+        assertEquals(20.0, carouselStep.getMaxScore());
     }
 
     @Test
