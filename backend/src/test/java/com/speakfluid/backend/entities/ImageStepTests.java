@@ -16,7 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since   2022-11-26
  */
 class ImageStepTests extends TalkStepTest {
+    // Class to be tested
     static ImageStep imageStep = new ImageStep();
+    // Dependencies (will be mocked)
     static Dialogue<WozMessage> d1;
     static Dialogue<WozMessage> d2;
     static Dialogue<WozMessage> d3;
