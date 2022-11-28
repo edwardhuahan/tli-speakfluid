@@ -24,8 +24,12 @@ import static org.mockito.Mockito.mock;
  */
 
 class TalkStepTests {
-    static TalkStep talkStep;
-    static TalkStep choiceTalkStep;
+    // Since TalkStep is an abstract class, so we instantiate or use it in the tests: So we use Mockito to mock it
+    static TalkStep talkStep = Mockito.mock(
+            TalkStep.class,
+            Mockito.CALLS_REAL_METHODS);
+    // I use choiceStep to test some methods that abstract TalkStep cannot, such as: getters and setters, countMatchKeywords
+    static TalkStep choiceTalkStep = new ChoiceStep();
     static WozMessage m1;
     static WozMessage m2;
     static WozMessage m3;
@@ -61,11 +65,7 @@ class TalkStepTests {
      */
     @BeforeAll
     static void setUp() {
-        // Since TalkStep is an abstract class, so we instantiate or use it in the tests: So we use Mockito to mock it
-        talkStep = Mockito.mock(
-                TalkStep.class,
-                Mockito.CALLS_REAL_METHODS);
-        choiceTalkStep = new ChoiceStep();
+
         // m1 is ignored in our analysis, but it is included for the understanding of the conversation
         m1 = new WozMessage("request", "I need help with booking a hotel.");
         m2 = new WozMessage("response", "How can I help you?");
@@ -74,7 +74,7 @@ class TalkStepTests {
         m5 = new WozMessage("request", "Tomorrow 2PM i need to check in");
         m6 = new WozMessage("response", "No problem. What would you price range be?");
         m7 = new WozMessage("request", "Around 200 per person");
-        m8 = new WozMessage("response", "Okay! May I proceed with Chelsea Hotel, with 180CAD  per person?");
+        m8 = new WozMessage("response", "Okay! May I proceed with Chelsea Hotel, with 180CAD per person?");
         m9 = new WozMessage("request", "for 2PM yes");
 
         ArrayList<WozMessage> a1 = new ArrayList<>(Arrays.asList(m2));
@@ -120,7 +120,7 @@ class TalkStepTests {
     /**
      * Below are tests for calculateMessageLength, which returns number of words in message (int)
      * Cases covered:
-     * - Short, long, extra spaces (which shouldn't affect length)
+     * - Short, long
      */
     @Test
     void calculateShortMessageLength() {
@@ -129,7 +129,7 @@ class TalkStepTests {
 
     @Test
     void calculateLongMessageLength() {
-        assertEquals(16, talkStep.calculateMsgLength(m8));
+        assertEquals(11, talkStep.calculateMsgLength(m8));
     }
 
 

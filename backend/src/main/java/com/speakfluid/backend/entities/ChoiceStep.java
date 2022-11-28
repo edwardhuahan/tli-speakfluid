@@ -12,8 +12,8 @@ import java.util.*;
  * Choice Listen Step is mainly used for "Yes" and "No" simple responses.
  *
  * @author  Sarah Xu
- * @version 2.0
- * @since   2022-11-16
+ * @version 3.0
+ * @since   2022-11-28
  */
 public class ChoiceStep extends TalkStep {
     private final String stepName = "Choice";

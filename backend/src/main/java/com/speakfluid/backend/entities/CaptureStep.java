@@ -6,15 +6,15 @@ import java.util.*;
 import static java.util.Map.entry;
 
 /**
- * ChoiceStep analysizes incoming Dialogues to determine the
+ * ChoiceStep analyses incoming Dialogues to determine the
  * whether that chatbot output of the Dialogue is suitable for
  * a Choice Listen Step through a confidence score.
  *
  * Choice Listen Step is mainly used for "Yes" and "No" simple responses.
  *
  * @author  Sarah Xu
- * @version 2.0
- * @since   2022-11-16
+ * @version 3.0
+ * @since   2022-11-28
  */
 public class CaptureStep extends TalkStep {
     private final String stepName = "Capture";
