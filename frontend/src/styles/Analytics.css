@@ -1,0 +1,31 @@
+.transcriptSection {
+  width: calc(15% - 60px);
+  height: calc(100% - 60px);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+
+  border-right: 2px solid #edede9;
+
+  overflow-y: scroll;
+}
+
+.cardsSection {
+  width: calc(30% - 60px);
+  height: calc(100% - 60px);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+
+  border-right: 2px solid #edede9;
+
+  overflow-y: scroll;
+}
+
+.analysisSection {
+  width: calc(55% - 60px);
+  height: calc(100% - 60px);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}

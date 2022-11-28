@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import '../types/HomeTypes';
-import { selectedFile } from '../types/HomeTypes';
-import Button from '@mui/material/Button';
+import React from 'react';
+import '../types/Types';
 
-function UploadButton() {
-	const [selectedFile, setSelectedFile] = useState<any>({ name: "No file selected yet.", data: { messages: "" } });
-	const [isSelected, setIsSelected] = useState(false);
+function UploadButton({addTranscript} : any) {
 
+	/**
+	 * Upload a transcript and send a request to the server to
+	 * retrieve an analyzed transcript.
+	 * @param event The event of uploading a transcript.
+	 */
 	const changeHandler = (event: any) => {
-		setSelectedFile(event.target.files[0]);
-		setIsSelected(true);
-	};
-
-	const handleUpload = () => {
 		const formData = new FormData();
-		formData.append('transcript', selectedFile);
+		formData.append('transcript', event.target.files[0]);
 
 		fetch(
 			'/transcript/upload',
@@ -23,22 +19,20 @@ function UploadButton() {
 				body: formData,
 			}
 		)
-			.then((response) => { { response.json() } })
-			.then((result) => {
-				console.log('Success:', result);
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		.then(response => response.json())
+		.then(result => {
+			addTranscript(result);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+
+		event.target.value = null;
 	};
 
 	return (
 		<div style={{ alignContent: "right" }}>
-			<input type="file" name="file" onChange={changeHandler} />
-			{/* <p>Filename: {selectedFile.name}</p> */}
-			<button onClick={handleUpload} >
-				Upload
-			</ button>
+			<input type="file" name="file" onChange={changeHandler}/>
 		</div>
 	);
 }
