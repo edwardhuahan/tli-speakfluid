@@ -1,26 +1,44 @@
 package com.speakfluid.backend.entities;
 
-import java.lang.String;
-import java.lang.reflect.Array;
-import java.util.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import static java.util.Map.entry;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * ChoiceStep analysizes incoming Dialogues to determine the
- * whether that chatbot output of the Dialogue is suitable for
- * a Choice Listen Step through a confidence score.
- *
- * Choice Listen Step is mainly used for "Yes" and "No" simple responses.
+ * Tests for the Dialogue class.
  *
  * @author  Sarah Xu
- * @version 2.0
- * @since   2022-11-16
+ * @version 1.0
+ * @since   2022-11-27
  */
-public class CaptureStep extends TalkStep {
-    private final String stepName = "Capture";
-    private double scoreAccumulator = 0;
-    private final double maxScore = ScoreStandards.standardStepClass + 2 * ScoreStandards.additionalMethod;
-    private final List<Map<String, Double>> captureKeyWordsChatbot =
+
+class CaptureStepTests {
+    CaptureStep captureStep = new CaptureStep();
+    static WozMessage m1;
+    static WozMessage m2;
+    static WozMessage m3;
+    static WozMessage m4;
+    static WozMessage m5;
+    static WozMessage m6;
+    static WozMessage m7;
+    static WozMessage m8;
+    static WozMessage m9;
+    static Dialogue<WozMessage> emailDialogue;
+    static Dialogue<WozMessage> dateDialogue;
+    static Dialogue<WozMessage> locationDialogue;
+    static final List<Map<String, Double>> captureKeyWordsChatbot =
             Arrays.asList(
                     Map.ofEntries(entry("please provide", ScoreStandards.highMatch),
                             entry("please enter", ScoreStandards.highMatch),
@@ -48,7 +66,7 @@ public class CaptureStep extends TalkStep {
                             entry("address", ScoreStandards.mediumMatch))
             );
     // includes special characters, week days, times, address, emails
-    private final List<Map<String, Double>> captureKeyWordsUsers =
+    static final List<Map<String, Double>> captureKeyWordsUsers =
             Arrays.asList(
                     Map.ofEntries(entry("@", ScoreStandards.highMatch),
                             entry(".com", ScoreStandards.highMatch),
@@ -76,100 +94,89 @@ public class CaptureStep extends TalkStep {
                             entry("weekend", ScoreStandards.mediumMatch)),
                     Map.ofEntries(entry("address", ScoreStandards.highMatch),
                             entry("zip code", ScoreStandards.highMatch),
-                            entry("postal code", ScoreStandards.highMatch),
                             entry("location", ScoreStandards.mediumMatch),
                             entry("home", ScoreStandards.mediumMatch),
                             entry("code", ScoreStandards.lowMatch))
             );
+    // Sets up a dialogues from one conversation about booking a hotel
+    @BeforeAll
+    static void setUp() {
+        // m1 is ignored in our analysis, but it is included for the understanding of the conversation
+        m1 = new WozMessage("request", "I need help with canceling my subscription");
+        m2 = new WozMessage("response", "Please provide your name and account email");
+        m3 = new WozMessage("request", "Jane doe, j.doe@company.com");
+        m4 = new WozMessage("response", "When did your last box arrive?");
+        m5 = new WozMessage("request", "Last tuesday night");
+        m6 = new WozMessage("response", "Where was it shipped to?");
+        m7 = new WozMessage("request", "45 St George Street, Toronto, ON, M5S 2E8");
+        m8 = new WozMessage("response", "Thank you, Jane. Your subscription has been canceled.");
+        m9 = new WozMessage("request", "great thanks");
 
-
-    public CaptureStep(){
-        this.scoreAccumulator = 0;
-    }
-
-    public String getStepName(){
-        return this.stepName;
-    }
-
-    public double getMaxScore(){
-        return this.maxScore;
-    }
-
-    public double getScoreAccumulator(){
-        return this.scoreAccumulator;
-    }
-
-    public void setZeroScoreAccumulator(){
-        this.scoreAccumulator = 0;
-    }
-
-    /**
-     * hasNumbers() is used for situation where a user inputs numbers,
-     * such as for phone number, address, date, time, email, etc. which
-     * are indications that a capture step should be used to capture these
-     * specific, or personal information.
-     * @param message one message from user
-     */
-    public void hasNumbers(Message message){
-        for(String word : message.getMessage().split(" ")){
-            if(word.matches(".*[0-9].*")){
-                scoreAccumulator += 1.0;
-                break;
-            }
-        }
+        ArrayList<WozMessage> a1 = new ArrayList<>(Arrays.asList(m2));
+        ArrayList<WozMessage> a2 = new ArrayList<>(Arrays.asList(m3));
+        emailDialogue = new Dialogue<>(a1,a2);
+        ArrayList<WozMessage> a3 = new ArrayList<>(Arrays.asList(m4));
+        ArrayList<WozMessage> a4 = new ArrayList<>(Arrays.asList(m5));
+        dateDialogue = new Dialogue<>(a3,a4);
+        ArrayList<WozMessage> a5 = new ArrayList<>(Arrays.asList(m6));
+        ArrayList<WozMessage> a6 = new ArrayList<>(Arrays.asList(m7));
+        locationDialogue = new Dialogue<>(a5,a6);
     }
 
     /**
-     * isEmail() is checks if user provides an email address,
-     * and adds 10 to scoreAccumulator because it is important
-     * to use the Capture Step here.
-     * @param message one message from user
+     * Tests for getters and setters
+     * - getStepName
+     * - getMaxScore
+     * - getScoreAccumulator
+     * - setZeroScoreAccumulator
      */
-    public void isEmail(Message message){
-        for(String word : message.getMessage().split(" ")){
-            if(word.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
-                scoreAccumulator += 3.0;
-                break;
-            }
-        }
+    @Test
+    void testGetStepName() {
+        assertEquals("Capture", captureStep.getStepName());
     }
 
-    /**
-     * isZipCode() is used for situation where a user provides
-     * their zipcode. The current method checks for US and Canadian ZipCodes
-     * @param message one message from user
-     */
-    public void isZipCode(Message message){
-        for(String word : message.getMessage().split(" ")){
-            if(word.matches( "^\\d{5}([-+]?\\d{4})?$")  //american postal code
-                    || word.matches( "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]●?[0-9][A-Z][0-9]$") //full canadian postal code
-                    || word.matches( "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]")){ //half a canadian (such as M5S) since people often put a space in between the two parts
-                scoreAccumulator += 3.0;
-                break;
-            }
-        }
+    @Test
+    void testGetMaxScore() {
+        assertEquals(21.0, captureStep.getMaxScore());
     }
 
-    /**
-     * runAnalysis() takes in a Dialogue object and analyses
-     * whether the Capture Step is an appropriate ListenStep here.
-     * It increases scoreAccumulator once there is a sign that
-     * the dialogue is compatible with a Capture Step.
-     * @param dialogue one back and forth between chatbot and user
-     */
-    public void runAnalysis(Dialogue dialogue){
-        // Chatbot messages
-        for (Object chatbotMessage : dialogue.getChatBotMessage()){
-            scoreAccumulator += countMatchKeywords((Message) chatbotMessage, captureKeyWordsChatbot);
-        }
-        // User messages
-        for (Object userMessage : dialogue.getUserMessage()){
-            scoreAccumulator += countMatchKeywords((Message) userMessage, captureKeyWordsUsers);
-            hasNumbers((Message) userMessage);
-            isZipCode((Message) userMessage);
-            isEmail((Message) userMessage);
-        }
+    @Test
+    void testGetScoreAccumulator() {
+        assertEquals(0.0, captureStep.getScoreAccumulator());
+        captureStep.runAnalysis(emailDialogue);
+        assertEquals(27.0, captureStep.getScoreAccumulator());
     }
 
+    @Test
+    void testSetZeroScoreAccumulator() {
+        captureStep.runAnalysis(emailDialogue);
+        assertEquals(27.0, captureStep.getScoreAccumulator());
+        captureStep.setZeroScoreAccumulator();
+        assertEquals(0.0, captureStep.getScoreAccumulator());
+    }
+
+    @Test
+    void testRunAnalysis(){
+        captureStep.runAnalysis(dateDialogue);
+        assertEquals(16.0, captureStep.getScoreAccumulator());
+    }
+
+    @Test
+    void testIsZipCode(){
+        captureStep.isZipCode(m7);
+        assertEquals(3.0, captureStep.getScoreAccumulator());
+    }
+
+    @Test
+    void testIsEmail(){
+        captureStep.isEmail(m3);
+        assertEquals(3.0, captureStep.getScoreAccumulator());
+    }
+
+    @Test
+    void testHasNumbers(){
+        captureStep.hasNumbers(m7);
+        assertEquals(1.0, captureStep.getScoreAccumulator());
+    }
 
 }
