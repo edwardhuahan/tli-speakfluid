@@ -144,14 +144,6 @@ public class ButtonStepTests {
 
     @Test
     void testButtonRunAnalysisDialogue1(){
-        TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user1)).thenReturn(10);
-        Mockito.when(talkstep.calculateMsgLength(chat1)).thenReturn(18);
-
-        Mockito.when(talkstep.countMatchKeywords(user1, userKeywordsScoreMap)).thenReturn(0);
-        Mockito.when(talkstep.countMatchKeywords(chat1, chatbotKeywordsScoreMap)).thenReturn(10);
-
-
         button.runAnalysis(dialogue1);
         double expected = 10.0;
         double actual = button.getScoreAccumulator();
@@ -160,11 +152,6 @@ public class ButtonStepTests {
 
     @Test
     public void testButtonRunAnalysisDialogue2(){
-        TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user2)).thenReturn(18);
-        Mockito.when(talkstep.calculateMsgLength(chat2)).thenReturn(15);
-        Mockito.when(talkstep.countMatchKeywords(user2, userKeywordsScoreMap)).thenReturn(6);
-        Mockito.when(talkstep.countMatchKeywords(chat2, chatbotKeywordsScoreMap)).thenReturn(10);
         button.runAnalysis(dialogue2);
         double expected = 16.0;
         double actual = button.getScoreAccumulator();
@@ -173,11 +160,6 @@ public class ButtonStepTests {
 
     @Test
     public void testButtonRunAnalysisDialogue3(){
-        TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user3)).thenReturn(9);
-        Mockito.when(talkstep.calculateMsgLength(chat3)).thenReturn(6);
-        Mockito.when(talkstep.countMatchKeywords(user3, userKeywordsScoreMap)).thenReturn(1);
-        Mockito.when(talkstep.countMatchKeywords(chat3, chatbotKeywordsScoreMap)).thenReturn(0);
         button.runAnalysis(dialogue3);
         double expected = 3.0;
         double actual = button.getScoreAccumulator();

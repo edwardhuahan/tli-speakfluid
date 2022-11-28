@@ -128,12 +128,6 @@ public class CardStepTests {
 
     @Test
     void testCardRunAnalysisDialogue1(){
-        TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user1)).thenReturn(18);
-        Mockito.when(talkstep.calculateMsgLength(chat1)).thenReturn(11);
-        Mockito.when(talkstep.countMatchKeywords(user1, userKeywordsScoreMap)).thenReturn(5);
-        Mockito.when(talkstep.countMatchKeywords(chat1, chatbotKeywordsScoreMap)).thenReturn(5);
-
         card.runAnalysis(dialogue1);
         double expected = 11.0;
         double actual = card.getScoreAccumulator();
@@ -142,12 +136,6 @@ public class CardStepTests {
 
     @Test
     void testCardRunAnalysisDialogue2(){
-        TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user2)).thenReturn(9);
-        Mockito.when(talkstep.calculateMsgLength(chat2)).thenReturn(16);
-        Mockito.when(talkstep.countMatchKeywords(user2, userKeywordsScoreMap)).thenReturn(3);
-        Mockito.when(talkstep.countMatchKeywords(chat2, chatbotKeywordsScoreMap)).thenReturn(5);
-
         card.runAnalysis(dialogue2);
         double expected = 10.0;
         double actual = card.getScoreAccumulator();
@@ -157,12 +145,6 @@ public class CardStepTests {
 
     @Test
     void testCardRunAnalysisDialogue3(){
-        TalkStep talkstep = mock(TalkStep.class);
-        Mockito.when(talkstep.calculateMsgLength(user3)).thenReturn(3);
-        Mockito.when(talkstep.calculateMsgLength(chat3)).thenReturn(11);
-        Mockito.when(talkstep.countMatchKeywords(user3, userKeywordsScoreMap)).thenReturn(0);
-        Mockito.when(talkstep.countMatchKeywords(chat3, chatbotKeywordsScoreMap)).thenReturn(0);
-
         card.runAnalysis(dialogue3);
         double expected = 2.0;
         double actual = card.getScoreAccumulator();
