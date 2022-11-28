@@ -2,11 +2,11 @@ package com.speakfluid.backend.entities;
 import java.util.ArrayList;
 
 /**
+ * A Dialogue object stores chatbot's message and the user's message in a session.
+ * It also includes how much does each talk step match.
+ *
  * A dialogue is defined as back-forth messages/interactions between the chatBot
- * grouped under the same session ID in the raw transcript.
- * A Dialogue object stores chatbot's message and the user's message in the dialogue;
- * It also stores the suggested talk step and the corresponding confidence score
- * which will be set in the StepSuggestionInteractor(the use case interactor).
+ *  grouped under the same session ID in the raw transcript.
  *
  * @author  Zoey Zhang
  * @version 2.0
