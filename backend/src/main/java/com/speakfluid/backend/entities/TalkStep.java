@@ -52,14 +52,18 @@ abstract public class TalkStep {
      * @param message speech from first speaker
      * @param keywords  list of maps of keyword to weighting, where each map is a keywordCluster
      */
-    public void countMatchKeywords(Message message, List<Map<String, Double>> keywords){
+    public int countMatchKeywords(Message message, List<Map<String, Double>> keywords){
+        int totalMatchWeighting = 0;
         for(Map<String, Double> keywordCluster: keywords){
             for(Map.Entry<String, Double> keyword: keywordCluster.entrySet()){
                 if(message.getMessage().contains(keyword.getKey())){
-                    scoreAccumulator += keyword.getValue();
+
+                    totalMatchWeighting += keyword.getValue();
+
                 }
             }
         }
+        return totalMatchWeighting;
     }
 
     // /**
