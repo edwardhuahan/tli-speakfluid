@@ -25,39 +25,64 @@ import static java.util.Map.entry;
  * @since   2022-11-12
  */
 public class TextStep extends TalkStep {
-    private int scoreAccumulator;
-    private final int maxScore = 59;
-    private final String stepName = "Text";
+    private double scoreAccumulator;
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalMethod * 2
+            + ScoreStandards.additionalKeywordsMatching;
     private final List<Map<String, Double>> textKeyWordsChatBot = Arrays.asList(
-            Map.ofEntries(entry("thank you for using", 5.0),entry("thank you for contacting", 5.0),
-                    entry("thank you", 4.0), entry("thank you for", 4.5), entry("thanks", 4.0)),
-            Map.ofEntries(entry("have a great day", 4.0), entry("have a good day", 4.0),
-                    entry("good day", 2.0)),
-            Map.ofEntries(entry("i am", 0.5), entry("my name is", 0.5)),
-            Map.ofEntries(entry("goodbye", 4.5), entry("bye", 4.5)),
-            Map.ofEntries(entry("glad to help", 5.0), entry("happy to help", 5.0))
+            Map.ofEntries(entry("thank you for using", ScoreStandards.highMatch),
+                    entry("thank you for contacting", ScoreStandards.highMatch),
+                    entry("thank you", ScoreStandards.mediumMatch),
+                    entry("thank you for", ScoreStandards.mediumMatch), entry("thanks", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("have a great day", ScoreStandards.mediumMatch),
+                    entry("have a good day", ScoreStandards.mediumMatch),
+                    entry("good day", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("i am", ScoreStandards.lowMatch), entry("my name is", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("goodbye", ScoreStandards.highMatch), entry("bye", ScoreStandards.highMatch)),
+            Map.ofEntries(entry("glad to help", ScoreStandards.highMatch),
+                    entry("happy to help", ScoreStandards.highMatch))
     );
 
     private final List<Map<String, Double>> textKeyWordsUser = Arrays.asList(
-            Map.ofEntries(entry("thank you for helping", 3.0), entry("thank you", 2.0),
-                    entry("thanks", 2.0),entry("thx", 2.0), entry("appreciated", 2.0)),
-            Map.ofEntries(entry("that's all", 2.0), entry("have a good day", 2.0),
-                    entry("goodbye", 2.0), entry("bye", 2.0))
+            Map.ofEntries(entry("thank you for helping", ScoreStandards.highMatch),
+                    entry("thank you", ScoreStandards.highMatch),
+                    entry("thanks", ScoreStandards.highMatch),entry("thx", ScoreStandards.mediumMatch),
+                    entry("appreciated", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("that's all", ScoreStandards.highMatch),
+                    entry("have a good day", ScoreStandards.highMatch),
+                    entry("goodbye", ScoreStandards.mediumMatch), entry("bye", ScoreStandards.mediumMatch))
     );
 
     public TextStep(){
         this.scoreAccumulator = 0;
     }
+
+    public String getStepName(){
+        String stepName = "Text";
+        return stepName;
+    }
+
+    public double getMaxScore(){
+        return this.maxScore;
+    }
+
+    public double getScoreAccumulator(){
+        return this.scoreAccumulator;
+    }
+
+    public void setZeroScoreAccumulator(){
+        this.scoreAccumulator = 0;
+    }
+
     /**
      * isnotQuestion determines if each message in the Dialogue is a question or not.
      *
      * @param message message from first speaker(a chatbot or a user)
      * @return indicator which equals 10 if the message is not a question or 0 if the message is a question
      */
-    public int isNotQuestion(Message message) {
-        int indicator = 0;
+    public double isNotQuestion(Message message) {
+        double indicator = 0.0;
         if (!(message.getMessage().contains("?"))) {
-            indicator = 10;
+            indicator += ScoreStandards.highMatch;
         }
         return indicator;
     }
@@ -69,7 +94,7 @@ public class TextStep extends TalkStep {
      * @param dialogue one back-and-forth conversation between the chatbot and the user.
      * @return the number of consecutive chatbot messages.
      */
-    public int calculateConsecutiveBotMsg(Dialogue dialogue) {
+    public int calculateConsecutiveBotMsg(Dialogue<?> dialogue) {
 
         int botMsgLength = dialogue.getChatBotMessage().size();
         int userMsgLength = dialogue.getUserMessage().size();
@@ -89,37 +114,22 @@ public class TextStep extends TalkStep {
      * @param dialogue one back-and-forth conversation between the chatbot and the user.
      */
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
 
         for (Object message : dialogue.getChatBotMessage()) {
-            countMatchKeywords((Message) message, textKeyWordsChatBot);
+            scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
-            if (calculateMsgLength((Message) message) >= 10) {
-                scoreAccumulator += 5;
+            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 8) {
+                scoreAccumulator += ScoreStandards.lowMatch;
             }
         }
         for (Object message : dialogue.getUserMessage()) {
-            countMatchKeywords((Message) message, textKeyWordsUser);
+            scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsUser);
         }
 
-        scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * 5;
+        scoreAccumulator += calculateConsecutiveBotMsg(dialogue) * ScoreStandards.mediumMatch;
 
     }
 
-    public String getStepName(){
-        return this.stepName;
-    }
-
-    public double getMaxScore(){
-        return this.maxScore;
-    }
-
-    public double getScoreAccumulator(){
-        return this.scoreAccumulator;
-    }
-
-    public void setZeroScoreAccumulator(){
-        this.scoreAccumulator = 0;
-    }
 
 }
