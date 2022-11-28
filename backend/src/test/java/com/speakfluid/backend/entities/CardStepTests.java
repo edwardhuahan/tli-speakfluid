@@ -67,14 +67,14 @@ public class CardStepTests {
     @BeforeEach
     void init(){
         card = new CardStep();
-        user1 = new WozMessage("SNG990", "i am looking for the most famous art gallery in this area." +
+        user1 = new WozMessage("request", "i am looking for the most famous art gallery in this area." +
                 "can you tell me some suggestions?");
-        chat1 = new WozMessage("SNG990", "there are many near you. choose the one you would like.");
-        user2 = new WozMessage("SNG990", "can you find the ones that have hotels nearby?");
-        chat2 = new WozMessage("SNG990", "yes. the regency hotel is near the fine arts museum. would" +
+        chat1 = new WozMessage("response", "there are many near you. choose the one you would like.");
+        user2 = new WozMessage("request", "can you find the ones that have hotels nearby?");
+        chat2 = new WozMessage("response", "yes. the regency hotel is near the fine arts museum. would" +
                 "you like to choose this?");
-        user3 = new WozMessage("SNG990","yes. thank you");
-        chat3 = new WozMessage("SNG990", "okay it is booked. thank you and have a good day.");
+        user3 = new WozMessage("request","yes. thank you");
+        chat3 = new WozMessage("response", "okay it is booked. thank you and have a good day.");
 
         chatbotMsgs1.add(chat1);
         chatbotMsgs2.add(chat2);
