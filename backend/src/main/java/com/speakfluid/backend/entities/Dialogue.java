@@ -22,7 +22,6 @@ public class Dialogue<T> {
     private ArrayList<String> stepSuggestionList = new ArrayList<String>();
     private ArrayList<Double> confidenceScoreList = new ArrayList<Double>();;
 
-
     public Dialogue(ArrayList<T> chatBotM, ArrayList<T> userM){
         this.chatBotMessage = chatBotM;
         this.userMessage = userM;

@@ -1,6 +1,7 @@
 package com.speakfluid.backend.controller;
 
 
+import com.speakfluid.backend.entities.Conversation;
 import com.speakfluid.backend.entities.Dialogue;
 import com.speakfluid.backend.entities.WozMessage;
 

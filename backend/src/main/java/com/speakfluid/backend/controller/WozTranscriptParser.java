@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import com.speakfluid.backend.entities.Conversation;
+import com.speakfluid.backend.entities.DialogueList;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Iterator;
@@ -51,9 +53,7 @@ public class WozTranscriptParser {
      */
     public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parseTranscript(MultipartFile transcript) {
 
-        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = 
-        new ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>>();
-
+        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = new ArrayList<>();
 
         try {
             BufferedReader fileReader = new BufferedReader(new InputStreamReader(transcript.getInputStream(), "UTF-8"));
@@ -65,17 +65,16 @@ public class WozTranscriptParser {
             // create list of file names to be used as identifier of conversations
             List<String> fileNameList = new ArrayList<>();
             Iterator<String> iterator = node.fieldNames();
-            iterator.forEachRemaining(e -> fileNameList.add(e));
-        
+            iterator.forEachRemaining(fileNameList::add);
                 
             int file_count = 0;
 
             // iterate through all files in list of json files
             for (JsonNode jsonfile : node) {
                 
-                HashMap<String, ArrayList<Dialogue<WozMessage>>> conversation = new HashMap<String, ArrayList<Dialogue<WozMessage>>>();
+                Conversation conversation = new Conversation();
                 
-                ArrayList<Dialogue<WozMessage>> dialogueList = new ArrayList<Dialogue<WozMessage>>();
+                DialogueList dialogueList = new DialogueList();
 
                 ArrayList<WozMessage> userMessage = new ArrayList<WozMessage>();
                 ArrayList<WozMessage> chatbotMessage = new ArrayList<WozMessage>();
@@ -88,62 +87,27 @@ public class WozTranscriptParser {
                 for (int i = 0; i < message_count; i++) {
                     
                     JsonNode current_message = jsonfile.get("log").get(i);
+                    boolean isHuman = current_message.get("metadata").isEmpty();
+                    WozMessage message = new WozMessage("response", current_message.get("text").toString());
 
-                    // if current message is sent by chatbot and is the last message in conversation
-                    if (!current_message.get(
-                        "metadata").isEmpty() && i == message_count - 1) {
-                        chatbotMessage.add(
-                            new WozMessage("response", current_message.get("text").toString()));
-                        dialogueList.add(new Dialogue<WozMessage>(chatbotMessage, userMessage));
-                        chatbotMessage = new ArrayList<>();
-                        userMessage = new ArrayList<>();
-                    } 
+                    if (isHuman) {
+                        userMessage.add(message);
+                    } else {
+                        chatbotMessage.add(message);
+                    }
 
-                    // if current message is sent by user and is the last message in conversation
-                    else if (current_message.get(
-                        "metadata").isEmpty() && i == message_count - 1) {
+                    // if current message is the last message in conversation
+                    // or if ext message is sent by chatbot
+                    if (i == message_count - 1 || !jsonfile.get("log").get(i + 1).isEmpty()) {
 
-                        userMessage.add(
-                            new WozMessage("request", current_message.get("text").toString()));
                         dialogueList.add(new Dialogue<WozMessage>(chatbotMessage, userMessage));
                         chatbotMessage = new ArrayList<>();
                         userMessage = new ArrayList<>();
                     }
-
-                    // if current message is sent by user and the next message is sent by chatbot
-                    else if (current_message.get(
-                        "metadata").isEmpty() && !jsonfile.get("log").get(i + 1).isEmpty()) {
-
-                        userMessage.add(
-                            new WozMessage("request", current_message.get("text").toString()));
-                        dialogueList.add(new Dialogue<WozMessage>(chatbotMessage, userMessage));
-                        chatbotMessage = new ArrayList<>();
-                        userMessage = new ArrayList<>();
-                    }
-
-                    // if current message is sent by user and the next message is also sent by user
-                    else if (current_message.get(
-                        "metadata").isEmpty() && 
-                        jsonfile.get("log").get(i + 1).isEmpty()) {
-
-                        userMessage.add(
-                            new WozMessage("request", current_message.get("text").toString()));
-                    }
-
-                    // if current message is sent by chatbot
-                    else if (!current_message.get("metadata").isEmpty()) {
-
-                        chatbotMessage.add(
-                            new WozMessage("response", current_message.get("text").toString()));
-                    }
-                
                 }
                 conversation.put(fileNameList.get(file_count), dialogueList);
-
-                parsedTranscript.add(conversation);
-
+                parsedTranscript.add(conversation.getMap());
                 file_count++;
-
             }        
             
 
@@ -156,10 +120,9 @@ public class WozTranscriptParser {
     }
  
     // accept String file_path instead of MultipartFile
-    public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parseTranscriptFilePath(String transcript) {
+    public ArrayList<Conversation> parseTranscriptFilePath(String transcript) {
 
-        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = 
-        new ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>>();
+        ArrayList<Conversation> parsedTranscript = new ArrayList<>();
 
 
         try {
@@ -171,7 +134,7 @@ public class WozTranscriptParser {
             // create list of file names to be used as identifier of conversations
             List<String> fileNameList = new ArrayList<>();
             Iterator<String> iterator = node.fieldNames();
-            iterator.forEachRemaining(e -> fileNameList.add(e));
+            iterator.forEachRemaining(fileNameList::add);
         
                 
             int file_count = 0;
@@ -179,9 +142,9 @@ public class WozTranscriptParser {
             // iterate through all files in list of json files
             for (JsonNode jsonfile : node) {
                 
-                HashMap<String, ArrayList<Dialogue<WozMessage>>> conversation = new HashMap<String, ArrayList<Dialogue<WozMessage>>>();
+                Conversation conversation = new Conversation();
                 
-                ArrayList<Dialogue<WozMessage>> dialogueList = new ArrayList<Dialogue<WozMessage>>();
+                DialogueList dialogueList = new DialogueList();
 
                 ArrayList<WozMessage> userMessage = new ArrayList<WozMessage>();
                 ArrayList<WozMessage> chatbotMessage = new ArrayList<WozMessage>();
@@ -192,55 +155,24 @@ public class WozTranscriptParser {
                 // updating userMessage and chatbotMessage
                 // and adding to dialogueList
                 for (int i = 0; i < message_count; i++) {
-                    
+
                     JsonNode current_message = jsonfile.get("log").get(i);
+                    boolean isHuman = current_message.get("metadata").isEmpty();
+                    WozMessage message = new WozMessage("response", current_message.get("text").toString());
 
-                    // if current message is sent by chatbot and is the last message in conversation
-                    if (!current_message.get(
-                        "metadata").isEmpty() && i == message_count - 1) {
-                        chatbotMessage.add(
-                            new WozMessage("response", current_message.get("text").toString()));
+                    if (isHuman) {
+                        userMessage.add(message);
+                    } else {
+                        chatbotMessage.add(message);
+                    }
+
+                    // if current message is the last message in conversation
+                    // or if ext message is sent by chatbot
+                    if (i == message_count - 1 || !jsonfile.get("log").get(i + 1).isEmpty()) {
+
                         dialogueList.add(new Dialogue<WozMessage>(chatbotMessage, userMessage));
                         chatbotMessage = new ArrayList<>();
                         userMessage = new ArrayList<>();
-                    } 
-
-                    // if current message is sent by user and is the last message in conversation
-                    else if (current_message.get(
-                        "metadata").isEmpty() && i == message_count - 1) {
-
-                        userMessage.add(
-                            new WozMessage("request", current_message.get("text").toString()));
-                        dialogueList.add(new Dialogue<WozMessage>(chatbotMessage, userMessage));
-                        chatbotMessage = new ArrayList<>();
-                        userMessage = new ArrayList<>();
-                    }
-
-                    // if current message is sent by user and the next message is sent by chatbot
-                    else if (current_message.get(
-                        "metadata").isEmpty() && !jsonfile.get("log").get(i + 1).isEmpty()) {
-
-                        userMessage.add(
-                            new WozMessage("request", current_message.get("text").toString()));
-                        dialogueList.add(new Dialogue<WozMessage>(chatbotMessage, userMessage));
-                        chatbotMessage = new ArrayList<>();
-                        userMessage = new ArrayList<>();
-                    }
-
-                    // if current message is sent by user and the next message is also sent by user
-                    else if (current_message.get(
-                        "metadata").isEmpty() && 
-                        jsonfile.get("log").get(i + 1).isEmpty()) {
-
-                        userMessage.add(
-                            new WozMessage("request", current_message.get("text").toString()));
-                    }
-
-                    // if current message is sent by chatbot
-                    else if (!current_message.get("metadata").isEmpty()) {
-
-                        chatbotMessage.add(
-                            new WozMessage("response", current_message.get("text").toString()));
                     }
                 
                 }
