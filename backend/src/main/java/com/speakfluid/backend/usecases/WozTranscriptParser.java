@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @version 1.0
  * @since   2022-11-15
  */
-public class TranscriptParser {
+public class WozTranscriptParser {
 
     /**
      * Used specfically to deserialize MultiWoz Transcript json files with the following structure:

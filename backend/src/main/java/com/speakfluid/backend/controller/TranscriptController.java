@@ -7,7 +7,7 @@ import com.speakfluid.backend.entities.json.JSONTranscript;
 import com.speakfluid.backend.entities.TranscriptLoader;
 
 import com.speakfluid.backend.service.TranscriptService;
-import com.speakfluid.backend.usecases.TranscriptParser;
+import com.speakfluid.backend.usecases.WozTranscriptParser;
 import com.speakfluid.backend.usecases.WozTranscriptAnalysisInteractor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class TranscriptController {
         String rawTranscriptId = transcriptService.addTranscript(transcript);
                 
         // Transcript here is of type MultipartFile and is coming directly from the @RequestParam.
-        TranscriptParser parser = new TranscriptParser();
+        WozTranscriptParser parser = new WozTranscriptParser();
 
         ArrayList<JSONTranscript> jsonTranscripts = parser.deserializeMultifile(transcript);
         ArrayList<Transcript> parsedTranscript = parser.parse(jsonTranscripts);
