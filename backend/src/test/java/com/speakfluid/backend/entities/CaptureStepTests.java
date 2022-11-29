@@ -38,66 +38,6 @@ class CaptureStepTests {
     static Dialogue<WozMessage> emailDialogue;
     static Dialogue<WozMessage> dateDialogue;
     static Dialogue<WozMessage> locationDialogue;
-    static final List<Map<String, Double>> captureKeyWordsChatbot =
-            Arrays.asList(
-                    Map.ofEntries(entry("please provide", ScoreStandards.highMatch),
-                            entry("please enter", ScoreStandards.highMatch),
-                            entry("what is your", ScoreStandards.highMatch),
-                            entry("enter your", ScoreStandards.mediumMatch),
-                            entry("provide", ScoreStandards.lowMatch),
-                            entry("enter", ScoreStandards.lowMatch)),
-                    Map.ofEntries(entry("email", ScoreStandards.highMatch),
-                            entry("e-mail", ScoreStandards.highMatch)),
-                    Map.ofEntries(entry("order", ScoreStandards.highMatch),
-                            entry("receipt", ScoreStandards.mediumMatch),
-                            entry("number", ScoreStandards.lowMatch)),
-                    Map.ofEntries(entry("what time", ScoreStandards.highMatch),
-                            entry("which date", ScoreStandards.highMatch),
-                            entry("which day", ScoreStandards.highMatch),
-                            entry("when", ScoreStandards.mediumMatch),
-                            entry("where", ScoreStandards.mediumMatch),
-                            entry("time", ScoreStandards.mediumMatch),
-                            entry("date", ScoreStandards.lowMatch),
-                            entry("day", ScoreStandards.lowMatch)),
-                    Map.ofEntries(entry("address", ScoreStandards.highMatch),
-                            entry("zip code", ScoreStandards.highMatch),
-                            entry("location", ScoreStandards.highMatch)),
-                    Map.ofEntries( entry("name", ScoreStandards.mediumMatch),
-                            entry("address", ScoreStandards.mediumMatch))
-            );
-    // includes special characters, week days, times, address, emails
-    static final List<Map<String, Double>> captureKeyWordsUsers =
-            Arrays.asList(
-                    Map.ofEntries(entry("@", ScoreStandards.highMatch),
-                            entry(".com", ScoreStandards.highMatch),
-                            entry(".org", ScoreStandards.highMatch),
-                            entry("email", ScoreStandards.highMatch)),
-                    Map.ofEntries(entry("pm", ScoreStandards.highMatch),
-                            entry("p.m.", ScoreStandards.highMatch),
-                            entry("a.m.", ScoreStandards.highMatch),
-                            entry("am", ScoreStandards.highMatch),
-                            entry("night", ScoreStandards.highMatch),
-                            entry("noon", ScoreStandards.mediumMatch),
-                            entry("morning.", ScoreStandards.mediumMatch),
-                            entry("time", ScoreStandards.mediumMatch),
-                            entry("available", ScoreStandards.lowMatch)),
-                    Map.ofEntries(entry("monday", ScoreStandards.highMatch),
-                            entry("tuesday", ScoreStandards.highMatch),
-                            entry("wednesday", ScoreStandards.highMatch),
-                            entry("thursday", ScoreStandards.highMatch),
-                            entry("friday", ScoreStandards.highMatch),
-                            entry("saturday", ScoreStandards.highMatch),
-                            entry("sunday.", ScoreStandards.highMatch),
-                            entry("tomorrow", ScoreStandards.mediumMatch),
-                            entry("today", ScoreStandards.mediumMatch),
-                            entry("night", ScoreStandards.mediumMatch),
-                            entry("weekend", ScoreStandards.mediumMatch)),
-                    Map.ofEntries(entry("address", ScoreStandards.highMatch),
-                            entry("zip code", ScoreStandards.highMatch),
-                            entry("location", ScoreStandards.mediumMatch),
-                            entry("home", ScoreStandards.mediumMatch),
-                            entry("code", ScoreStandards.lowMatch))
-            );
     // Sets up a dialogues from one conversation about booking a hotel
     @BeforeAll
     static void setUp() {

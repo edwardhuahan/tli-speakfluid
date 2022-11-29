@@ -113,7 +113,7 @@ public class CaptureStep extends TalkStep {
     public void hasNumbers(Message message){
         for(String word : message.getMessage().split(" ")){
             if(word.matches(".*[0-9].*")){
-                scoreAccumulator += 1.0;
+                scoreAccumulator += ScoreStandards.lowMatch;
                 break;
             }
         }
@@ -128,7 +128,7 @@ public class CaptureStep extends TalkStep {
     public void isEmail(Message message){
         for(String word : message.getMessage().split(" ")){
             if(word.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
-                scoreAccumulator += 3.0;
+                scoreAccumulator += ScoreStandards.mediumMatch;
                 break;
             }
         }
@@ -144,7 +144,7 @@ public class CaptureStep extends TalkStep {
             if(word.matches( "^\\d{5}([-+]?\\d{4})?$")  //american postal code
                     || word.matches( "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]●?[0-9][A-Z][0-9]$") //full canadian postal code
                     || word.matches( "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]")){ //half a canadian (such as M5S) since people often put a space in between the two parts
-                scoreAccumulator += 3.0;
+                scoreAccumulator += ScoreStandards.mediumMatch;
                 break;
             }
         }

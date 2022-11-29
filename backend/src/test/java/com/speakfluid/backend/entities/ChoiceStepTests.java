@@ -36,27 +36,6 @@ class ChoiceStepTests {
     static WozMessage m8;
     static WozMessage m9;
     static Dialogue<WozMessage> d1;
-    static final List<Map<String, Double>> choiceKeyWordsChatbot =
-            Arrays.asList(
-                    Map.ofEntries(entry("would you like", ScoreStandards.highMatch), entry("would you", ScoreStandards.highMatch)),
-                    Map.ofEntries(entry("how can i", ScoreStandards.highMatch), entry("what can i", ScoreStandards.highMatch),
-                            entry("help", ScoreStandards.mediumMatch),entry("should i", ScoreStandards.mediumMatch),
-                            entry("could", ScoreStandards.lowMatch), entry("can", ScoreStandards.lowMatch)),
-                    Map.ofEntries(entry("return to main", ScoreStandards.highMatch), entry("end conversation", ScoreStandards.highMatch)),
-                    Map.ofEntries(entry("is this", ScoreStandards.mediumMatch), entry("is that", ScoreStandards.mediumMatch),
-                            entry("may", ScoreStandards.lowMatch))
-            );
-
-    static final List<Map<String, Double>> choiceKeyWordsUser =
-            Arrays.asList(
-                    Map.ofEntries(entry("yes", ScoreStandards.highMatch), entry("yeah", ScoreStandards.highMatch),
-                            entry("okay", ScoreStandards.highMatch), entry("ok", ScoreStandards.highMatch),
-                            entry("sure", ScoreStandards.highMatch), entry("yeh", ScoreStandards.mediumMatch)
-                            , entry("kk", ScoreStandards.lowMatch)),
-                    Map.ofEntries(entry("no", ScoreStandards.highMatch), entry("nope", ScoreStandards.highMatch),
-                            entry("nah", ScoreStandards.mediumMatch), entry("not", ScoreStandards.lowMatch))
-            );
-
      // Sets up a dialogues from one conversation about booking a hotel
     @BeforeAll
     static void setUp() {
