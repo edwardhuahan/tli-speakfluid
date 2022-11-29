@@ -3,6 +3,7 @@ package com.speakfluid.backend.controller;
 
 import com.speakfluid.backend.entities.Conversation;
 import com.speakfluid.backend.entities.Dialogue;
+import com.speakfluid.backend.entities.JSONTranscript;
 import com.speakfluid.backend.entities.WozMessage;
 
 import com.speakfluid.backend.model.TranscriptLoader;
@@ -53,7 +54,8 @@ public class TranscriptController {
         // Transcript here is of type MultipartFile and is coming directly from the @RequestParam.
         WozTranscriptParser parser = new WozTranscriptParser();
 
-        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = parser.parseTranscript(transcript);
+        ArrayList<JSONTranscript> jsonTranscripts = parser.deserializeMultifile(transcript);
+        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = parser.parse(jsonTranscripts);
 
         // Code to classify the talksteps on parsedTranscript will be here.
         WozWozTranscriptAnalysisInteractor interactor = new WozWozTranscriptAnalysisInteractor();
