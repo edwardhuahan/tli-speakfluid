@@ -74,10 +74,10 @@ public class ConfidenceScoreCalculatorTests {
     userMsgs4.add(user4);
 
 
-    dialogue1 = new Dialogue<WozMessage>(chatbotMsgs1, userMsgs1);
-    dialogue2 = new Dialogue<WozMessage>(chatbotMsgs2, userMsgs2);
-    dialogue3 = new Dialogue<WozMessage>(chatbotMsgs3, userMsgs3);
-    dialogue4 = new Dialogue<WozMessage>(chatbotMsgs4, userMsgs4);
+    dialogue1 = new Dialogue<>(chatbotMsgs1, userMsgs1);
+    dialogue2 = new Dialogue<>(chatbotMsgs2, userMsgs2);
+    dialogue3 = new Dialogue<>(chatbotMsgs3, userMsgs3);
+    dialogue4 = new Dialogue<>(chatbotMsgs4, userMsgs4);
     }
 
     @Test

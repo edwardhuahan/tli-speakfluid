@@ -1,6 +1,7 @@
 package com.speakfluid.backend.entities;
 
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,10 +85,10 @@ public class ConfidenceScoreOptimizerTests {
         userMsgs4.add(user4);
 
 
-        dialogue1 = new Dialogue<WozMessage>(chatbotMsgs1, userMsgs1);
-        dialogue2 = new Dialogue<WozMessage>(chatbotMsgs2, userMsgs2);
-        dialogue3 = new Dialogue<WozMessage>(chatbotMsgs3, userMsgs3);
-        dialogue4 = new Dialogue<WozMessage>(chatbotMsgs4, userMsgs4);
+        dialogue1 = new Dialogue<>(chatbotMsgs1, userMsgs1);
+        dialogue2 = new Dialogue<>(chatbotMsgs2, userMsgs2);
+        dialogue3 = new Dialogue<>(chatbotMsgs3, userMsgs3);
+        dialogue4 = new Dialogue<>(chatbotMsgs4, userMsgs4);
 
     }
 
@@ -105,6 +106,11 @@ public class ConfidenceScoreOptimizerTests {
         calculator2 = new ConfidenceScoreCalculator();
         optimizer = new ConfidenceScoreOptimizer(calculator2, talkStepList);
 
+    }
+
+    @AfterEach
+    public void reset(){
+        talkStepList.clear();
     }
     @Test
     public void testCallConfidenceScoreOptimizer1(){
