@@ -1,11 +1,24 @@
 import React from 'react';
+
+/***STYLES***/
+import '../styles/Global.css';
+import '../styles/UploadButton.css';
+
+/***TYPES***/
 import '../types/Types';
 
+/**
+ * The functional component for the button to upload transcripts for analyzing.
+ * @author Kai Zhuang
+ * @param addTranscript The function to change the transcripts state in the Analytics page.
+ * @returns A react functional component for the UploadButton.
+ */
 function UploadButton({addTranscript} : any) {
 
 	/**
 	 * Upload a transcript and send a request to the server to
 	 * retrieve an analyzed transcript.
+	 * @author Kai Zhuang
 	 * @param event The event of uploading a transcript.
 	 */
 	const changeHandler = (event: any) => {
@@ -31,8 +44,11 @@ function UploadButton({addTranscript} : any) {
 	};
 
 	return (
-		<div style={{ alignContent: "right" }}>
-			<input type="file" name="file" onChange={changeHandler}/>
+		<div style={{marginBottom: '20px', width: '100%'}}>
+			<label htmlFor='fileUpload' className='uploadButton header hoverable'>
+				<i></i>Upload Transcript
+			</label>
+			<input id='fileUpload' type='file' name='file' onChange={changeHandler} style={{display: 'none'}} accept='.json'/>
 		</div>
 	);
 }

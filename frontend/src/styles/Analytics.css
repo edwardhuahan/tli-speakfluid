@@ -1,31 +1,69 @@
 .transcriptSection {
-  width: calc(15% - 60px);
+  width: calc(17% - 60px);
   height: calc(100% - 60px);
   padding: 30px;
+
   display: flex;
   flex-direction: column;
 
   border-right: 2px solid #edede9;
 
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.transcriptSection::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .cardsSection {
-  width: calc(30% - 60px);
-  height: calc(100% - 60px);
+  width: calc(35% - 60px);
+  height: calc(100% - 30px);
   padding: 30px;
-  display: flex;
-  flex-direction: column;
+  padding-bottom: 0;
 
   border-right: 2px solid #edede9;
 
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.cardsSection::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .analysisSection {
-  width: calc(55% - 60px);
+  width: calc(48% - 60px);
   height: calc(100% - 60px);
   padding: 30px;
   display: flex;
   flex-direction: column;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.analysisSection::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+.topSuggestion {
+  width: calc(100% - 60px);
+  height: 150px;
+  padding: 30px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: row;
+
+  border: 2px solid #edede9;
+  border-radius: 25px;
+}
+
+.otherSuggestions {
+  width: calc(100% - 60px);
+  padding: 30px;
+  margin: 20px 0;
+
+  border: 2px solid #edede9;
+  border-radius: 25px;
 }

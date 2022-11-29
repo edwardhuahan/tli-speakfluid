@@ -2,20 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 /***ASSETS***/
-import chatBot from '../assets/cb.jpg'
+import chatBot from '../assets/cb.webp'
 
 /***COMPONENTS***/
 import NavBar from '../components/NavBar';
-import { Button } from '@mui/material';
-
-/***PAGES***/
 
 /***STYLES***/
 import '../styles/Global.css'
 import '../styles/Home.css';
 
-/***TYPES***/
-
+/**
+ * The landing page where SpeakFluid's product is described.
+ * @author Kai Zhuang
+ * @returns The Home page as a functional component.
+ */
 export default function Home() {
   return (
     <div className='pageWrapper'>
@@ -32,12 +32,9 @@ export default function Home() {
               and get classified sentiments in a matter of seconds.
             </h2>
             <Link to='/analytics' style={{textDecoration: 'none', alignSelf: 'flex-start'}}>
-              <Button variant="contained" 
-                      style={{backgroundColor: '#474af1', borderRadius: '20px'}} 
-                      size='large'
-                      >
-                <h2 className='header'>Get Started</h2>
-              </Button>
+              <div className='header hoverable' style={{padding: '17px 35px', backgroundColor: '#474af1', color: 'white', fontSize: '25px'}}>
+                Get Started
+              </div>
             </Link>
           </div>
         </div>

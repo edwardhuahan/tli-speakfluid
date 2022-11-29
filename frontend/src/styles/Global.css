@@ -22,6 +22,10 @@
   flex-direction: column;
 }
 
+.hoverable:hover {
+  filter: brightness(95%)
+}
+
 /***POSITIONING***/
 .centerContent {
   justify-content: center;
@@ -40,4 +44,10 @@
   font-weight: 500;
   font-style: normal;
   color: #adb5bd
+}
+
+.paragraph {
+  font-family: articulat-cf,sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
