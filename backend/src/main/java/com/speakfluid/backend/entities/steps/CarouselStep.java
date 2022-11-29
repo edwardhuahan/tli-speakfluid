@@ -25,44 +25,38 @@ import static java.util.Map.entry;
  * @since   2022-11-16
  */
 public class CarouselStep extends TalkStep {
-    private int scoreAccumulator;
-    private final int maxScore = 16;
-    private final String stepName = "Carousel";
+    private double scoreAccumulator;
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalKeywordsMatching;
     private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
-            Map.ofEntries(entry("here are", 2.0),entry("map", 1.0), entry("location", 1.0),
-                    entry("direction", 1.0)),
-            Map.ofEntries(entry("here is a picture", 4.0), entry("here is an image", 4.0),
-                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)
+            Map.ofEntries(entry("here are", ScoreStandards.mediumMatch),entry("map", ScoreStandards.lowMatch),
+                    entry("location", ScoreStandards.lowMatch),
+                    entry("direction", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("here are pictures", ScoreStandards.mediumMatch),
+                    entry("here are images", ScoreStandards.mediumMatch),
+                    entry("picture", ScoreStandards.mediumMatch),entry("illustration", ScoreStandards.mediumMatch),
+                    entry("image", ScoreStandards.mediumMatch)
                     ),
-            Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0)),
-            Map.ofEntries(entry("list of", 5.0), entry("a list of", 5.0),
-                    entry("lists of", 5.0),entry("here are a list of", 5.0), entry("list", 4.0)),
-            Map.ofEntries(entry("choose from the following", 4.0))
+            Map.ofEntries(entry("show", ScoreStandards.lowMatch), entry("illustrate", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("list of", ScoreStandards.highMatch), entry("a list of", ScoreStandards.highMatch),
+                    entry("here are a list of", ScoreStandards.highMatch),
+                    entry("list", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("choose from the following", ScoreStandards.mediumMatch))
             );
+    private final List<Map<String, Double>> buttonKeyWords = Arrays.asList(
+            Map.ofEntries(entry("The following are", ScoreStandards.highMatch),
+                    entry("These are", ScoreStandards.highMatch),entry("here are", ScoreStandards.mediumMatch),
+                    entry("do you", ScoreStandards.lowMatch),
+                    entry("here is", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("here are", ScoreStandards.highMatch), entry("choose", ScoreStandards.highMatch),
+                    entry("select", ScoreStandards.highMatch), entry("options", ScoreStandards.highMatch)));
 
     public CarouselStep(){
         this.scoreAccumulator = 0;
     }
 
-    /**
-     * runAnalysis for ImageStep determines:
-     * 1. How many carousel keywords the message has?
-     *
-     * @param dialogue one back-and-forth conversation between the chatbot and the user.
-     */
-    @Override
-    public void runAnalysis(Dialogue dialogue) {
-        for (Object message : dialogue.getChatBotMessage()) {
-            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWords);
-
-            if (calculateMsgLength((Message) message) >= 6) {
-                scoreAccumulator += 5;
-            }
-        }
-    }
-
     public String getStepName(){
-        return this.stepName;
+        String stepName = "Carousel";
+        return stepName;
     }
 
     public double getMaxScore(){
@@ -75,6 +69,24 @@ public class CarouselStep extends TalkStep {
 
     public void setZeroScoreAccumulator(){
         this.scoreAccumulator = 0;
+    }
+
+    /**
+     * runAnalysis for ImageStep determines:
+     * 1. How many carousel keywords the message has?
+     *
+     * @param dialogue one back-and-forth conversation between the chatbot and the user.
+     */
+    @Override
+    public void runAnalysis(Dialogue<?> dialogue) {
+        for (Object message : dialogue.getChatBotMessage()) {
+            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWords);
+            scoreAccumulator += countMatchKeywords((Message) message, buttonKeyWords);
+            if (scoreAccumulator != 0.0 &&
+                    calculateMsgLength((Message) message) <= 6){
+                scoreAccumulator += ScoreStandards.lowMatch;
+            }
+        }
     }
 
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Map.entry;
-
 /**
  * ImageStep class stores and reflects the features of the Image Talk Step functionality of Voiceflow.
  *
@@ -26,44 +25,40 @@ import static java.util.Map.entry;
  * @since   2022-11-16
  */
 public class ImageStep extends TalkStep {
-    private int scoreAccumulator;
-    private final int maxScore = 20;
-    private final String stepName = "Image";
-    private final List<Map<String, Double>> imageKeyWords = Arrays.asList(
-            Map.ofEntries(entry("here are the locations", 5.0),
-                    entry("here are possible the directions", 5.0),
-                    entry("map", 4.0), entry("location", 3.0),entry("direction", 3.0)
+    private double scoreAccumulator;
+    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalKeywordsMatching;
+    private final List<Map<String, Double>> imageKeyWordsBot = Arrays.asList(
+            Map.ofEntries(entry("here are the locations", ScoreStandards.highMatch),
+                    entry("here are possible the directions", ScoreStandards.highMatch),
+                    entry("map", ScoreStandards.mediumMatch), entry("location", 3.0),entry("direction", 3.0)
                     ),
-            Map.ofEntries(entry("here is a picture", 4.0), entry("here is an image", 4.0),
-                    entry("picture", 3.0),entry("illustration", 3.0),entry("image", 3.0)),
-            Map.ofEntries(entry("show", 1.0), entry("illustrate", 1.0))
+            Map.ofEntries(entry("here is a picture", ScoreStandards.highMatch),
+                    entry("here is an image", ScoreStandards.highMatch),
+                    entry("picture", ScoreStandards.highMatch),entry("illustration", ScoreStandards.highMatch),
+                    entry("image", ScoreStandards.highMatch)),
+            Map.ofEntries(entry("show", ScoreStandards.lowMatch), entry("illustrate", ScoreStandards.lowMatch))
+    );
+
+    private final List<Map<String, Double>> imageKeyWordsUser = Arrays.asList(
+            Map.ofEntries(entry("locations of", ScoreStandards.highMatch),
+                    entry("direction to", ScoreStandards.highMatch),
+                    entry("map", ScoreStandards.highMatch), entry("location", ScoreStandards.mediumMatch),
+                    entry("direction", ScoreStandards.mediumMatch)
+            ),
+            Map.ofEntries(entry("another picture", ScoreStandards.mediumMatch),
+                    entry("here is an image", ScoreStandards.mediumMatch),
+                    entry("picture", ScoreStandards.mediumMatch),entry("illustration", ScoreStandards.mediumMatch),
+                    entry("image", ScoreStandards.mediumMatch)),
+            Map.ofEntries(entry("show", ScoreStandards.lowMatch), entry("illustrate", ScoreStandards.lowMatch))
     );
 
 
     public ImageStep(){
         this.scoreAccumulator = 0;
     }
-
-    /**
-     * runAnalysis for ImageStep determines:
-     * 1. If the bot's message is short
-     * 2. How many image keywords the message has?
-     *
-     * @param dialogue one back-and-forth conversation between the chatbot and the user.
-     */
-    @Override
-    public void runAnalysis(Dialogue dialogue) {
-
-        for (Object message : dialogue.getChatBotMessage()) {
-            countMatchKeywords((Message) message, imageKeyWords);
-            if (calculateMsgLength((Message) message) <= 6) {
-                scoreAccumulator += 5;
-            }
-        }
-    }
-
     public String getStepName(){
-        return this.stepName;
+        String stepName = "Image";
+        return stepName;
     }
 
     public double getMaxScore(){
@@ -76,6 +71,30 @@ public class ImageStep extends TalkStep {
 
     public void setZeroScoreAccumulator(){
         this.scoreAccumulator = 0;
+    }
+
+    /**
+     * runAnalysis for ImageStep determines:
+     * 1. If the bot's message is short
+     * 2. How many image keywords the message has?
+     *
+     * @param dialogue one back-and-forth conversation between the chatbot and the user.
+     */
+    @Override
+    public void runAnalysis(Dialogue<?> dialogue) {
+
+        for (Object message : dialogue.getChatBotMessage()) {
+            scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsBot);
+            if (scoreAccumulator != 0.0 &&
+                    calculateMsgLength((Message) message) <= 6){
+                scoreAccumulator += ScoreStandards.lowMatch;
+            }
+        }
+        if (dialogue.getUserMessage().size() != 0) {
+            for (Object message : dialogue.getUserMessage()) {
+                scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsUser);
+            }
+        }
     }
 
 }
