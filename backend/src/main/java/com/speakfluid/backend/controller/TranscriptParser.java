@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +29,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @version 1.0
  * @since   2022-11-15
  */
-public class WozTranscriptParser {
+public class TranscriptParser {
 
     /**
      * Used specfically to deserialize MultiWoz Transcript json files with the following structure:
@@ -116,16 +115,15 @@ public class WozTranscriptParser {
         return transcripts;
     }
 
-    // TEMPORARY RETURN TYPE
-    public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parse(ArrayList<JSONTranscript> transcripts) {
-        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> result = new ArrayList<>();
+    public ArrayList<Conversation> parse(ArrayList<JSONTranscript> transcripts) {
+        ArrayList<Conversation> result = new ArrayList<>();
         for (JSONTranscript transcript : transcripts) {
             Conversation conversation = new Conversation();
 
             DialogueList dialogueList = parseTranscript(transcript);
 
             conversation.put(transcript.getFileName(), dialogueList);
-            result.add(conversation.getMap());
+            result.add(conversation);
         }
 
         return result;

@@ -1,5 +1,8 @@
 package com.speakfluid.backend.entities;
 
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.steps.TalkStep;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

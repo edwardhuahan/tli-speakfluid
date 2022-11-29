@@ -1,5 +1,8 @@
 package com.speakfluid.backend.entities;
 
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.steps.TalkStep;
+
 /**
  * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to increment or decrement their
  * corresponding accumulated scores as necessary. It then returns the confidence score of the TalkStep child based on the

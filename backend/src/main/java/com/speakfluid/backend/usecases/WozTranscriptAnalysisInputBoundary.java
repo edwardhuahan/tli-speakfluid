@@ -1,5 +1,6 @@
 package com.speakfluid.backend.usecases;
 
+import com.speakfluid.backend.entities.message.Conversation;
 import com.speakfluid.backend.entities.message.Dialogue;
 import com.speakfluid.backend.entities.message.WozMessage;
 
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 // use case layer
 public interface WozTranscriptAnalysisInputBoundary {
-    public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzeTranscript(
-            ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> transcript) ;
+    public ArrayList<Conversation> analyzeTranscript(
+            ArrayList<Conversation> transcript) ;
 
     }
