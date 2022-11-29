@@ -1,4 +1,4 @@
-package com.speakfluid.backend.model;
+package com.speakfluid.backend.entities;
 
 /**
  * TranscriptLoader is used to load raw transcripts

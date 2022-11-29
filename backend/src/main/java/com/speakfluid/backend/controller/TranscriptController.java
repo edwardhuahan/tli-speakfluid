@@ -1,13 +1,14 @@
 package com.speakfluid.backend.controller;
 
 
-import com.speakfluid.backend.entities.Dialogue;
-import com.speakfluid.backend.entities.WozMessage;
+import com.speakfluid.backend.entities.message.Transcript;
+import com.speakfluid.backend.entities.json.JSONTranscript;
 
-import com.speakfluid.backend.model.TranscriptLoader;
+import com.speakfluid.backend.entities.TranscriptLoader;
 
 import com.speakfluid.backend.service.TranscriptService;
-import com.speakfluid.backend.usecases.WozWozTranscriptAnalysisInteractor;
+import com.speakfluid.backend.usecases.WozTranscriptParser;
+import com.speakfluid.backend.usecases.WozTranscriptAnalysisInteractor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * TranscriptController is used as an API
@@ -52,15 +52,15 @@ public class TranscriptController {
         // Transcript here is of type MultipartFile and is coming directly from the @RequestParam.
         WozTranscriptParser parser = new WozTranscriptParser();
 
-        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> parsedTranscript = parser.parseTranscript(transcript);
+        ArrayList<JSONTranscript> jsonTranscripts = parser.deserializeMultifile(transcript);
+        ArrayList<Transcript> parsedTranscript = parser.parse(jsonTranscripts);
 
         // Code to classify the talksteps on parsedTranscript will be here.
-        WozWozTranscriptAnalysisInteractor interactor = new WozWozTranscriptAnalysisInteractor();
-        ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzedTranscript = interactor.analyzeTranscript(parsedTranscript);
+        WozTranscriptAnalysisInteractor interactor = new WozTranscriptAnalysisInteractor();
+        ArrayList<Transcript> analyzedTranscript = interactor.analyzeTranscript(parsedTranscript);
 
         // return parsedTranscript;
         return new ResponseEntity<>(analyzedTranscript, HttpStatus.OK);
-
     }
 
     /**
