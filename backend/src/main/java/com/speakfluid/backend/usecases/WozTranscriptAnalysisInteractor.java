@@ -1,10 +1,7 @@
 package com.speakfluid.backend.usecases;
 
 import com.speakfluid.backend.entities.*;
-import com.speakfluid.backend.entities.message.Transcript;
-import com.speakfluid.backend.entities.message.Dialogue;
-import com.speakfluid.backend.entities.message.DialogueList;
-import com.speakfluid.backend.entities.message.WozMessage;
+import com.speakfluid.backend.entities.message.*;
 import com.speakfluid.backend.entities.steps.*;
 
 import java.util.ArrayList;
