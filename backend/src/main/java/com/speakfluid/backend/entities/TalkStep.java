@@ -11,8 +11,8 @@ import java.util.Map;
  * with useful and common analysis methods implemented for use.
  *
  * @author  Sarah Xu, Minh Le
- * @version 2.0
- * @since   2022-11-18
+ * @version 3.0
+ * @since   2022-11-27
  */
 abstract public class TalkStep {
     private int scoreAccumulator;
@@ -46,17 +46,17 @@ abstract public class TalkStep {
     }
 
     /**
-     * countMatchKeywords finds if words in a chatbot/user message matches
-     * keywords in a keywordCluster, and adds to the ScoreAccumulator
-     * the weighting of that keyword if there is a match.
+     * countMatchKeywords finds the total weighting of words in a chatbot/user message that match
+     * with keywords in a keywordCluster
      * @param message speech from first speaker
      * @param keywords  list of maps of keyword to weighting, where each map is a keywordCluster
+     * @retirm totalMatchWeighting sum of weights of all keywords that matched
      */
     public int countMatchKeywords(Message message, List<Map<String, Double>> keywords){
         int totalMatchWeighting = 0;
         for(Map<String, Double> keywordCluster: keywords){
             for(Map.Entry<String, Double> keyword: keywordCluster.entrySet()){
-                if(message.getMessage().contains(keyword.getKey())){
+                if(message.getMessage().toLowerCase().contains(keyword.getKey())){
                     totalMatchWeighting += keyword.getValue();
                 }
             }
@@ -81,6 +81,6 @@ abstract public class TalkStep {
     //     return minutes*60 + seconds;
     // }
 
-    public abstract void runAnalysis(Dialogue dialogue);
+    public abstract void runAnalysis(Dialogue<?> dialogue);
 
 }
