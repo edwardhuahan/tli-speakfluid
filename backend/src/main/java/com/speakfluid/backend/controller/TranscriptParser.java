@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.speakfluid.backend.entities.json.*;
-import com.speakfluid.backend.entities.message.Conversation;
+import com.speakfluid.backend.entities.message.Transcript;
 import com.speakfluid.backend.entities.message.Dialogue;
 import com.speakfluid.backend.entities.message.DialogueList;
 import com.speakfluid.backend.entities.message.WozMessage;
@@ -115,10 +115,10 @@ public class TranscriptParser {
         return transcripts;
     }
 
-    public ArrayList<Conversation> parse(ArrayList<JSONTranscript> transcripts) {
-        ArrayList<Conversation> result = new ArrayList<>();
+    public ArrayList<Transcript> parse(ArrayList<JSONTranscript> transcripts) {
+        ArrayList<Transcript> result = new ArrayList<>();
         for (JSONTranscript transcript : transcripts) {
-            Conversation conversation = new Conversation();
+            Transcript conversation = new Transcript();
 
             DialogueList dialogueList = parseTranscript(transcript);
 

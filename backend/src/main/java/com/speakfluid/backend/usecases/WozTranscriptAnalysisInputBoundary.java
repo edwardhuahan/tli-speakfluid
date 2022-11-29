@@ -1,11 +1,8 @@
 package com.speakfluid.backend.usecases;
 
-import com.speakfluid.backend.entities.message.Conversation;
-import com.speakfluid.backend.entities.message.Dialogue;
-import com.speakfluid.backend.entities.message.WozMessage;
+import com.speakfluid.backend.entities.message.Transcript;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * WozTranscriptAnalysisInputBoundary is the interface for the use case interactor.
@@ -17,7 +14,7 @@ import java.util.HashMap;
 
 // use case layer
 public interface WozTranscriptAnalysisInputBoundary {
-    public ArrayList<Conversation> analyzeTranscript(
-            ArrayList<Conversation> transcript) ;
+    public ArrayList<Transcript> analyzeTranscript(
+            ArrayList<Transcript> transcript) ;
 
     }

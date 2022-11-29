@@ -1,7 +1,7 @@
 package com.speakfluid.backend.usecases;
 
 import com.speakfluid.backend.entities.*;
-import com.speakfluid.backend.entities.message.Conversation;
+import com.speakfluid.backend.entities.message.Transcript;
 import com.speakfluid.backend.entities.message.Dialogue;
 import com.speakfluid.backend.entities.message.DialogueList;
 import com.speakfluid.backend.entities.message.WozMessage;
@@ -59,14 +59,13 @@ public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysis
      * @return the analyzed transcript which contains Dialogue objects with updated stepSuggestion and confidenceScore.
      */
     @Override
-    public ArrayList<Conversation> analyzeTranscript(
-         ArrayList<Conversation> transcript) {
+    public ArrayList<Transcript> analyzeTranscript(ArrayList<Transcript> transcript) {
 
         // To access all the different id-to-conversation-content pairs in the same session
-        for (Conversation idToConversations : transcript) {
+        for (Transcript iDToTranscript : transcript) {
 
             // To access the conversations in the id-to-conversation-content pairs
-            for (DialogueList conversation : idToConversations.values()) {
+            for (DialogueList conversation : iDToTranscript.values()) {
 
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue<WozMessage> dialogue : conversation) {
