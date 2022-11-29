@@ -78,7 +78,7 @@ export default function Analytics() {
     
     suggestion.stepSuggestion.forEach((step: String, index: number) => {
       stepSuggestions.push({title: step, 
-                            ranges: [40,60,80],
+                            ranges: [40,80,100],
                             target: [80],
                             measures: [suggestion.confidenceScore[index]], 
                           })
