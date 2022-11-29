@@ -17,14 +17,14 @@ public class JSONTranscript {
      *
      */
     private String fileName;
-    private ArrayList<JSONLog> logs;
+    private ArrayList<JSONDialogue> logs;
 
-    public JSONTranscript(String fileName, ArrayList<JSONLog> logs) {
+    public JSONTranscript(String fileName, ArrayList<JSONDialogue> logs) {
         this.fileName = fileName;
         this.logs = logs;
     }
 
-    public ArrayList<JSONLog> getLogs() {
+    public ArrayList<JSONDialogue> getLogs() {
         return logs;
     }
 
@@ -32,7 +32,7 @@ public class JSONTranscript {
         return fileName;
     }
 
-    public void setLogs(ArrayList<JSONLog> logs) {
+    public void setLogs(ArrayList<JSONDialogue> logs) {
         this.logs = logs;
     }
 

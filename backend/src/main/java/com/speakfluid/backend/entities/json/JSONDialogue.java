@@ -2,7 +2,7 @@ package com.speakfluid.backend.entities.json;
 
 import java.util.Map;
 
-public class JSONLog {
+public class JSONDialogue {
 
     /**
      * Used specifically to represent MultiWoz Transcript json files with the following structure:
