@@ -7,7 +7,11 @@ import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.speakfluid.backend.entities.*;
+import com.speakfluid.backend.entities.json.*;
+import com.speakfluid.backend.entities.message.Conversation;
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.DialogueList;
+import com.speakfluid.backend.entities.message.WozMessage;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Iterator;

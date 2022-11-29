@@ -1,4 +1,4 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.json;
 
 import java.util.Map;
 

@@ -1,4 +1,7 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.steps;
+
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.Message;
 
 import java.util.List;
 import java.util.Arrays;
@@ -15,7 +18,7 @@ import static java.util.Map.entry;
  * @since November 16th 2022
  */
 
-public class ButtonStep extends TalkStep{
+public class ButtonStep extends TalkStep {
 
     private double scoreAccumulator;
     private final double maxScore = 22.0;

@@ -1,4 +1,4 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.message;
 
 /**
  * The WozMessage class is tailored to the MultiWoZ transcript dataset, in which
@@ -11,7 +11,7 @@ package com.speakfluid.backend.entities;
  */
 
 /* Entity layer */
-public class WozMessage extends Message{
+public class WozMessage extends Message {
 
     private String trace_type;
 

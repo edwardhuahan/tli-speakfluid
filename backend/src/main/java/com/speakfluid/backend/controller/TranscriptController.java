@@ -1,10 +1,9 @@
 package com.speakfluid.backend.controller;
 
 
-import com.speakfluid.backend.entities.Conversation;
-import com.speakfluid.backend.entities.Dialogue;
-import com.speakfluid.backend.entities.JSONTranscript;
-import com.speakfluid.backend.entities.WozMessage;
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.json.JSONTranscript;
+import com.speakfluid.backend.entities.message.WozMessage;
 
 import com.speakfluid.backend.model.TranscriptLoader;
 

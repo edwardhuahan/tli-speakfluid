@@ -1,7 +1,7 @@
 package com.speakfluid.backend.usecases;
 
-import com.speakfluid.backend.entities.Dialogue;
-import com.speakfluid.backend.entities.WozMessage;
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.WozMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

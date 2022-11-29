@@ -1,4 +1,4 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.message;
 
 import java.util.ArrayList;
 import java.util.HashMap;
