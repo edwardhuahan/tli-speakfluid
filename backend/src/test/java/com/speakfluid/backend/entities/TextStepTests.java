@@ -75,6 +75,6 @@ class TextStepTests extends TalkStepTest {
         textStep.runAnalysis(d1);
         double actualScore = textStep.getScoreAccumulator();
         textStep.setZeroScoreAccumulator();
-        assertEquals(6.0, actualScore);
+        assertEquals(11.0, actualScore);
     }
 }

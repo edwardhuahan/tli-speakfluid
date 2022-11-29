@@ -75,6 +75,6 @@ class CarouselStepTests extends TalkStepTest {
         carouselStep.runAnalysis(d2);
         double actualScore = carouselStep.getScoreAccumulator();
         carouselStep.setZeroScoreAccumulator();
-        assertEquals(16.0, actualScore);
+        assertEquals(19.0, actualScore);
     }
 }
