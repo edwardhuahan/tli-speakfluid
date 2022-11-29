@@ -3,7 +3,7 @@ package com.speakfluid.backend.entities;
 import java.lang.Math.*;
 
 /**
- * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to increment or decrement their
+ * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to adjust their
  * corresponding accumulated scores as necessary. It then returns the confidence score of the TalkStep child based on the
  * inputted Dialogue object.
  * @author Aurora Zhang

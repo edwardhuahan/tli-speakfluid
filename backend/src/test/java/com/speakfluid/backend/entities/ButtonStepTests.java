@@ -3,18 +3,9 @@ package com.speakfluid.backend.entities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.test.context.event.annotation.AfterTestClass;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
 
 /**
  * Test suite for the ButtonStep entity. Using a variety of Dialogue objects of various suitability for a button choice.

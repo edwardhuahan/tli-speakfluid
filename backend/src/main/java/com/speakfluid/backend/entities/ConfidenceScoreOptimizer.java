@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 
 /**
- * ConfidenceScoreOptimizer calls the ConfidenceScoreOptimizer to store each talk step's confidence score. It then returns a Hashmap mapping
+ * ConfidenceScoreOptimizer calls the ConfidenceScoreCalculator to store each talk step's confidence score. It then returns a Hashmap mapping
  * the talk step with the highest confidence score to its confidence score. This class is called by the use case interactor.
  * @author Aurora Zhang
  * @version 4.0
