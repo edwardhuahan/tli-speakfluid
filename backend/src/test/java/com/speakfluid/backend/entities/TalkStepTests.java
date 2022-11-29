@@ -1,5 +1,9 @@
 package com.speakfluid.backend.entities;
 
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.WozMessage;
+import com.speakfluid.backend.entities.steps.ChoiceStep;
+import com.speakfluid.backend.entities.steps.TalkStep;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
