@@ -15,4 +15,6 @@ public class ScoreStandards {
     public static double additionalMethod = 3.0;
     public static double additionalKeywordsMatching = 5.0;
 
+
 }
+
