@@ -171,32 +171,5 @@ public class TranscriptParser {
         }
         return dialogueList;
     }
-
-//     public static void main(String[] args) {
-//         WozTranscriptParser to_parse = new WozTranscriptParser();
-//         ArrayList<HashMap<String, ArrayList<Dialogue>>> parsedTranscript =
-//         to_parse.parseTranscript("/Users/minhle/Documents/2nd Year/TLI/tli-speakfluid/data.json");
-//
-//         // how to iterature through parsedTranscript
-//         for (HashMap<String, ArrayList<Dialogue>> conversation : parsedTranscript) {
-//             if (conversation.containsKey("SNG0827.json")) {
-//                 ArrayList<Dialogue> dialogueList = conversation.get("SNG0827.json");
-//                 for (Dialogue dialogue : dialogueList) {
-//
-//
-//                     System.out.println("new dialogue");
-//                     for (WozMessage chatbotM : dialogue.getChatBotMessage()) {
-//
-//                         System.out.println(chatbotM.getMessage());
-//                     }
-//                     for (WozMessage userM : dialogue.getUserMessage()) {
-//
-//                         System.out.println(userM.getMessage());
-//                     }
-//                 }
-//             }
-//         }
-//
-//     }
     
 }
