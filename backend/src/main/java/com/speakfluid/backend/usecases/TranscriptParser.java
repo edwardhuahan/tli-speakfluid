@@ -1,4 +1,4 @@
-package com.speakfluid.backend.controller;
+package com.speakfluid.backend.usecases;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -65,7 +65,7 @@ public class TranscriptParser {
             JsonNode logs = data.get("log");
             String logString = logs.toString();
 
-            ArrayList<JSONLog> deserializedData = mapper.readValue(logString, new TypeReference<>() {});
+            ArrayList<JSONDialogue> deserializedData = mapper.readValue(logString, new TypeReference<>() {});
             JSONTranscript dt = new JSONTranscript(fileKey, deserializedData);
             transcripts.add(dt);
         }
@@ -142,7 +142,7 @@ public class TranscriptParser {
         ArrayList<WozMessage> userMessage = new ArrayList<WozMessage>();
         ArrayList<WozMessage> chatbotMessage = new ArrayList<WozMessage>();
 
-        ArrayList<JSONLog> logs = jsonTranscript.getLogs();
+        ArrayList<JSONDialogue> logs = jsonTranscript.getLogs();
         int numMessages = logs.size();
 
         // iterate through list of messages in one conversation,
@@ -150,7 +150,7 @@ public class TranscriptParser {
         // and adding to dialogueList
         for (int i = 0; i < numMessages; i++) {
 
-            JSONLog current_message = logs.get(i);
+            JSONDialogue current_message = logs.get(i);
             boolean isHuman = current_message.getMetadata().isEmpty();
             WozMessage message = new WozMessage("response", current_message.getText());
 

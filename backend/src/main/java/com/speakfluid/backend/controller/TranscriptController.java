@@ -7,6 +7,7 @@ import com.speakfluid.backend.entities.json.JSONTranscript;
 import com.speakfluid.backend.model.TranscriptLoader;
 
 import com.speakfluid.backend.service.TranscriptService;
+import com.speakfluid.backend.usecases.TranscriptParser;
 import com.speakfluid.backend.usecases.WozWozTranscriptAnalysisInteractor;
 
 import org.springframework.beans.factory.annotation.Autowired;
