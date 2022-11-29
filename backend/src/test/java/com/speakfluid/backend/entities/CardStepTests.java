@@ -11,11 +11,11 @@ import java.util.*;
 import static java.util.Map.entry;
 
 /*
- * Test suite for the CardStep entity. Only tests CardStep's own implemented methods, using
- * mock values for its dependencies to ensure transparency in that we are only testing this entity.
+ * Test suite for the CardStep entity. Using a variety of Dialogue objects of various suitability for a card choice.
+ * Also incorporates testing for the edge case of an empty Dialogue object.
  *
  * @author Aurora Zhang
- * @version 1.0
+ * @version 2.0
  * @since November 27th, 2022
  */
 
@@ -31,6 +31,9 @@ public class CardStepTests {
     WozMessage user3;
     WozMessage chat3;
 
+    WozMessage user4;
+    WozMessage chat4;
+
     // initialize arrays to an empty ArrayList otherwise default value is null.
     ArrayList<WozMessage> userMsgs1 = new ArrayList<>();
     ArrayList<WozMessage> chatbotMsgs1 = new ArrayList<>();
@@ -39,30 +42,16 @@ public class CardStepTests {
     ArrayList<WozMessage> userMsgs3 = new ArrayList<>();
     ArrayList<WozMessage> chatbotMsgs3 = new ArrayList<>();
 
-    Dialogue dialogue1;
-    Dialogue dialogue2;
-    Dialogue dialogue3;
+    ArrayList<WozMessage> chatbotMsgs4 = new ArrayList<>();
 
-    private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
-            Map.ofEntries(entry("can i help", ScoreStandards.highMatch),
-                    entry("can i do", ScoreStandards.mediumMatch)),
-            Map.ofEntries(entry("here are", ScoreStandards.mediumMatch), entry("there are", ScoreStandards.mediumMatch),
-                    entry("what kind", ScoreStandards.mediumMatch), entry("do you", ScoreStandards.lowMatch),
-                    entry("here is", ScoreStandards.lowMatch)),
-            Map.ofEntries(entry("ticket", ScoreStandards.mediumMatch), entry("area", ScoreStandards.mediumMatch),
-                    entry("departure", ScoreStandards.mediumMatch),
-                    entry("leaves", ScoreStandards.mediumMatch)),
-            Map.ofEntries(entry("image", ScoreStandards.highMatch), entry("picture", ScoreStandards.highMatch)),
-            Map.ofEntries(entry("choose", ScoreStandards.highMatch), entry("select", ScoreStandards.highMatch),
-                    entry("pick", ScoreStandards.highMatch)));
-    private final List<Map<String, Double>> userKeywordsScoreMap = Arrays.asList(
-            Map.ofEntries(entry("museum", ScoreStandards.highMatch),
-                    entry("gallery", ScoreStandards.highMatch), entry("restaurant", ScoreStandards.highMatch),
-                    entry("hospital", ScoreStandards.highMatch), entry("clinic", ScoreStandards.mediumMatch),
-                    entry("hotel", ScoreStandards.mediumMatch), entry("attraction", ScoreStandards.mediumMatch),
-                    entry("entertainment", ScoreStandards.mediumMatch), entry("food", ScoreStandards.mediumMatch)),
-            Map.ofEntries(entry("bus", ScoreStandards.highMatch), entry("taxi", ScoreStandards.highMatch),
-                    entry("train", ScoreStandards.highMatch)));
+    ArrayList<WozMessage> userMsgs4 = new ArrayList<>();
+
+    Dialogue<?> dialogue1;
+    Dialogue<?> dialogue2;
+    Dialogue<?> dialogue3;
+
+    Dialogue<?> dialogue4;
+
 
     @BeforeEach
     void init(){
@@ -75,18 +64,25 @@ public class CardStepTests {
                 "you like to choose this?");
         user3 = new WozMessage("request","yes. thank you");
         chat3 = new WozMessage("response", "okay it is booked. thank you and have a good day.");
+        user4 = new WozMessage("request","");
+        chat4 = new WozMessage("response","");
 
         chatbotMsgs1.add(chat1);
         chatbotMsgs2.add(chat2);
         chatbotMsgs3.add(chat3);
+        chatbotMsgs4.add(chat4);
+
+
 
         userMsgs2.add(user2);
         userMsgs3.add(user3);
+        userMsgs4.add(user4);
 
 
-        dialogue1 = new Dialogue(chatbotMsgs1, userMsgs1);
-        dialogue2 = new Dialogue(chatbotMsgs2, userMsgs2);
-        dialogue3 = new Dialogue(chatbotMsgs3, userMsgs3);
+        dialogue1 = new Dialogue<WozMessage>(chatbotMsgs1, userMsgs1);
+        dialogue2 = new Dialogue<WozMessage>(chatbotMsgs2, userMsgs2);
+        dialogue3 = new Dialogue<WozMessage>(chatbotMsgs3, userMsgs3);
+        dialogue4 = new Dialogue<WozMessage>(chatbotMsgs4, userMsgs4);
     }
 
     @AfterEach
@@ -98,6 +94,8 @@ public class CardStepTests {
         chatbotMsgs2.clear();
         userMsgs3.clear();
         chatbotMsgs3.clear();
+        chatbotMsgs4.clear();
+        userMsgs4.clear();
 
     }
 
@@ -113,7 +111,7 @@ public class CardStepTests {
 
     @Test
     void testGetMaxScore(){
-        double expected = 21.0;
+        double expected = 15.0;
         double actual = card.getMaxScore();
         assertEquals(expected, actual);
     }
@@ -146,11 +144,19 @@ public class CardStepTests {
     @Test
     void testCardRunAnalysisDialogue3(){
         card.runAnalysis(dialogue3);
-        double expected = 2.0;
+        //this makes sense as dialogue2 is just ending the conversation
+        double expected = 0.0;
         double actual = card.getScoreAccumulator();
         assertEquals(expected, actual);
 
+    }
 
+    @Test
+    public void testCardRunAnalysisDialogue4Empty(){
+        card.runAnalysis(dialogue4);
+        double expected = 0.0;
+        double actual = card.getScoreAccumulator();
+        assertEquals(expected, actual);
     }
 
 

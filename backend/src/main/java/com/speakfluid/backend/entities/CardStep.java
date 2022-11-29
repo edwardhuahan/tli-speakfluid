@@ -1,4 +1,6 @@
 package com.speakfluid.backend.entities;
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -14,7 +16,7 @@ import static java.util.Map.entry;
 
 public class CardStep extends TalkStep{
     private double scoreAccumulator;
-    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalAnalysis * 2;
+    private final double maxScore = ScoreStandards.standardStepClass;
     private final String stepName = "Card";
 
     public CardStep(){
@@ -44,13 +46,13 @@ public class CardStep extends TalkStep{
                     entry("train", ScoreStandards.highMatch)));
 
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         //match the keywords for both the user and chatbot outputs in the dialogue
         for(Object message: dialogue.getChatBotMessage()){
             this.scoreAccumulator += countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
             int chatbotMsgLength = calculateMsgLength((Message) message);
-            // if the chatbot outputs a shorter message, this suggests buttons with a image are more suitable
-            if(chatbotMsgLength < 10){
+            // if the chatbot outputs a shorter message, this suggests buttons with images are more suitable
+            if(chatbotMsgLength < 10 && chatbotMsgLength > 1){
                 this.scoreAccumulator += 2;
             }
 
@@ -58,7 +60,7 @@ public class CardStep extends TalkStep{
         for(Object message: dialogue.getUserMessage()){
             this.scoreAccumulator += countMatchKeywords((Message) message, userKeywordsScoreMap);
             int userMsgLength = calculateMsgLength((Message) message);
-            if(userMsgLength < 15){
+            if(userMsgLength < 15 && userMsgLength >= 4){
                 this.scoreAccumulator += 2;
             }
 

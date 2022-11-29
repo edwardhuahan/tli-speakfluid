@@ -18,7 +18,7 @@ import static java.util.Map.entry;
 public class ButtonStep extends TalkStep{
 
     private double scoreAccumulator;
-    private final double maxScore = ScoreStandards.standardStepClass + ScoreStandards.additionalAnalysis * 2;
+    private final double maxScore = ScoreStandards.standardStepClass;
     private final String stepName = "Button";
 
 
@@ -49,11 +49,11 @@ public class ButtonStep extends TalkStep{
      */
 
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         for(Object message: dialogue.getChatBotMessage()){
             this.scoreAccumulator += countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
             int chatbotMsgLength = calculateMsgLength((Message) message);
-            if(chatbotMsgLength < 10){
+            if(chatbotMsgLength < 10 && chatbotMsgLength > 2){
                 this.scoreAccumulator += 2;
             }
 
@@ -62,7 +62,7 @@ public class ButtonStep extends TalkStep{
             this.scoreAccumulator += countMatchKeywords((Message) message, userKeywordsScoreMap);
             int userMsgLength = calculateMsgLength((Message) message);
             // if the user response is short, then this suggests buttons are suitable
-            if(userMsgLength <= 5){
+            if(userMsgLength <= 5 && userMsgLength > 1){
                 this.scoreAccumulator += 2;
             }
 

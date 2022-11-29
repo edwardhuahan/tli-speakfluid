@@ -17,11 +17,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Test suite for the ButtonStep entity. Only tests CardStep's own implemented methods, using
- * mock values for its dependencies to ensure transparency in that we are only testing this entity.
+ * Test suite for the ButtonStep entity. Using a variety of Dialogue objects of various suitability for a button choice.
+ * Also incorporates testing for the edge case of an empty Dialogue object.
  *
  * @author Aurora Zhang
- * @version 1.0
+ * @version 2.0
  * @since November 25th, 2022
  */
 
@@ -36,22 +36,9 @@ public class ButtonStepTests {
     WozMessage user3;
     WozMessage chat3;
 
-    private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
-            Map.ofEntries(entry("would you", ScoreStandards.highMatch), entry("would it", ScoreStandards.highMatch),
-                    entry("what type", ScoreStandards.mediumMatch), entry("what kind", ScoreStandards.mediumMatch),
-                    entry("are you", ScoreStandards.mediumMatch), entry("do you", ScoreStandards.lowMatch),
-                    entry("here is", ScoreStandards.lowMatch)),
-            Map.ofEntries(entry("here are", ScoreStandards.highMatch), entry("choose", ScoreStandards.highMatch),
-                    entry("select", ScoreStandards.highMatch)),
-            Map.ofEntries(entry("destination", ScoreStandards.mediumMatch), entry("date", ScoreStandards.mediumMatch),
-                    entry("departure", ScoreStandards.mediumMatch),
-                    entry("arriving", ScoreStandards.mediumMatch)));
-    private final List<Map<String, Double>> userKeywordsScoreMap = Arrays.asList(
-            Map.ofEntries(entry("booking", ScoreStandards.lowMatch),
-                    entry("train", ScoreStandards.lowMatch), entry("go to", ScoreStandards.lowMatch),
-                    entry("arrive", ScoreStandards.lowMatch)),
-            Map.ofEntries(entry("hotel", ScoreStandards.highMatch), entry("cheap", ScoreStandards.highMatch),
-                    entry("hospital", ScoreStandards.highMatch)));
+    WozMessage chat4;
+
+    WozMessage user4;
 
     // initialize array to an empty ArrayList otherwise default value is null.
     ArrayList<WozMessage> userMsgs1 = new ArrayList<>();
@@ -61,9 +48,17 @@ public class ButtonStepTests {
     ArrayList<WozMessage> userMsgs3 = new ArrayList<>();
     ArrayList<WozMessage> chatbotMsgs3 = new ArrayList<>();
 
-    Dialogue dialogue1;
-    Dialogue dialogue2;
-    Dialogue dialogue3;
+    ArrayList<WozMessage> chatbotMsgs4 = new ArrayList<>();
+
+    ArrayList<WozMessage> userMsgs4 = new ArrayList<>();
+
+    Dialogue<?> dialogue1;
+    Dialogue<?> dialogue2;
+    Dialogue<?> dialogue3;
+
+    Dialogue<?> dialogue4;
+
+
 
     @BeforeEach
     void init() {
@@ -79,19 +74,25 @@ public class ButtonStepTests {
                 "choose the one that you would like");
         user3 = new WozMessage("request", "i will go to the first one thank you.");
         chat3 = new WozMessage("response", "you're welcome. have a nice day.");
+        user4 = new WozMessage("request","");
+        chat4 = new WozMessage("response","");
+
 
 
         chatbotMsgs1.add(chat1);
         chatbotMsgs2.add(chat2);
         chatbotMsgs3.add(chat3);
+        chatbotMsgs4.add(chat4);
 
         userMsgs2.add(user2);
         userMsgs3.add(user3);
+        userMsgs4.add(user4);
 
 
-        dialogue1 = new Dialogue(chatbotMsgs1, userMsgs1);
-        dialogue2 = new Dialogue(chatbotMsgs2, userMsgs2);
-        dialogue3 = new Dialogue(chatbotMsgs3, userMsgs3);
+        dialogue1 = new Dialogue<WozMessage>(chatbotMsgs1, userMsgs1);
+        dialogue2 = new Dialogue<WozMessage>(chatbotMsgs2, userMsgs2);
+        dialogue3 = new Dialogue<WozMessage>(chatbotMsgs3, userMsgs3);
+        dialogue4 = new Dialogue<WozMessage>(chatbotMsgs4, userMsgs4);
 
     }
 
@@ -104,6 +105,8 @@ public class ButtonStepTests {
         chatbotMsgs2.clear();
         userMsgs3.clear();
         chatbotMsgs3.clear();
+        chatbotMsgs4.clear();
+        userMsgs4.clear();
     }
 
     @Test
@@ -125,7 +128,7 @@ public class ButtonStepTests {
 
     @Test
     void testGetMaxScore(){
-        double expected = 21.0;
+        double expected = 15.0;
         double actual = button.getMaxScore();
         assertEquals(expected, actual);
     }
@@ -162,6 +165,14 @@ public class ButtonStepTests {
     public void testButtonRunAnalysisDialogue3(){
         button.runAnalysis(dialogue3);
         double expected = 3.0;
+        double actual = button.getScoreAccumulator();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testButtonRunAnalysisDialogue4Empty(){
+        button.runAnalysis(dialogue4);
+        double expected = 0.0;
         double actual = button.getScoreAccumulator();
         assertEquals(expected, actual);
     }

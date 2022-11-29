@@ -1,5 +1,7 @@
 package com.speakfluid.backend.entities;
 
+import java.lang.Math.*;
+
 /**
  * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to increment or decrement their
  * corresponding accumulated scores as necessary. It then returns the confidence score of the TalkStep child based on the
@@ -21,7 +23,7 @@ public class ConfidenceScoreCalculator implements Scorable{
      * @param step the type of the talk step whose methods are called.
      */
 
-    public void passDialogueToTalkStep(Dialogue dialogue, TalkStep step) {
+    public void passDialogueToTalkStep(Dialogue<?> dialogue, TalkStep step) {
         step.runAnalysis(dialogue);
         stepTotalScore = step.getMaxScore();
         stepScoreAccumulator = step.getScoreAccumulator();
@@ -41,7 +43,8 @@ public class ConfidenceScoreCalculator implements Scorable{
 
         }
         else{
-            return (stepScoreAccumulator / stepTotalScore) * 100;
+            double confidenceScore = (stepScoreAccumulator / stepTotalScore) * 100;
+            return Math.round(confidenceScore * 100.0) / 100.0;
         }
     }
 

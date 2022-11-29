@@ -18,7 +18,8 @@ public class ConfidenceScoreOptimizer {
     HashMap<String, Double> talkStepToScoreMapping = new HashMap<>();
     ConfidenceScoreCalculator confidenceScoreCalculator;
     Double stepConfidenceScore;
-    ArrayList<Map<String, Double>> rankedTalkStepList;
+    ArrayList<Map<String, Double>> rankedTalkStepList = new ArrayList<>();
+
 
 
     public ConfidenceScoreOptimizer(ConfidenceScoreCalculator confidenceScoreCalculator, ArrayList<TalkStep> stepList) {
@@ -32,7 +33,7 @@ public class ConfidenceScoreOptimizer {
      * talk step to its confidence score
      * @param dialogue the dialogue ArrayList containing the Speeches of the user and chatbot
      */
-    public void callConfidenceScoreCalculator(Dialogue dialogue){
+    public void callConfidenceScoreCalculator(Dialogue<?> dialogue){
         for(TalkStep talkStep: steps){
             confidenceScoreCalculator.passDialogueToTalkStep(dialogue, talkStep);
             stepConfidenceScore = confidenceScoreCalculator.calculateConfidenceScore();
@@ -49,6 +50,7 @@ public class ConfidenceScoreOptimizer {
     public ArrayList<Map<String, Double>> rankTalkSteps() {
         //Sorting the map in increasing order
         LinkedHashMap<String, Double> rankedTalkStepMap = new LinkedHashMap<>();
+
         talkStepToScoreMapping.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue())
