@@ -4,7 +4,7 @@ package com.speakfluid.backend.controller;
 import com.speakfluid.backend.entities.message.Transcript;
 import com.speakfluid.backend.entities.json.JSONTranscript;
 
-import com.speakfluid.backend.model.TranscriptLoader;
+import com.speakfluid.backend.entities.TranscriptLoader;
 
 import com.speakfluid.backend.service.TranscriptService;
 import com.speakfluid.backend.usecases.TranscriptParser;
