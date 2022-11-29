@@ -22,8 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 public class ConfidenceScoreOptimizerTests {
-    static ConfidenceScoreCalculator calculator;
-
     static WozMessage user1;
     static WozMessage chat1;
     static WozMessage user2;
