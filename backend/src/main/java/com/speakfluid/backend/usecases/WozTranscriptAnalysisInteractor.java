@@ -24,7 +24,7 @@ import java.util.Map;
  */
 
 // Use Case Layer
-public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
+public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
 
     // Generate all TalkStep entities,except Card
     ButtonStep buttonStep = new ButtonStep();
