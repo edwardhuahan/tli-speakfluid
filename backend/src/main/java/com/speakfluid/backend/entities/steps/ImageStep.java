@@ -3,7 +3,7 @@ package com.speakfluid.backend.entities.steps;
 import com.speakfluid.backend.entities.ScoreStandards;
 import com.speakfluid.backend.entities.message.Dialogue;
 import com.speakfluid.backend.entities.message.Message;
-import com.speakfluid.backend.entities.steps.TalkStep;
+import com.speakfluid.backend.entities.steps.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +33,7 @@ public class ImageStep extends TalkStep {
                     entry("here are possible the directions", ScoreStandards.highMatch),
                     entry("map", ScoreStandards.mediumMatch), entry("location", 3.0),entry("direction", 3.0)
                     ),
+
             Map.ofEntries(entry("here is a picture", ScoreStandards.highMatch),
                     entry("here is an image", ScoreStandards.highMatch),
                     entry("picture", ScoreStandards.highMatch),entry("illustration", ScoreStandards.highMatch),
@@ -87,7 +88,9 @@ public class ImageStep extends TalkStep {
         for (Object message : dialogue.getChatBotMessage()) {
             scoreAccumulator += countMatchKeywords((Message) message, imageKeyWordsBot);
             if (scoreAccumulator != 0.0 &&
-                    calculateMsgLength((Message) message) <= 6){
+
+                    calculateMsgLength((Message) message) <= 6 && calculateMsgLength((Message) message) > 1){
+
                 scoreAccumulator += ScoreStandards.lowMatch;
             }
         }
@@ -98,4 +101,6 @@ public class ImageStep extends TalkStep {
         }
     }
 
+
 }
+

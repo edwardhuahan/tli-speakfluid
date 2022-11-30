@@ -123,7 +123,8 @@ public class TextStep extends TalkStep {
         for (Object message : dialogue.getChatBotMessage()) {
             scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
-            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 8) {
+            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 8 &&
+                    calculateMsgLength((Message) message) > 1) {
                 scoreAccumulator += ScoreStandards.lowMatch;
             }
         }

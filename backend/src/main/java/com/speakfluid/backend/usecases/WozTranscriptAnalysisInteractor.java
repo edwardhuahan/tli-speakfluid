@@ -1,7 +1,9 @@
 package com.speakfluid.backend.usecases;
 
 import com.speakfluid.backend.entities.*;
-import com.speakfluid.backend.entities.message.*;
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.Transcript;
+import com.speakfluid.backend.entities.message.WozMessage;
 import com.speakfluid.backend.entities.steps.*;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import java.util.Map;
  */
 
 // Use Case Layer
-public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
+public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
 
     // Generate all TalkStep entities,except Card
     ButtonStep buttonStep = new ButtonStep();
@@ -56,13 +58,14 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
      * @return the analyzed transcript which contains Dialogue objects with updated stepSuggestion and confidenceScore.
      */
     @Override
-    public ArrayList<Transcript> analyzeTranscript(ArrayList<Transcript> transcript) {
+    public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzeTranscript(
+            ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> transcript) {
 
         // To access all the different id-to-conversation-content pairs in the same session
-        for (Transcript iDToTranscript : transcript) {
+        for (HashMap<String, ArrayList<Dialogue<WozMessage>>> idToConversations : transcript) {
 
             // To access the conversations in the id-to-conversation-content pairs
-            for (DialogueList conversation : iDToTranscript.values()) {
+            for (ArrayList<Dialogue<WozMessage>> conversation : idToConversations.values()) {
 
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue<WozMessage> dialogue : conversation) {
@@ -72,24 +75,32 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
                     the individual confidence score
                      */
 
-                        HashMap<String, Double> suggestionPair = confidenceScoreOptimizer.findSuggestedTalkStep();
-                    /* findSuggestedTalkStep is called to compare all the individual confidence score from the step
-                    entities to return a mapping of the name and the confidence score of the step that has
-                    the highest score.
-                    We decide to return the top three step-suggestions with the score if the top one score is low.Thus,
-                    the following for loop gives the option to append more than one step-score-pair.
+                        ArrayList<Map<String, Double>> suggestionPair = confidenceScoreOptimizer.rankTalkSteps();
+                    /* findSuggestedTalkStep is called to return an ArrayList of Maps, where every TalkStep is
+                    ranked from highest to lowest confidence score. This is returned as a response model to the frontend
+                    in order to be used for analytics displays.
+
+                    The dialogue attributes of step suggestion and confidence score are amended accordingly.
                      */
-                        for (Map.Entry<String, Double> entry : suggestionPair.entrySet()) {
-                            String stepSuggestion = entry.getKey();
-                            double confidenceScore = entry.getValue();
-                            dialogue.addStepSuggestion(stepSuggestion);
-                            dialogue.addConfidenceScore(confidenceScore);
+                        for(Map<String, Double> talkStepPair: suggestionPair) {
+                            for(Map.Entry<String, Double> entry : talkStepPair.entrySet()) {
+                                String stepSuggestion = entry.getKey();
+                                double confidenceScore = entry.getValue();
+                                dialogue.addStepSuggestion(stepSuggestion);
+                                dialogue.addConfidenceScore(confidenceScore);
+                            }
                         }
+
+
                     }
 
                 }
             }
-        }
-        return transcript;
+        } return transcript;
+    }
+
+    @Override
+    public ArrayList<Transcript> analyzeTranscript(ArrayList<Transcript> transcript) {
+        return null;
     }
 }

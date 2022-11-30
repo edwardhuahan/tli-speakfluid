@@ -1,8 +1,10 @@
 package com.speakfluid.backend.entities;
 
 import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.*;
 import com.speakfluid.backend.entities.message.WozMessage;
-import com.speakfluid.backend.entities.steps.CarouselStep;
+import com.speakfluid.backend.entities.steps.*;
+import com.speakfluid.backend.entities.message.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

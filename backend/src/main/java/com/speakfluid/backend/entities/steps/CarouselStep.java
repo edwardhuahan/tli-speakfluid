@@ -1,8 +1,9 @@
 package com.speakfluid.backend.entities.steps;
 
-import com.speakfluid.backend.entities.ScoreStandards;
-import com.speakfluid.backend.entities.message.Dialogue;
-import com.speakfluid.backend.entities.message.Message;
+import com.speakfluid.backend.entities.*;
+import com.speakfluid.backend.entities.message.*;
+import com.speakfluid.backend.entities.steps.*;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,7 +85,7 @@ public class CarouselStep extends TalkStep {
             scoreAccumulator += countMatchKeywords((Message) message, imageKeyWords);
             scoreAccumulator += countMatchKeywords((Message) message, buttonKeyWords);
             if (scoreAccumulator != 0.0 &&
-                    calculateMsgLength((Message) message) <= 6){
+                    calculateMsgLength((Message) message) <= 6 && calculateMsgLength((Message) message) > 1){
                 scoreAccumulator += ScoreStandards.lowMatch;
             }
         }
