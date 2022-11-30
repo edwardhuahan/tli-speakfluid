@@ -2,6 +2,7 @@ package com.speakfluid.backend.usecases;
 
 import com.speakfluid.backend.entities.*;
 import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.DialogueList;
 import com.speakfluid.backend.entities.message.Transcript;
 import com.speakfluid.backend.entities.message.WozMessage;
 import com.speakfluid.backend.entities.steps.*;
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 
 // Use Case Layer
-public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
+public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInputBoundary {
 
     // Generate all TalkStep entities,except Card
     ButtonStep buttonStep = new ButtonStep();
@@ -58,14 +59,13 @@ public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysis
      * @return the analyzed transcript which contains Dialogue objects with updated stepSuggestion and confidenceScore.
      */
     @Override
-    public ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> analyzeTranscript(
-            ArrayList<HashMap<String, ArrayList<Dialogue<WozMessage>>>> transcript) {
+    public ArrayList<Transcript> analyzeTranscript(ArrayList<Transcript> transcript) {
 
         // To access all the different id-to-conversation-content pairs in the same session
-        for (HashMap<String, ArrayList<Dialogue<WozMessage>>> idToConversations : transcript) {
+        for (Transcript idToConversations : transcript) {
 
             // To access the conversations in the id-to-conversation-content pairs
-            for (ArrayList<Dialogue<WozMessage>> conversation : idToConversations.values()) {
+            for (DialogueList conversation : idToConversations.values()) {
 
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue<WozMessage> dialogue : conversation) {
@@ -97,10 +97,5 @@ public class WozWozTranscriptAnalysisInteractor implements WozTranscriptAnalysis
                 }
             }
         } return transcript;
-    }
-
-    @Override
-    public ArrayList<Transcript> analyzeTranscript(ArrayList<Transcript> transcript) {
-        return null;
     }
 }
