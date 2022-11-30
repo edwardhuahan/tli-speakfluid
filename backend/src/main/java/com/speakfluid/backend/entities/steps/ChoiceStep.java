@@ -1,4 +1,8 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.steps;
+
+import com.speakfluid.backend.entities.ScoreStandards;
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.Message;
 
 import java.lang.String;
 import static java.util.Map.entry;

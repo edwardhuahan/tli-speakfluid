@@ -1,4 +1,4 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.message;
 
 /**
  * The Message abstract class stores the content of the message.
@@ -11,7 +11,7 @@ package com.speakfluid.backend.entities;
  */
 
 /* Entity layer */
-abstract class Message {
+public abstract class Message {
 
     public String message;
 

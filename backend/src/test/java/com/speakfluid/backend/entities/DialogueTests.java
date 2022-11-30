@@ -1,5 +1,7 @@
 package com.speakfluid.backend.entities;
 
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.WozMessage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +25,8 @@ class DialogueTests {
     Dialogue<WozMessage> d1;
     ArrayList<WozMessage> botMsg1;
     ArrayList<WozMessage> userMsg1;
-    WozMessage m1 = new com.speakfluid.backend.entities.WozMessage("response", "Hi, here are the locations of our stores");
-    WozMessage m2 = new com.speakfluid.backend.entities.WozMessage("response", "What else can I help you with today?");
+    WozMessage m1 = new WozMessage("response", "Hi, here are the locations of our stores");
+    WozMessage m2 = new WozMessage("response", "What else can I help you with today?");
     WozMessage m3 = new WozMessage("request", "Hi,");
     WozMessage m4 = new WozMessage("request", "Can I have the direction to the store?");
     @BeforeEach

@@ -1,4 +1,4 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.message;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +21,6 @@ public class Dialogue<T> {
     private ArrayList<T> userMessage;
     private ArrayList<String> stepSuggestionList = new ArrayList<String>();
     private ArrayList<Double> confidenceScoreList = new ArrayList<Double>();;
-
 
     public Dialogue(ArrayList<T> chatBotM, ArrayList<T> userM){
         this.chatBotMessage = chatBotM;

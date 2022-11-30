@@ -1,4 +1,8 @@
-package com.speakfluid.backend.entities;
+package com.speakfluid.backend.entities.steps;
+
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.Message;
+
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -12,7 +16,7 @@ import static java.util.Map.entry;
  * @since November 16th, 2022
  */
 
-public class CardStep extends TalkStep{
+public class CardStep extends TalkStep {
     private double scoreAccumulator;
     private final double maxScore = 25.0;
     private final String stepName = "Card";

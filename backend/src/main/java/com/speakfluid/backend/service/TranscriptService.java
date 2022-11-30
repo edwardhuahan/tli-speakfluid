@@ -1,6 +1,6 @@
 package com.speakfluid.backend.service;
 
-import com.speakfluid.backend.model.TranscriptLoader;
+import com.speakfluid.backend.entities.TranscriptLoader;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
