@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 /***ASSETS***/
-import chatBot from '../assets/cb.webp'
+import chatBot from '../assets/cb.webp';
 
 /***COMPONENTS***/
 import NavBar from '../components/NavBar';
 
 /***STYLES***/
-import '../styles/Global.css'
+import '../styles/Global.css';
 import '../styles/pages/Home.css';
 
 /**
