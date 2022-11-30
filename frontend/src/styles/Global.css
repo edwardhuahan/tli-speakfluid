@@ -26,10 +26,23 @@
   filter: brightness(95%)
 }
 
+.width100 {
+  width: 100%
+}
+
 /***POSITIONING***/
 .centerContent {
   justify-content: center;
   align-items: center;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.spaceBottom {
+  margin-bottom: 30px;
 }
 
 /***TEXT***/

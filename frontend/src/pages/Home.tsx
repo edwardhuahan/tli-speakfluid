@@ -9,7 +9,7 @@ import NavBar from '../components/NavBar';
 
 /***STYLES***/
 import '../styles/Global.css'
-import '../styles/Home.css';
+import '../styles/pages/Home.css';
 
 /**
  * The landing page where SpeakFluid's product is described.
@@ -18,29 +18,26 @@ import '../styles/Home.css';
  */
 export default function Home() {
   return (
-    <div className='pageWrapper'>
+    <div className='pageWrapper homeWrapper'>
       <NavBar />
       <div className='section centerContent hero'>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
-          <div style={{width: '50%'}}>
-            <img src={chatBot} alt='Illustration of a chatbot' style={{width: '100%', margin: '30px'}} />
+        <div className='flexRow'>
+          <div className='chatBotImageContainer'>
+            <img className='chatBotImage' src={chatBot} alt='Illustration of a chatbot' />
           </div>
-          <div className='centerContent' style={{margin: '30px', display: 'flex', flexDirection: 'column', width: '50%'}}>
-            <h1 className='header' style={{marginBottom: '30px'}}>Your 1-click solution for classifying chatbot sentiments.</h1>
-            <h2 className='subHeader' style={{marginBottom: '30px'}}>
+          <div className='centerContent textContainer'>
+            <h1 className='header spaceBottom'>Your 1-click solution for classifying chatbot sentiments.</h1>
+            <h2 className='subHeader spaceBottom'>
               No need to manually classify hundreds of messages anymore. Simply upload your transcript 
               and get classified sentiments in a matter of seconds.
             </h2>
-            <Link to='/analytics' style={{textDecoration: 'none', alignSelf: 'flex-start'}}>
-              <div className='header hoverable' style={{padding: '17px 35px', backgroundColor: '#474af1', color: 'white', fontSize: '25px'}}>
+            <Link className='startButtonLink' to='/analytics'>
+              <div className='header hoverable startButton'>
                 Get Started
               </div>
             </Link>
           </div>
         </div>
-      </div>
-      <div className='section'>
-        
       </div>
     </div>
   )

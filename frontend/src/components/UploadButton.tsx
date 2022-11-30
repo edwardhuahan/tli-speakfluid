@@ -2,7 +2,7 @@ import React from 'react';
 
 /***STYLES***/
 import '../styles/Global.css';
-import '../styles/UploadButton.css';
+import '../styles/components/UploadButton.css';
 
 /***TYPES***/
 import '../types/Types';
@@ -21,7 +21,7 @@ function UploadButton({addTranscript} : any) {
 	 * @author Kai Zhuang
 	 * @param event The event of uploading a transcript.
 	 */
-	const changeHandler = (event: any) => {
+	const changeHandler = (event: any): void => {
 		const formData = new FormData();
 		formData.append('transcript', event.target.files[0]);
 

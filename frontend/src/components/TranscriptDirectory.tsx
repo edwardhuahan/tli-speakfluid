@@ -5,7 +5,7 @@ import { BsChevronRight, BsChevronDown } from 'react-icons/bs';
 
 /***STYLES***/
 import '../styles/Global.css';
-import '../styles/TranscriptDirectory.css';
+import '../styles/components/TranscriptDirectory.css';
 
 /**
  * A function to map each transcript from the transcript state into a list of
@@ -23,7 +23,7 @@ export default function TranscriptDirectory({path, index, selectConversation}: a
    * conversation.
    * @author Kai Zhuang
    */
-  const onSelectConversation = () => {
+  const onSelectConversation = (): void => {
     selectConversation(path[Object.keys(path)[0]])
   }
 

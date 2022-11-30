@@ -1,3 +1,15 @@
+/***DIVS***/
+.uploadTranscriptPage {
+  width: calc(100% - 60px); 
+  height: calc(100vh - 126px);
+}
+
+.analyzeImageContainer {
+  width: 400px;
+  height: 400px;
+  margin-bottom: -15px;
+}
+
 .transcriptSection {
   width: calc(17% - 60px);
   height: calc(100% - 60px);

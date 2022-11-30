@@ -9,18 +9,38 @@ import NavBar from '../components/NavBar';
 import UploadButton from '../components/UploadButton';
 import TranscriptDirectory from '../components/TranscriptDirectory';
 import SuggestionCard from '../components/SuggestionCard';
-import { Liquid, Bullet } from '@ant-design/plots';
+import ConfidenceVisualization from '../components/ConfidenceVisualization';
 
 /***STYLES***/
 import '../styles/Global.css';
-import '../styles/Analytics.css';
+import '../styles/pages/Analytics.css';
+import { ChartData, FormattedSuggestion, RawSuggestion } from '../types/Types';
+import BulletVisualization from '../components/BulletVisualization';
 
 // A place holder suggestion to show the user how our application works.
-const exampleSuggestions = {
-  chatBotMessage: [{message: 'xThe messages sent by your chatbot will appear like this.x'}],
-  userMessage: [{message: 'xThe messages sent by your customer will appear like this.x'}],
-  confidenceScore: 'Our best talk step suggestion for the interaction above appears here.',
-  stepSuggestion: 'Click on one of the conversations in your uploaded transcript(s) to see your results.'
+const exampleSuggestions: FormattedSuggestion = {
+  chatBotMessage: 'The messages sent by your chatbot will appear like this.',
+  userMessage: 'The messages sent by your customer will appear like this.',
+  topSuggestion: '',
+  topConfidence: 0,
+  stepSuggestions: ['Click on one of the conversations in your uploaded transcript(s) to see your results.', 
+                   'Our best talk step suggestion for the interaction above appears here.'],
+  confidenceScores: [],
+  data: [],
+  example: true
+}
+
+// Descriptions of each talk step for the analysis section.
+const talkStepDescriptions: any = {
+  Choice: 'When designing linear and choice-based conversations in Voice Assistant projects, the Choice step is ideal for pre-defined paths and choices.',
+  Button: 'Functioning similar to Choice steps, Buttons are used commonly in Chat Assistant (ie. Chatbot) type projects to present choice paths, options or decision/input points to help progress in the conversation.',
+  Capture: 'The Capture Step lets you build dynamic conversation experiences by capturing and recording all or part of a user\'s utterance within a selected variable. This can be used to collect a specific piece of information from your user, such as their name or an email address.',
+  Speak: 'The Speak Step is used to make any voice-based project type speak using text-to-speech. This is what your user hears or sees as a response from the voice-based conversation experience.',
+  Text: 'Conceptually, you can think of this as it is the replacement of the Speak step for all Chat Assistant projects, found in the Talk section of the Steps Menu.',
+  Audio: 'The Audio Step allows you to add short audio files that are less than 240 seconds in length to your voice projects.',
+  Image: 'The Image Step allows you to include Images and/or GIFs in your voice and chat projects. For chat-based projects, your visuals will show up as in-line visuals within the chat dialog.',
+  Card: 'The Card Step will allow you to provide some on-screen information in-line with the conversational experience & interface, either on a screen-based device or on mobile.',
+  Carousel: 'The Carousel Step lets you display a selection or gallery of cards to your end users via a carousel or list.'
 }
 
 /**
@@ -33,16 +53,45 @@ export default function Analytics() {
   // The list of uploaded transcripts being displayed on the transcriptSection
   const [transcripts, setTranscripts] = useState<any[]>([])
   // The list of suggestions being displayed on the cardSection
-  const [suggestions, setSuggestions] = useState<any[]>([exampleSuggestions])
+  const [suggestions, setSuggestions] = useState<FormattedSuggestion[]>([exampleSuggestions])
   // The selected suggestion being displayed on the analysisSection
-  const [suggestion, setSuggestion] = useState<any>(null)
+  const [suggestion, setSuggestion] = useState<FormattedSuggestion | null>(null)
+
+  /**
+   * 
+   */
+  function formatSuggestion(suggestion: RawSuggestion): FormattedSuggestion {
+    const s: FormattedSuggestion = {
+      chatBotMessage: suggestion.chatBotMessage[0].message,
+      userMessage: suggestion.userMessage[0].message,
+      topSuggestion: suggestion.stepSuggestion[suggestion.confidenceScore.indexOf(Math.max(...suggestion.confidenceScore))],
+      topConfidence: Math.max(...suggestion.confidenceScore),
+      stepSuggestions: suggestion.stepSuggestion,
+      confidenceScores: suggestion.confidenceScore,
+      data: [],
+      example: false
+    }
+
+    // Formats the stepSuggestions so they fit the inputs for the bullet graphs.
+    const chartData: ChartData[] = []
+    suggestion.stepSuggestion.forEach((step: string, index: number) => {
+      chartData.push({title: step, 
+                      ranges: [40,80,100],
+                      Target: [80],
+                      Confidence: [suggestion.confidenceScore[index]], 
+                    })
+    })
+    s.data = chartData
+
+    return s
+  }
 
   /**
    * Add the analyzed transcript to the transcripts state after uploading.
    * @author Kai Zhuang
    * @param transcript The analyzed transcript.
    */
-  function addTranscript(transcript: any): void {
+  function addTranscript(transcript: any[]): void {
     setTranscripts(transcripts.concat({transcript: transcript}));
   }
 
@@ -52,50 +101,33 @@ export default function Analytics() {
    * @author Kai Zhuang
    * @param conversation The selected conversation.
    */
-  function selectConversation(conversation: any): void {
-    setSuggestions(conversation.slice(1, -1));
+  function selectConversation(conversation: RawSuggestion[]): void {
+    const formattedSuggestions: FormattedSuggestion[] = []
+
+    conversation.slice(1, -1).forEach((suggestion: any) => {
+      formattedSuggestions.push(formatSuggestion(suggestion))
+    })
+
+    setSuggestions(formattedSuggestions);
   }
 
   /**
    * Set which suggestion to show on the analysis
    * section according to the selected suggestion.
    * @author Kai Zhuang
-   * @param suggestion The selected suggestion.
+   * @param selectedSuggestion The selected suggestion.
    */
-  function selectSuggestion(suggestion: any): void {
-    const s = {
-      chatBotMessage: suggestion.chatBotMessage[0].message,
-      userMessage: suggestion.userMessage[0].message,
-      topSuggestion: suggestion.stepSuggestion[suggestion.confidenceScore.indexOf(Math.max(...suggestion.confidenceScore))],
-      topConfidence: Math.max(...suggestion.confidenceScore) / 100,
-      stepSuggestions: suggestion.stepSuggestion,
-      confidenceScores: suggestion.confidenceScore,
-      data: [{}]
-    }
-
-    // Formats the stepSuggestions so they fit the inputs for the bullet graphs.
-    const stepSuggestions: {}[] = []
-    
-    suggestion.stepSuggestion.forEach((step: String, index: number) => {
-      stepSuggestions.push({title: step, 
-                            ranges: [40,80,100],
-                            target: [80],
-                            measures: [suggestion.confidenceScore[index]], 
-                          })
-    })
-
-    s.data = stepSuggestions
-
-    setSuggestion(s);
+  function selectSuggestion(selectedSuggestion: FormattedSuggestion): void {
+    setSuggestion(selectedSuggestion);
   }
 
   return (
     <div className='pageWrapper'>
       <NavBar />
       {transcripts.length === 0 ? 
-        <div className='section centerContent' style={{width: 'calc(100% - 60px)', height: 'calc(100vh - 126px)'}}>
-          <div style={{width: '400px', height: '400px', marginBottom: '-15px'}}>
-            <img src={Analyze} alt='Analyze' style={{width: '100%'}} />
+        <div className='section centerContent uploadTranscriptPage'>
+          <div className='analyzeImageContainer'>
+            <img className='analyzeImage width100' src={Analyze} alt='Analyze' />
           </div>
           <h1 className='subHeader' style={{fontSize: '20px', marginBottom: '10px', textAlign: 'center'}}>
             Start by uploading a transcript! <br/> {'(JSON only)'}
@@ -107,30 +139,25 @@ export default function Analytics() {
         <div className='section' style={{flexDirection: 'row', padding: '0px', width: '100%', height: 'calc(100vh - 66px)'}}>
           <div className='transcriptSection'>
             <UploadButton addTranscript={addTranscript}/>
+            {/*Map transcript and its conversations into a transcript directory.*/}
             {transcripts.map((transcript: any, index: number) => 
             <TranscriptDirectory key={index} path={transcript.transcript} index={index} selectConversation={selectConversation}/>)}
           </div>
           <div className='cardsSection'>
-            {suggestions.map((suggestion: any, index: number) => 
-            <SuggestionCard key={index} suggestion={suggestion} selectSuggestion={typeof suggestion.confidenceScore === 'string' ? () => {} : selectSuggestion}/>)}
+            {/*Map suggestions from conversation into suggestion cards.*/}
+            {suggestions.map((suggestion: FormattedSuggestion, index: number) => 
+            <SuggestionCard key={index} suggestion={suggestion} selectSuggestion={suggestion.example ? () => {} : selectSuggestion}/>)}
           </div>
           <div className='analysisSection'>
+            {/*If there is a selected suggestion then show analytics dashboard otherwise motivate user
+            to select one.*/}
             {suggestion ? 
               <div>
                 <h2 className='subHeader' style={{fontSize: '18px', marginBottom: '10px'}}>Your chatbot's message</h2>
                 <h1 className='header' style={{fontSize: '30px'}}>{suggestion.chatBotMessage}</h1>
                   <div className='topSuggestion'>
-                    <div style={{height: '100%', width: '150px', alignSelf: 'end', marginRight: '10px'}}>
-                      <Liquid 
-                        color='#474af1'
-                        percent={suggestion.topConfidence} 
-                        outline={{border: 4, distance: 6}}
-                        wave={{length: 128}}
-                        statistic={{title: {content: 'Confidence', style: {fontFamily: 'articulat-cf,sans-serif',
-                                            fontWeight: '500', fontStyle: 'normal'}},
-                                    content: {style: {fontFamily: 'articulat-cf,sans-serif',
-                                            fontWeight: '500', fontStyle: 'normal'}}}}
-                      />
+                    <div style={{height: '100%', width: '150px', alignSelf: 'end', marginRight: '20px'}}>
+                      <ConfidenceVisualization confidence={suggestion.topConfidence / 100} />
                     </div>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: 'calc(100% - 160px)'}}>
                       <h2 className='subHeader' style={{fontSize: '18px', marginBottom: '10px'}}>Our top suggestion is</h2>
@@ -138,89 +165,12 @@ export default function Analytics() {
                         {suggestion.topSuggestion}
                       </h1>
                       <h2 className='subHeader' style={{fontSize: '18px'}}>
-                        The Carousel Step lets you display a selection or gallery of cards to your end users via a carousel or list.
+                        {talkStepDescriptions[suggestion.topSuggestion]}
                       </h2>
                     </div>
                   </div>
                   <div className='otherSuggestions'>
-                    <Bullet 
-                      data={suggestion.data}
-                      autoFit={false}
-                      measureField='measures'
-                      rangeField='ranges'
-                      targetField='target'
-                      xField='title'
-                      color={{range: ['#FFbcb8', '#FFe0b0', '#bfeec8'], measure: '#474af1', target: '#39a3f4',}}
-                      label={{measure: {
-                        position: 'middle',
-                        style: {
-                          fill: '#fff',
-                        },
-                      },}}
-                      xAxis={{line: null}}
-                      yAxis={false}
-                      legend={{
-                        custom: true,
-                        position: 'bottom',
-                        items: [
-                          {
-                            value: 'Poor',
-                            name: 'Poor',
-                            marker: {
-                              symbol: 'square',
-                              style: {
-                                fill: '#FFbcb8',
-                                r: 5,
-                              },
-                            },
-                          },
-                          {
-                            value: 'Moderate',
-                            name: 'Moderate',
-                            marker: {
-                              symbol: 'square',
-                              style: {
-                                fill: '#FFe0b0',
-                                r: 5,
-                              },
-                            },
-                          },
-                          {
-                            value: 'Good',
-                            name: 'Good',
-                            marker: {
-                              symbol: 'square',
-                              style: {
-                                fill: '#bfeec8',
-                                r: 5,
-                              },
-                            },
-                          },
-                          {
-                            value: 'Confidence',
-                            name: 'Confidence',
-                            marker: {
-                              symbol: 'square',
-                              style: {
-                                fill: '#474af1',
-                                r: 5,
-                              },
-                            },
-                          },
-                          {
-                            value: 'Desired',
-                            name: 'Desired',
-                            marker: {
-                              symbol: 'line',
-                              style: {
-                                stroke: '#39a3f4',
-                                r: 5,
-                              },
-                            },
-                          },
-                        ],
-                      }}
-                    />
+                    <BulletVisualization data={suggestion.data} />
                   </div>
               </div> :
               <div className='centerContent' style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
