@@ -1,0 +1,14 @@
+.transcript {
+  cursor: pointer;
+
+  width: calc(100% + 60px);
+  margin-left: -30px;
+}
+
+.conversation {
+  cursor: pointer;
+}
+
+.can-hover:hover {
+  background-color: #edede9;
+}
