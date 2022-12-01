@@ -120,12 +120,12 @@ public class ConfidenceScoreOptimizerTests {
         HashMap<String, Double> actual = optimizer.talkStepToScoreMapping;
         HashMap<String, Double> expected = new HashMap<>(){{
             put("Button", 66.67);
-            put("Carousel", 68.75);
+            put("Carousel", 70.0);
             put("Image", 0.0);
             put("Capture", 0.0);
             put("Card", 20.0);
             put("Choice", 66.67);
-            put("Text", 16.95);
+            put("Text", 11.54);
         }};
         assertEquals(expected, actual);
 
@@ -141,7 +141,7 @@ public class ConfidenceScoreOptimizerTests {
             put("Image", 0.0);
             put("Capture", 0.0);
             put("Card", 86.67);
-            put("Text", 25.42);
+            put("Text", 23.08);
             put("Choice", 33.33);
         }};
         assertEquals(expected, actual);
@@ -154,11 +154,11 @@ public class ConfidenceScoreOptimizerTests {
         HashMap<String, Double> actual = optimizer.talkStepToScoreMapping;
         HashMap<String, Double> expected = new HashMap<>(){{
             put("Button", 20.0);
-            put("Carousel", 31.25);
+            put("Carousel", 0.0);
             put("Image", 0.0);
             put("Capture", 4.76);
             put("Card", 26.67);
-            put("Text", 16.95);
+            put("Text", 38.46);
             put("Choice", 0.0);
         }};
         assertEquals(expected, actual);
@@ -176,7 +176,7 @@ public class ConfidenceScoreOptimizerTests {
             put("Capture", 0.0);
             put("Card", 0.0);
             put("Choice", 0.0);
-            put("Text", 16.95);
+            put("Text", 19.23);
         }};
         assertEquals(expected, actual);
 
@@ -194,12 +194,12 @@ public class ConfidenceScoreOptimizerTests {
         HashMap<String, Double> step6 = new HashMap<>();
         HashMap<String, Double> step7 = new HashMap<>();
 
-        step1.put("Carousel", 68.75);
+        step1.put("Carousel", 70.0);
         step2.put("Button", 66.67);
         step3.put("Card", 20.0);
         step4.put("Capture", 0.0);
         step5.put("Image", 0.0);
-        step6.put("Text", 16.95);
+        step6.put("Text", 11.54);
         step7.put("Choice", 66.67);
 
         ArrayList<Map<String, Double>> expected = new ArrayList<>();
@@ -225,7 +225,7 @@ public class ConfidenceScoreOptimizerTests {
         step3.put("Card", 86.67);
         step4.put("Capture", 0.0);
         step5.put("Image", 0.0);
-        step6.put("Text", 25.42);
+        step6.put("Text", 23.08);
         step7.put("Choice", 33.33);
 
         ArrayList<Map<String, Double>> expected = new ArrayList<>();
@@ -246,16 +246,16 @@ public class ConfidenceScoreOptimizerTests {
         HashMap<String, Double> step6 = new HashMap<>();
         HashMap<String, Double> step7 = new HashMap<>();
 
-        step1.put("Carousel", 31.25);
-        step2.put("Button", 20.0);
-        step3.put("Card", 26.67);
+        step1.put("Text", 38.46);
+        step2.put("Card", 26.67);
+        step3.put("Button", 20.0);
         step4.put("Capture", 4.76);
         step5.put("Image", 0.0);
-        step6.put("Text", 16.95);
+        step6.put("Carousel", 0.0);
         step7.put("Choice", 0.0);
 
         ArrayList<Map<String, Double>> expected = new ArrayList<>();
-        Collections.addAll(expected, step1, step3, step2, step6, step4, step5, step7);
+        Collections.addAll(expected, step1, step2, step3, step4, step5, step6, step7);
         assertEquals(expected, actual);
 
     }
@@ -277,7 +277,7 @@ public class ConfidenceScoreOptimizerTests {
         step3.put("Card", 0.0);
         step4.put("Capture", 0.0);
         step5.put("Image", 0.0);
-        step6.put("Text", 16.95);
+        step6.put("Text", 19.23);
         step7.put("Choice", 0.0);
 
         ArrayList<Map<String, Double>> expected = new ArrayList<>();
