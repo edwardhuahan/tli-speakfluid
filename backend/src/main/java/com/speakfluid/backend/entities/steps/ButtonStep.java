@@ -1,7 +1,7 @@
 package com.speakfluid.backend.entities.steps;
-
-import com.speakfluid.backend.entities.message.Dialogue;
-import com.speakfluid.backend.entities.message.Message;
+import com.speakfluid.backend.entities.message.*;
+import com.speakfluid.backend.entities.steps.*;
+import com.speakfluid.backend.entities.*;
 
 import java.util.List;
 import java.util.Arrays;
@@ -14,14 +14,14 @@ import static java.util.Map.entry;
  * the usefulness of a button for this step in the conversational flow. It implements the TalkStep abstract class
  * and inherits all of its attributes and methods.
  * @author Aurora Zhang
- * @version 1.0
+ * @version 3.0
  * @since November 16th 2022
  */
 
-public class ButtonStep extends TalkStep {
+public class ButtonStep extends TalkStep{
 
     private double scoreAccumulator;
-    private final double maxScore = 22.0;
+    private final double maxScore = ScoreStandards.standardStepClass;
     private final String stepName = "Button";
 
 
@@ -29,17 +29,21 @@ public class ButtonStep extends TalkStep {
         this.scoreAccumulator = 0.0;
     }
     private final List<Map<String, Double>> chatbotKeywordsScoreMap = Arrays.asList(
-            Map.ofEntries(entry("would you", 5.0),
-                    entry("what type", 4.0), entry("what kind", 2.0), entry("are you", 4.0),
-                    entry("would it", 4.0),entry("here are", 2.0), entry("do you", 2.0),
-                    entry("here is", 2.0)),
-            Map.ofEntries(entry("here are", 4.0), entry("choose", 4.0), entry("select", 4.0)),
-            Map.ofEntries(entry("destination", 3.0), entry("date", 3.0), entry("departure", 3.0),
-                    entry("arriving", 3.0)));
+            Map.ofEntries(entry("would you", ScoreStandards.highMatch), entry("would it", ScoreStandards.highMatch),
+                    entry("what type", ScoreStandards.mediumMatch), entry("what kind", ScoreStandards.mediumMatch),
+                    entry("are you", ScoreStandards.mediumMatch), entry("do you", ScoreStandards.lowMatch),
+                    entry("here is", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("here are", ScoreStandards.highMatch), entry("choose", ScoreStandards.highMatch),
+                    entry("select", ScoreStandards.highMatch)),
+            Map.ofEntries(entry("destination", ScoreStandards.mediumMatch), entry("date", ScoreStandards.mediumMatch),
+                    entry("departure", ScoreStandards.mediumMatch),
+                    entry("arriving", ScoreStandards.mediumMatch)));
     private final List<Map<String, Double>> userKeywordsScoreMap = Arrays.asList(
-            Map.ofEntries(entry("booking", 2.0),
-                    entry("train", 2.0), entry("go to", 2.0), entry("arrive", 2.0)),
-            Map.ofEntries(entry("hotel", 4.0), entry("cheap", 4.0), entry("hospital", 4.0)));
+            Map.ofEntries(entry("booking", ScoreStandards.lowMatch),
+                    entry("train", ScoreStandards.lowMatch), entry("go to", ScoreStandards.lowMatch),
+                    entry("arrive", ScoreStandards.lowMatch)),
+            Map.ofEntries(entry("hotel", ScoreStandards.highMatch), entry("cheap", ScoreStandards.highMatch),
+                    entry("hospital", ScoreStandards.highMatch)));
 
     /**
      * runs each method to analyze both the user and chatbot output to see whether this dialogue is
@@ -48,20 +52,20 @@ public class ButtonStep extends TalkStep {
      */
 
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         for(Object message: dialogue.getChatBotMessage()){
-            countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
+            this.scoreAccumulator += countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
             int chatbotMsgLength = calculateMsgLength((Message) message);
-            if(chatbotMsgLength < 10){
-                scoreAccumulator += 2;
+            if(chatbotMsgLength < 10 && chatbotMsgLength > 2){
+                this.scoreAccumulator += 2;
             }
 
         }
         for(Object message: dialogue.getUserMessage()){
-            countMatchKeywords((Message) message, userKeywordsScoreMap);
+            this.scoreAccumulator += countMatchKeywords((Message) message, userKeywordsScoreMap);
             int userMsgLength = calculateMsgLength((Message) message);
             // if the user response is short, then this suggests buttons are suitable
-            if(userMsgLength <= 5){
+            if(userMsgLength <= 5 && userMsgLength > 1){
                 this.scoreAccumulator += 2;
             }
 
