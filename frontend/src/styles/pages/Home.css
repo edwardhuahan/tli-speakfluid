@@ -4,6 +4,10 @@
   align-self: flex-start;
 }
 
+.flexRow {
+  justify-content: center;
+}
+
 /***DIVS***/
 .homeWrapper {
   height: 100vh;
@@ -22,30 +26,30 @@
 }
 
 .chatBotImageContainer {
-  width: 50%;
+  width: 30%;
 }
 
 .startButton {
   padding: 17px 35px;
   background-color: #474af1;
   color: white;
-  font-size: 25px;
+  font-size: 15px;
 }
 
 /***IMAGES***/
 .chatBotImage {
-  width: 100%; 
+  width: 100%;
   margin: 30px;
 }
 
 /***TEXT***/
 h1 {
-  font-size: 70px;
+  font-size: 50px;
   margin: 0;
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 20px;
   margin: 0;
 }
 
