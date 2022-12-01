@@ -21,7 +21,7 @@ class WozMessageTests extends MessageTests {
     @BeforeAll
     public static void setUp() {
         chatbot = new WozMessage("response", "Chatbot message.");
-        user = new WozMessage("response", "User message.");
+        user = new WozMessage("request", "User message.");
     }
 
 
@@ -29,7 +29,7 @@ class WozMessageTests extends MessageTests {
     void testGetMessage() {
         String chatbot_message = chatbot.getMessage();
         String user_message = user.getMessage();
-        assertEquals("Chatbot message", chatbot_message);
+        assertEquals("Chatbot message.", chatbot_message);
         assertEquals("User message.", user_message);
     }
 
@@ -37,8 +37,8 @@ class WozMessageTests extends MessageTests {
     void testGetTraceType() {
         String chatbot_message = chatbot.getTraceType();
         String user_message = user.getTraceType();
-        assertEquals("request", chatbot_message);
-        assertEquals("response.", user_message);
+        assertEquals("response", chatbot_message);
+        assertEquals("request", user_message);
     }
 
 }
