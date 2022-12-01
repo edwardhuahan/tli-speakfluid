@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 /**
  * Tests for the ImageStep class.
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.mock;
  * @version 1.0
  * @since   2022-11-26
  */
-class ImageStepTests extends TalkStepTest {
+class ImageStepTests {
     // Class to be tested
     static ImageStep imageStep;
 

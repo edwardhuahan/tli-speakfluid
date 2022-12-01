@@ -1,6 +1,5 @@
 package com.speakfluid.backend.entities.steps;
 import com.speakfluid.backend.entities.message.*;
-import com.speakfluid.backend.entities.steps.*;
 import com.speakfluid.backend.entities.*;
 
 import java.util.List;

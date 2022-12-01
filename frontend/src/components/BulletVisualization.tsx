@@ -14,7 +14,6 @@ import { ChartData } from '../types/Types';
  * @returns A functional component of step suggestions visualized as a bullet chart.
  */
 export default function BulletVisualization({data} : {data: ChartData | any}) {
-
   const config : any = {
     data,
     measureField: 'Confidence',

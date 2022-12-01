@@ -16,5 +16,4 @@ import java.util.ArrayList;
 public interface WozTranscriptAnalysisInputBoundary {
     public ArrayList<Transcript> analyzeTranscript(
             ArrayList<Transcript> transcript) ;
-
-    }
+}
