@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TextStepTests extends TalkStepTest {
+class TextStepTests {
     static TextStep textStep = new TextStep();
     static Dialogue<WozMessage> d1;
     static Dialogue<WozMessage> d2;

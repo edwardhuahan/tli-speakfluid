@@ -75,11 +75,13 @@ export default function Analytics() {
     // Formats the stepSuggestions so they fit the inputs for the bullet graphs.
     const chartData: ChartData[] = []
     suggestion.stepSuggestion.forEach((step: string, index: number) => {
-      chartData.push({title: step, 
-                      ranges: [40,80,100],
-                      Target: [80],
-                      Confidence: [suggestion.confidenceScore[index]], 
-                    })
+      if (suggestion.confidenceScore[index] > 0) {
+        chartData.push({title: step, 
+          ranges: [40, 80, 100],
+          Target: [80],
+          Confidence: [suggestion.confidenceScore[index]], 
+        })
+      }
     })
     s.data = chartData
 
