@@ -70,7 +70,7 @@ public class ChoiceStep extends TalkStep {
      * the dialogue is compatible with a Choice Step.
      * @param dialogue one back and forth between chatbot and user
      */
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         // Chatbot messages
         for (Object chatbotMessage : dialogue.getChatBotMessage()){
             scoreAccumulator += countMatchKeywords((Message) chatbotMessage, choiceKeyWordsChatbot);

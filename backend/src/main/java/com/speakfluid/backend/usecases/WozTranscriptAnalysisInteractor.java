@@ -9,7 +9,6 @@ import com.speakfluid.backend.entities.steps.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,7 +43,6 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
     // Generate StepManager and SuggestionManager
     ConfidenceScoreCalculator confidenceScoreCalculator = new ConfidenceScoreCalculator();
     ConfidenceScoreOptimizer confidenceScoreOptimizer = new ConfidenceScoreOptimizer(confidenceScoreCalculator, steps);
-
 
     /**
      * analyzeTranscript calls SuggestionManager then stores the suggested talk step and its corresponding confidence
@@ -90,12 +88,12 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
                                 dialogue.addConfidenceScore(confidenceScore);
                             }
                         }
-
-
                     }
 
                 }
             }
-        } return transcript;
+        } 
+        
+        return transcript;
     }
 }

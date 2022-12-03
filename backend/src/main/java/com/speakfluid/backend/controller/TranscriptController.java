@@ -47,7 +47,7 @@ public class TranscriptController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("transcript")MultipartFile transcript) throws IOException {
         // This uploads the raw transcript to the DB and stores the id of the raw transcript in reponse.
-        String rawTranscriptId = transcriptService.addTranscript(transcript);
+        transcriptService.addTranscript(transcript);
                 
         // Transcript here is of type MultipartFile and is coming directly from the @RequestParam.
         WozTranscriptParser parser = new WozTranscriptParser();
