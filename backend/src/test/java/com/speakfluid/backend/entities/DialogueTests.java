@@ -2,10 +2,8 @@ package com.speakfluid.backend.entities;
 
 import com.speakfluid.backend.entities.message.Dialogue;
 import com.speakfluid.backend.entities.message.WozMessage;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;

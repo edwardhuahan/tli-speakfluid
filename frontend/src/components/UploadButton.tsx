@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import '../types/HomeTypes';
-import { selectedFile } from '../types/HomeTypes';
-import Button from '@mui/material/Button';
+import React from 'react';
 
-function UploadButton() {
-	const [selectedFile, setSelectedFile] = useState<any>({ name: "No file selected yet.", data: { messages: "" } });
-	const [isSelected, setIsSelected] = useState(false);
+/***STYLES***/
+import '../styles/Global.css';
+import '../styles/components/UploadButton.css';
 
-	const changeHandler = (event: any) => {
-		setSelectedFile(event.target.files[0]);
-		setIsSelected(true);
-	};
+/***TYPES***/
+import '../types/Types';
 
-	const handleUpload = () => {
+/**
+ * The functional component for the button to upload transcripts for analyzing.
+ * @author Kai Zhuang
+ * @param addTranscript The function to change the transcripts state in the Analytics page.
+ * @returns A react functional component for the UploadButton.
+ */
+function UploadButton({addTranscript} : any) {
+
+	/**
+	 * Upload a transcript and send a request to the server to
+	 * retrieve an analyzed transcript.
+	 * @author Kai Zhuang
+	 * @param event The event of uploading a transcript.
+	 */
+	const changeHandler = (event: any): void => {
 		const formData = new FormData();
-		formData.append('transcript', selectedFile);
+		formData.append('transcript', event.target.files[0]);
 
 		fetch(
 			'/transcript/upload',
@@ -23,22 +32,23 @@ function UploadButton() {
 				body: formData,
 			}
 		)
-			.then((response) => { { response.json() } })
-			.then((result) => {
-				console.log('Success:', result);
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		.then(response => response.json())
+		.then(result => {
+			addTranscript(result);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+
+		event.target.value = null;
 	};
 
 	return (
-		<div style={{ alignContent: "right" }}>
-			<input type="file" name="file" onChange={changeHandler} />
-			{/* <p>Filename: {selectedFile.name}</p> */}
-			<button onClick={handleUpload} >
-				Upload
-			</ button>
+		<div style={{marginBottom: '20px', width: '100%'}}>
+			<label htmlFor='fileUpload' className='uploadButton header hoverable'>
+				<i></i>Upload Transcript
+			</label>
+			<input id='fileUpload' type='file' name='file' onChange={changeHandler} style={{display: 'none'}} accept='.json'/>
 		</div>
 	);
 }

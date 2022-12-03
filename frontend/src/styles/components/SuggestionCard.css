@@ -1,0 +1,88 @@
+:root {
+  --send-bg: #E5E5EA;
+  --send-color: black;
+  --receive-bg: #474af1;
+  --receive-text: white;
+  --page-background: white;
+}
+
+.suggestionCard {
+  width: calc(100% - 60px);
+  padding: 30px;
+
+  margin-bottom: 20px;
+
+  border: 2px solid #edede9;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.h:hover {
+  border-color: #474af1;
+}
+
+.message {
+  max-width: 255px;
+  word-wrap: break-word;
+  margin-bottom: 12px;
+  line-height: 24px;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 25px;
+}
+
+.message:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 25px;
+}
+
+.message:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 25px;
+}
+
+.send {
+	color: var(--send-color); 
+	background: var(--send-bg);
+	align-self: flex-end;
+}
+
+.send:before {
+  right: -7px;
+  width: 20px;
+  background-color: var(--send-bg);
+  border-bottom-left-radius: 16px 14px;
+}
+
+.send:after {
+  right: -26px;
+  width: 26px;
+  background-color: var(--page-background);
+  border-bottom-left-radius: 10px;
+}
+
+.receive {
+	background: var(--receive-bg);
+	color: var(--receive-text);
+  align-self: flex-start;
+}
+
+.receive:before {
+  left: -7px;
+  width: 20px;
+  background-color: var(--receive-bg);
+  border-bottom-right-radius: 16px 14px;
+}
+
+.receive:after {
+  left: -26px;
+  width: 26px;
+  background-color: var(--page-background);
+  border-bottom-right-radius: 10px;
+}

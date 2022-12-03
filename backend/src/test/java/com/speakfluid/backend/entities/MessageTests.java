@@ -2,7 +2,6 @@ package com.speakfluid.backend.entities;
 
 import com.speakfluid.backend.entities.message.Message;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;

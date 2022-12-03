@@ -3,14 +3,11 @@ import com.speakfluid.backend.entities.message.*;
 import com.speakfluid.backend.entities.steps.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 
 /**
  * ConfidenceScoreOptimizer calls the ConfidenceScoreCalculator to store each talk step's confidence score. It then returns a Hashmap mapping
  * the talk step with the highest confidence score to its confidence score. This class is called by the use case interactor.
- * @author Aurora Zhang
+ * @author Aurora Zhang, Kai Zhuang
  * @version 4.0
  * @since November 16th, 2022
  */
@@ -20,8 +17,6 @@ public class ConfidenceScoreOptimizer {
     HashMap<String, Double> talkStepToScoreMapping = new HashMap<>();
     ConfidenceScoreCalculator confidenceScoreCalculator;
     Double stepConfidenceScore;
-    //ArrayList<Map<String, Double>> rankedTalkStepList = new ArrayList<>();
-
 
 
     public ConfidenceScoreOptimizer(ConfidenceScoreCalculator confidenceScoreCalculator, ArrayList<TalkStep> stepList) {
@@ -54,24 +49,21 @@ public class ConfidenceScoreOptimizer {
 
         //Sorting the map in increasing order
         LinkedHashMap<String, Double> rankedTalkStepMap = new LinkedHashMap<>();
+        ArrayList<Map<String, Double>> rankedTalkStepList = new ArrayList<>();
 
         talkStepToScoreMapping.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEachOrdered(x -> rankedTalkStepMap.put(x.getKey(), x.getValue()));
+            .stream()
+            .sorted(Map.Entry.comparingByValue())
+            .forEachOrdered(x -> rankedTalkStepMap.put(x.getKey(), x.getValue()));
 
         //adding each entry to the front of the list so it will become decreasing order
         for(Map.Entry<String, Double> entry: rankedTalkStepMap.entrySet()){
             HashMap<String, Double> talkStepPair = new HashMap<>();
             talkStepPair.put(entry.getKey(), entry.getValue());
-            System.out.println(talkStepPair);
+        
             rankedTalkStepList.add(0, talkStepPair);
-            System.out.println(rankedTalkStepList);
-
         }
 
         return rankedTalkStepList;
-
     }
-
 }
