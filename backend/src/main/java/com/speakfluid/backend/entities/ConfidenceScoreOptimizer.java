@@ -20,7 +20,7 @@ public class ConfidenceScoreOptimizer {
     HashMap<String, Double> talkStepToScoreMapping = new HashMap<>();
     ConfidenceScoreCalculator confidenceScoreCalculator;
     Double stepConfidenceScore;
-    ArrayList<Map<String, Double>> rankedTalkStepList = new ArrayList<>();
+    //ArrayList<Map<String, Double>> rankedTalkStepList = new ArrayList<>();
 
 
 
@@ -50,6 +50,8 @@ public class ConfidenceScoreOptimizer {
      * their confidence score in decreasing order of ranking.
      */
     public ArrayList<Map<String, Double>> rankTalkSteps() {
+        ArrayList<Map<String, Double>> rankedTalkStepList = new ArrayList<>();
+
         //Sorting the map in increasing order
         LinkedHashMap<String, Double> rankedTalkStepMap = new LinkedHashMap<>();
 
@@ -62,9 +64,12 @@ public class ConfidenceScoreOptimizer {
         for(Map.Entry<String, Double> entry: rankedTalkStepMap.entrySet()){
             HashMap<String, Double> talkStepPair = new HashMap<>();
             talkStepPair.put(entry.getKey(), entry.getValue());
+            System.out.println(talkStepPair);
             rankedTalkStepList.add(0, talkStepPair);
+            System.out.println(rankedTalkStepList);
 
         }
+
         return rankedTalkStepList;
 
     }

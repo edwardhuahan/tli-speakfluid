@@ -64,6 +64,18 @@ public class ConfidenceScoreOptimizerTests {
     @BeforeAll
     static void setUp(){
 
+        button = new ButtonStep();
+        card = new CardStep();
+        text = new TextStep();
+        carousel = new CarouselStep();
+        capture = new CaptureStep();
+        image = new ImageStep();
+        choice = new ChoiceStep();
+
+        Collections.addAll(talkStepList, button, card, carousel, capture, image, choice, text);
+        calculator2 = new ConfidenceScoreCalculator();
+        optimizer = new ConfidenceScoreOptimizer(calculator2, talkStepList);
+
         user1 = new WozMessage("request", "good evening, i need help with" +
                 "my lower back pain.");
         chat1 = new WozMessage("response", "here are some possible remedies for lower" +
@@ -94,26 +106,6 @@ public class ConfidenceScoreOptimizerTests {
 
     }
 
-    @BeforeEach
-    void init(){
-        button = new ButtonStep();
-        card = new CardStep();
-        text = new TextStep();
-        carousel = new CarouselStep();
-        capture = new CaptureStep();
-        image = new ImageStep();
-        choice = new ChoiceStep();
-
-        Collections.addAll(talkStepList, button, card, carousel, capture, image, choice, text);
-        calculator2 = new ConfidenceScoreCalculator();
-        optimizer = new ConfidenceScoreOptimizer(calculator2, talkStepList);
-
-    }
-
-    @AfterEach
-    public void reset(){
-        talkStepList.clear();
-    }
     @Test
     public void testCallConfidenceScoreOptimizer1(){
         optimizer.callConfidenceScoreCalculator(dialogue1);
