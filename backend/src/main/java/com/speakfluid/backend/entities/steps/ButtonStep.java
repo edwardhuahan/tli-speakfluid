@@ -48,7 +48,7 @@ public class ButtonStep extends TalkStep {
      */
 
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         for(Object message: dialogue.getChatBotMessage()){
             countMatchKeywords((Message) message, chatbotKeywordsScoreMap);
             int chatbotMsgLength = calculateMsgLength((Message) message);

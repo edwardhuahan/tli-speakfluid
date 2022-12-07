@@ -5,11 +5,9 @@ import com.speakfluid.backend.entities.message.WozMessage;
 import com.speakfluid.backend.entities.steps.ChoiceStep;
 import com.speakfluid.backend.entities.steps.TalkStep;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,10 +15,9 @@ import java.util.Map;
 
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 /**
- * Tests for the Dialogue class.
+ * Tests for the TalkStep class.
  *
  * @author  Sarah Xu
  * @version 1.0

@@ -45,7 +45,7 @@ public class CardStep extends TalkStep {
                     entry("train", 5.0)));
 
     @Override
-    public void runAnalysis(Dialogue dialogue) {
+    public void runAnalysis(Dialogue<?> dialogue) {
         //match the keywords for both the user and chatbot outputs in the dialogue
         for(Object message: dialogue.getChatBotMessage()){
             countMatchKeywords((Message) message, chatbotKeywordsScoreMap);

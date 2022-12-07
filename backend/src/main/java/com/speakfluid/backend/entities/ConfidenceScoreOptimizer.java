@@ -34,7 +34,7 @@ public class ConfidenceScoreOptimizer {
      * talk step to its confidence score
      * @param dialogue the dialogue ArrayList containing the Speeches of the user and chatbot
      */
-    public void callConfidenceScoreCalculator(Dialogue dialogue){
+    public void callConfidenceScoreCalculator(Dialogue<?> dialogue){
         for(TalkStep talkStep: steps){
             confidenceScoreCalculator.passDialogueToTalkStep(dialogue, talkStep);
             stepConfidenceScore = confidenceScoreCalculator.calculateConfidenceScore();

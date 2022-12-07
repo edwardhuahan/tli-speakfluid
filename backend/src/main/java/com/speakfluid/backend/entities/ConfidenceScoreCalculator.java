@@ -24,7 +24,7 @@ public class ConfidenceScoreCalculator implements Scorable{
      * @param step the type of the talk step whose methods are called.
      */
 
-    public void passDialogueToTalkStep(Dialogue dialogue, TalkStep step) {
+    public void passDialogueToTalkStep(Dialogue<?> dialogue, TalkStep step) {
         step.runAnalysis(dialogue);
         stepTotalScore = step.getMaxScore();
         stepScoreAccumulator = step.getScoreAccumulator();
