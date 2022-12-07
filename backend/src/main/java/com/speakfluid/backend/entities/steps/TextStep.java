@@ -16,8 +16,6 @@ import static java.util.Map.entry;
  * Text talk step is mainly used when the bot wants to send a message or a notification to the user
  * and no user response is expected.
  *
- *
- *
  * scoreAccumulator is defined to keep track of how much the dialogue that we are analysing fits each feature of
  * Text talk step.
  * maxScore is setted as the score if the dialogue is compilable perfectly with Text talk step features.
@@ -123,7 +121,8 @@ public class TextStep extends TalkStep {
         for (Object message : dialogue.getChatBotMessage()) {
             scoreAccumulator += countMatchKeywords((Message) message, textKeyWordsChatBot);
             scoreAccumulator += isNotQuestion((Message) message);
-            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 8) {
+            if (scoreAccumulator != 0.0 && calculateMsgLength((Message) message) >= 8 &&
+                    calculateMsgLength((Message) message) > 1) {
                 scoreAccumulator += ScoreStandards.lowMatch;
             }
         }

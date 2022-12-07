@@ -2,7 +2,7 @@ package com.speakfluid.backend.entities;
 
 import com.speakfluid.backend.entities.message.Dialogue;
 import com.speakfluid.backend.entities.message.WozMessage;
-import com.speakfluid.backend.entities.steps.CarouselStep;
+import com.speakfluid.backend.entities.steps.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0
  * @since   2022-11-26
  */
-class CarouselStepTests extends TalkStepTest {
+class CarouselStepTests {
     static CarouselStep carouselStep = new CarouselStep();
     static Dialogue<WozMessage> d1;
     static ArrayList<WozMessage> botMsg1;

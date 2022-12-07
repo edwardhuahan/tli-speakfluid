@@ -1,12 +1,14 @@
 package com.speakfluid.backend.usecases;
 
 import com.speakfluid.backend.entities.*;
-import com.speakfluid.backend.entities.message.*;
+import com.speakfluid.backend.entities.message.Dialogue;
+import com.speakfluid.backend.entities.message.DialogueList;
+import com.speakfluid.backend.entities.message.Transcript;
+import com.speakfluid.backend.entities.message.WozMessage;
 import com.speakfluid.backend.entities.steps.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,7 +44,6 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
     ConfidenceScoreCalculator confidenceScoreCalculator = new ConfidenceScoreCalculator();
     ConfidenceScoreOptimizer confidenceScoreOptimizer = new ConfidenceScoreOptimizer(confidenceScoreCalculator, steps);
 
-
     /**
      * analyzeTranscript calls SuggestionManager then stores the suggested talk step and its corresponding confidence
      * score to each Dialogue.Lastly return the analyzed transcript.
@@ -59,10 +60,10 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
     public ArrayList<Transcript> analyzeTranscript(ArrayList<Transcript> transcript) {
 
         // To access all the different id-to-conversation-content pairs in the same session
-        for (Transcript iDToTranscript : transcript) {
+        for (Transcript idToConversations : transcript) {
 
             // To access the conversations in the id-to-conversation-content pairs
-            for (DialogueList conversation : iDToTranscript.values()) {
+            for (DialogueList conversation : idToConversations.values()) {
 
                 // To access each back and forth dialogue within each conversation
                 for (Dialogue<WozMessage> dialogue : conversation) {
@@ -72,24 +73,27 @@ public class WozTranscriptAnalysisInteractor implements WozTranscriptAnalysisInp
                     the individual confidence score
                      */
 
-                        HashMap<String, Double> suggestionPair = confidenceScoreOptimizer.findSuggestedTalkStep();
-                    /* findSuggestedTalkStep is called to compare all the individual confidence score from the step
-                    entities to return a mapping of the name and the confidence score of the step that has
-                    the highest score.
-                    We decide to return the top three step-suggestions with the score if the top one score is low.Thus,
-                    the following for loop gives the option to append more than one step-score-pair.
+                        ArrayList<Map<String, Double>> suggestionPair = confidenceScoreOptimizer.rankTalkSteps();
+                    /* findSuggestedTalkStep is called to return an ArrayList of Maps, where every TalkStep is
+                    ranked from highest to lowest confidence score. This is returned as a response model to the frontend
+                    in order to be used for analytics displays.
+
+                    The dialogue attributes of step suggestion and confidence score are amended accordingly.
                      */
-                        for (Map.Entry<String, Double> entry : suggestionPair.entrySet()) {
-                            String stepSuggestion = entry.getKey();
-                            double confidenceScore = entry.getValue();
-                            dialogue.addStepSuggestion(stepSuggestion);
-                            dialogue.addConfidenceScore(confidenceScore);
+                        for(Map<String, Double> talkStepPair: suggestionPair) {
+                            for(Map.Entry<String, Double> entry : talkStepPair.entrySet()) {
+                                String stepSuggestion = entry.getKey();
+                                double confidenceScore = entry.getValue();
+                                dialogue.addStepSuggestion(stepSuggestion);
+                                dialogue.addConfidenceScore(confidenceScore);
+                            }
                         }
                     }
 
                 }
             }
-        }
+        } 
+        
         return transcript;
     }
 }

@@ -1,10 +1,9 @@
 package com.speakfluid.backend.entities;
-
-import com.speakfluid.backend.entities.message.Dialogue;
-import com.speakfluid.backend.entities.steps.TalkStep;
+import com.speakfluid.backend.entities.message.*;
+import com.speakfluid.backend.entities.steps.*;
 
 /**
- * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to increment or decrement their
+ * ConfidenceScoreCalculator is responsible for calling every method for each child of TalkStep to adjust their
  * corresponding accumulated scores as necessary. It then returns the confidence score of the TalkStep child based on the
  * inputted Dialogue object.
  * @author Aurora Zhang
@@ -32,12 +31,19 @@ public class ConfidenceScoreCalculator implements Scorable{
     }
 
     /**
-     * Calculates the confidence score of the talk step.
+     * Calculates the confidence score of the talk step. If it exceeds 100%, then
+     * 95% will be returned as a capping mechanism.
      * @return returns the confidence score of the talk step.
      */
     @Override
     public double calculateConfidenceScore() {
-        return (stepScoreAccumulator / stepTotalScore) * 100;
+        if(((stepScoreAccumulator / stepTotalScore) * 100) > 100){
+            return 95.0;
+        }
+        else{
+            double confidenceScore = (stepScoreAccumulator / stepTotalScore) * 100;
+            return Math.round(confidenceScore * 100.0) / 100.0;
+        }
     }
 
 }

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0
  * @since   2022-11-26
  */
-class ImageStepTests extends TalkStepTest {
+class ImageStepTests {
     // Class to be tested
     static ImageStep imageStep;
 

@@ -78,7 +78,7 @@ public class ChoiceStep extends TalkStep {
         // User messages
         for (Object userMessage : dialogue.getUserMessage()){
             scoreAccumulator += countMatchKeywords((Message) userMessage, choiceKeyWordsUser);
-            if(calculateMsgLength((Message) userMessage) <= 3) {
+            if(calculateMsgLength((Message) userMessage) <= 3 && calculateMsgLength((Message) userMessage) > 1) {
                 scoreAccumulator += 3.0;
             }
         }
