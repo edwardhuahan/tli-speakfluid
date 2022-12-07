@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
- * Tests for the Speech class.
+ * Tests for the WozMessage class.
  *
  * @author  Minh Le
  * @version 1.0
