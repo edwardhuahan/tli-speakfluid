@@ -1,9 +1,15 @@
 package com.speakfluid.backend.entities;
 
+import com.speakfluid.backend.entities.json.JSONDialogue;
+import com.speakfluid.backend.entities.json.JSONTranscript;
 import com.speakfluid.backend.entities.message.WozMessage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -16,30 +22,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JSONTranscriptTests {
 
-    static WozMessage chatbot;
-    static WozMessage user;
+    static JSONDialogue dialogue1 = new JSONDialogue();
+    static JSONDialogue dialogue2 = new JSONDialogue();
+    static Map<String, Object> metadata = new HashMap<>();
+
+
+    static ArrayList<JSONDialogue> logs = new ArrayList<JSONDialogue>();
+
     @BeforeAll
     public static void setUp() {
+        metadata.put("key1", "value1");
+        metadata.put("key2", "value2");
+
+        dialogue1.setText("text1");
+        dialogue1.setMetadata(metadata);
+
+        dialogue2.setText("text2");
+        dialogue2.setMetadata(metadata);
+
+        logs.add(dialogue1);
+        logs.add(dialogue2);
+
+    }
+
+
+    @Test
+    void testGetLogs() {
+        JSONTranscript transcript = new JSONTranscript("file.json", logs);
+
+        assertEquals(transcript.getLogs().get(0).getText(), "text1");
+        assertEquals(transcript.getLogs().get(1).getText(), "text2");
         
-        chatbot = new WozMessage("response", "Chatbot message.");
-        user = new WozMessage("request", "User message.");
-    }
-
-
-    @Test
-    void testGetMessage() {
-        String chatbot_message = chatbot.getMessage();
-        String user_message = user.getMessage();
-        assertEquals("Chatbot message.", chatbot_message);
-        assertEquals("User message.", user_message);
     }
 
     @Test
-    void testGetTraceType() {
-        String chatbot_message = chatbot.getTraceType();
-        String user_message = user.getTraceType();
-        assertEquals("response", chatbot_message);
-        assertEquals("request", user_message);
+    void testGetFileName() {
+        JSONTranscript transcript = new JSONTranscript("file.json", logs);
+        assertEquals(transcript.getFileName(), "file.json");
+        
     }
 
 }
