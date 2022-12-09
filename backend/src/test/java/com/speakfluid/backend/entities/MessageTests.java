@@ -26,7 +26,7 @@ class MessageTests {
     }
 
     @Test
-    void getMessage() {
+    void testGetMessage() {
         assertEquals(m1, message.getMessage());
     }
 }

@@ -5,13 +5,13 @@ import com.speakfluid.backend.entities.message.WozMessage;
 import com.speakfluid.backend.entities.steps.CaptureStep;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 /**
- * Tests for the Dialogue class.
+ * Tests for the CaptureStep class.
  *
  * @author  Sarah Xu
  * @version 1.0

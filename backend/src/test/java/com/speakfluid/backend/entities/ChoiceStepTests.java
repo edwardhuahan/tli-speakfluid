@@ -12,7 +12,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for the Dialogue class.
+ * Tests for the ChoiceStep class.
  *
  * @author  Sarah Xu
  * @version 1.0

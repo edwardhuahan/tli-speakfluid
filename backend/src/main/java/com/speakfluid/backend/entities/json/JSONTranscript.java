@@ -24,13 +24,7 @@ public class JSONTranscript {
         this.logs = logs;
     }
 
-    public ArrayList<JSONDialogue> getLogs() {
-        return logs;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
+    
 
     public void setLogs(ArrayList<JSONDialogue> logs) {
         this.logs = logs;
@@ -38,5 +32,13 @@ public class JSONTranscript {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public ArrayList<JSONDialogue> getLogs() {
+        return logs;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }

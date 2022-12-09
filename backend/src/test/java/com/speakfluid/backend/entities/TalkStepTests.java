@@ -17,7 +17,7 @@ import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for the Dialogue class.
+ * Tests for the TalkStep class.
  *
  * @author  Sarah Xu
  * @version 1.0

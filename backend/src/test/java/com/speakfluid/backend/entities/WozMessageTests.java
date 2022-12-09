@@ -7,26 +7,39 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
- * Tests for the Speech class.
+ * Tests for the WozMessage class.
  *
- * @author  Kai Zhuang
+ * @author  Minh Le
  * @version 1.0
- * @since   2022-11-19
+ * @since   2022-11-28
  */
 
-class WozMessageTests {
+class WozMessageTests extends MessageTests {
 
-    static WozMessage message;
+    static WozMessage chatbot;
+    static WozMessage user;
     @BeforeAll
-    public static void setUp(){
-        message = new WozMessage("Filler type", "Test message.");
+    public static void setUp() {
+        chatbot = new WozMessage("response", "Chatbot message.");
+        user = new WozMessage("request", "User message.");
     }
 
 
     @Test
     void testGetMessage() {
-        String msg = message.getMessage();
-        assertEquals("Test message.", msg);
+        String chatbot_message = chatbot.getMessage();
+        String user_message = user.getMessage();
+        assertEquals("Chatbot message.", chatbot_message);
+        assertEquals("User message.", user_message);
+    }
+
+    @Test
+    void testGetTraceType() {
+        String chatbot_message = chatbot.getTraceType();
+        String user_message = user.getTraceType();
+        assertEquals("response", chatbot_message);
+        assertEquals("request", user_message);
     }
 
 }
+
